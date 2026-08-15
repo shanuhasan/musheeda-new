@@ -87,13 +87,8 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Featured Image</label>
-                    @if(isset($page) && $page->hasMedia('featured_image'))
-                        <div class="mt-2 mb-4">
-                            <img src="{{ $page->getFirstMediaUrl('featured_image') }}" alt="Featured Image" class="h-32 object-cover rounded-md shadow-sm">
-                        </div>
-                    @endif
-                    <input type="file" name="featured_image" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Featured Image</label>
+                    <x-admin.media-picker name="featured_image" :current="isset($page) ? $page->getFirstMediaUrl('featured_image') : null" />
                     <p class="mt-1 text-xs text-gray-500">Max size: 2MB. Recommended format: WEBP/JPG.</p>
                 </div>
             </div>

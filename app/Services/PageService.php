@@ -27,6 +27,11 @@ class PageService
 
             if (isset($data['featured_image'])) {
                 $page->addMedia($data['featured_image'])->toMediaCollection('featured_image');
+            } elseif (isset($data['featured_image_existing_id'])) {
+                $media = \Spatie\MediaLibrary\MediaCollections\Models\Media::find($data['featured_image_existing_id']);
+                if ($media) {
+                    $media->copy($page, 'featured_image');
+                }
             }
 
             return $page;
@@ -66,6 +71,12 @@ class PageService
             if (isset($data['featured_image'])) {
                 $page->clearMediaCollection('featured_image');
                 $page->addMedia($data['featured_image'])->toMediaCollection('featured_image');
+            } elseif (isset($data['featured_image_existing_id'])) {
+                $media = \Spatie\MediaLibrary\MediaCollections\Models\Media::find($data['featured_image_existing_id']);
+                if ($media) {
+                    $page->clearMediaCollection('featured_image');
+                    $media->copy($page, 'featured_image');
+                }
             }
 
             return $page;

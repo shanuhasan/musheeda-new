@@ -85,6 +85,20 @@
                             </li>
                             @endcan
 
+                            <!-- Media Library -->
+                            <li>
+                                <a
+                                    href="{{ route('admin.media.index') }}"
+                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
+                                    :class="request()->routeIs('admin.media.*') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
+                                >
+                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Media Library</span>
+                                </a>
+                            </li>
+
                             @can('manage_settings')
                             <!-- Menus -->
                             <li>
@@ -219,6 +233,7 @@
 
         </div>
         <!-- ===== Content Area End ===== -->
-    </div>
-</body>
+        
+        @stack('scripts')
+    </body>
 </html>
