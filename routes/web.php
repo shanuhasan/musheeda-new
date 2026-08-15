@@ -20,7 +20,15 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PageController as AdminPageController;
+use App\Http\Controllers\Frontend\PageController as FrontendPageController;
 
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
+    // CMS Modules
+    Route::resource('pages', AdminPageController::class);
 });
+
+// Fallback Route for Dynamic Pages (Must be at the very bottom of the file)
+Route::get('/{slug}', [FrontendPageController::class, 'show'])->name('page.show')->where('slug', '.*');

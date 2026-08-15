@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class SeoMetadata extends Model
 {
-    protected $fillable = ['meta_title', 'meta_description', 'meta_keywords', 'canonical_url', 'og_image'];
+    protected $fillable = [
+        'meta_title', 'meta_description', 'meta_keywords', 'canonical_url',
+        'robots', 'og_title', 'og_description', 'og_image'
+    ];
 
     public function model()
     {
