@@ -1,11 +1,16 @@
 @props(['title', 'value', 'icon', 'color' => 'indigo'])
 
-<div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex items-center transition-all duration-200 hover:shadow-md hover:-translate-y-1">
-    <div class="p-3 rounded-lg bg-{{ $color }}-50 text-{{ $color }}-600 mr-4">
+<div class="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-white/[0.03] md:p-6 transition-transform hover:-translate-y-1 hover:shadow-sm">
+    <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-{{ $color }}-500">
         {!! $icon !!}
     </div>
-    <div>
-        <p class="text-sm font-medium text-gray-500 mb-1">{{ $title }}</p>
-        <p class="text-2xl font-bold text-gray-900">{{ $value }}</p>
+    
+    <div class="mt-5 flex items-end justify-between">
+      <div>
+        <span class="text-sm text-slate-500 dark:text-slate-400">{{ $title }}</span>
+        <h4 class="mt-2 text-2xl font-bold text-slate-800 dark:text-white/90">
+          {{ $value }}
+        </h4>
+      </div>
     </div>
 </div>

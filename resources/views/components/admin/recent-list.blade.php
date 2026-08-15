@@ -1,12 +1,12 @@
 @props(['title', 'items' => [], 'emptyMessage' => 'No items found.'])
 
-<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-    <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
-        <h3 class="text-lg font-semibold text-gray-800">{{ $title }}</h3>
+<div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-white/[0.03] md:p-6">
+    <div class="mb-4 flex items-center justify-between">
+        <h4 class="text-xl font-bold text-slate-800 dark:text-white/90">{{ $title }}</h4>
         {{ $action ?? '' }}
     </div>
     
-    <div class="divide-y divide-gray-100">
+    <div class="flex flex-col gap-2">
         {{ $slot }}
     </div>
 </div>
