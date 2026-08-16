@@ -83,6 +83,20 @@
                                     <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Pages</span>
                                 </a>
                             </li>
+                            
+                            <!-- Landing Pages -->
+                            <li>
+                                <a
+                                    href="{{ route('admin.landing-pages.index') }}"
+                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
+                                    :class="request()->routeIs('admin.landing-pages.*') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
+                                >
+                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                                    </svg>
+                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Landing Pages</span>
+                                </a>
+                            </li>
                             @endcan
 
                             @can('manage_pages')

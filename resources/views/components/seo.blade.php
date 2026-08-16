@@ -1,8 +1,10 @@
 @props(['model' => null])
 
 @php
-    $seo = new \App\Services\SeoService();
-    $seo->setModel($model);
+    $seo = app(\App\Services\SeoService::class);
+    if ($model) {
+        $seo->setModel($model);
+    }
 @endphp
 
 <!-- Primary Meta Tags -->

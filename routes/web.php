@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
+use App\Http\Controllers\Frontend\LandingPageController as FrontendLandingPageController;
 
-Route::get('/', [\App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home');
+Route::get('/', [FrontendHomeController::class, 'index'])->name('home');
 
 Route::get('/sitemap.xml', [\App\Http\Controllers\Frontend\SitemapController::class, 'index'])->name('sitemap.xml');
 Route::get('/services', [\App\Http\Controllers\Frontend\ServiceController::class, 'index'])->name('services.index');
@@ -28,12 +30,14 @@ require __DIR__.'/auth.php';
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
+use App\Http\Controllers\Admin\LandingPageController as AdminLandingPageController;
 use App\Http\Controllers\Frontend\PageController as FrontendPageController;
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
     // CMS Modules
+    Route::resource('landing-pages', AdminLandingPageController::class);
     Route::resource('pages', AdminPageController::class);
     Route::resource('posts', \App\Http\Controllers\Admin\PostController::class);
     Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class)->except(['show']);
@@ -65,6 +69,8 @@ Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/category/{slug}', [BlogController::class, 'category'])->name('blog.category');
 Route::get('/blog/tag/{slug}', [BlogController::class, 'tag'])->name('blog.tag');
 Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
+
+Route::get('/landing/{slug}', [FrontendLandingPageController::class, 'show'])->name('landing.show');
 
 // Fallback Route for Dynamic Pages (Must be at the very bottom of the file)
 Route::get('/{slug}', [FrontendPageController::class, 'show'])->name('page.show')->where('slug', '.*');
