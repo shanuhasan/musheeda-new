@@ -28,6 +28,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     
     // CMS Modules
     Route::resource('pages', AdminPageController::class);
+    Route::resource('posts', \App\Http\Controllers\Admin\PostController::class);
+    Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class)->except(['show']);
+    Route::resource('tags', \App\Http\Controllers\Admin\TagController::class)->except(['show']);
     
     // Settings
     Route::get('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
@@ -41,6 +44,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Media Library
     Route::resource('media', \App\Http\Controllers\Admin\MediaController::class)->except(['show', 'create', 'edit']);
 });
+
+use App\Http\Controllers\Frontend\BlogController;
+
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/category/{slug}', [BlogController::class, 'category'])->name('blog.category');
+Route::get('/blog/tag/{slug}', [BlogController::class, 'tag'])->name('blog.tag');
+Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
 
 // Fallback Route for Dynamic Pages (Must be at the very bottom of the file)
 Route::get('/{slug}', [FrontendPageController::class, 'show'])->name('page.show')->where('slug', '.*');

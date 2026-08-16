@@ -85,6 +85,50 @@
                             </li>
                             @endcan
 
+                            @can('manage_pages')
+                            <!-- Posts -->
+                            <li>
+                                <a
+                                    href="{{ route('admin.posts.index') }}"
+                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
+                                    :class="request()->routeIs('admin.posts.*') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
+                                >
+                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                                    </svg>
+                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Posts</span>
+                                </a>
+                            </li>
+
+                            <!-- Categories -->
+                            <li>
+                                <a
+                                    href="{{ route('admin.categories.index') }}"
+                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
+                                    :class="request()->routeIs('admin.categories.*') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
+                                >
+                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                                    </svg>
+                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Categories</span>
+                                </a>
+                            </li>
+
+                            <!-- Tags -->
+                            <li>
+                                <a
+                                    href="{{ route('admin.tags.index') }}"
+                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
+                                    :class="request()->routeIs('admin.tags.*') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
+                                >
+                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                                    </svg>
+                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Tags</span>
+                                </a>
+                            </li>
+                            @endcan
+
                             <!-- Media Library -->
                             <li>
                                 <a
