@@ -104,7 +104,7 @@
     @forelse($media as $item)
         <div class="group relative aspect-square rounded-xl border border-slate-200 bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow dark:border-slate-800 dark:bg-slate-800">
             @if(Str::startsWith($item->mime_type, 'image/'))
-                <img src="{{ $item->getUrl('thumb') ?: $item->getUrl() }}" alt="{{ $item->name }}" class="w-full h-full object-cover">
+                <img src="{{ $item->hasGeneratedConversion('thumb') ? $item->getUrl('thumb') : $item->getUrl() }}" alt="{{ $item->name }}" class="w-full h-full object-cover">
             @else
                 <div class="flex items-center justify-center w-full h-full bg-slate-50 dark:bg-slate-700/50">
                     <svg class="w-12 h-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
