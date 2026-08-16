@@ -172,6 +172,20 @@
                                     <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Settings</span>
                                 </a>
                             </li>
+
+                            <!-- Redirects -->
+                            <li>
+                                <a
+                                    href="{{ route('admin.redirects.index') }}"
+                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
+                                    :class="request()->routeIs('admin.redirects.*') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
+                                >
+                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Redirects</span>
+                                </a>
+                            </li>
                             @endcan
                     </div>
                 </nav>
