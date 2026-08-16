@@ -95,50 +95,7 @@
 
             <!-- SEO Tab -->
             <div x-show="tab === 'seo'" class="space-y-6" style="display: none;">
-                
-                <div class="bg-blue-50 border border-blue-200 rounded-md p-4 mb-6 text-sm text-blue-700">
-                    <p>These settings dictate how your page appears in Search Engines (Google) and Social Media (Facebook, Twitter).</p>
-                </div>
-
-                <div>
-                    <label for="meta_title" class="block text-sm font-medium text-gray-700">Meta Title</label>
-                    <input type="text" name="meta_title" id="meta_title" value="{{ old('meta_title', $page->seo->meta_title ?? '') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                    <p class="mt-1 text-xs text-gray-500">If left blank, the Page Title will be used.</p>
-                </div>
-
-                <div>
-                    <label for="meta_description" class="block text-sm font-medium text-gray-700">Meta Description</label>
-                    <textarea name="meta_description" id="meta_description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">{{ old('meta_description', $page->seo->meta_description ?? '') }}</textarea>
-                </div>
-                
-                <div>
-                    <label for="meta_keywords" class="block text-sm font-medium text-gray-700">Keywords</label>
-                    <input type="text" name="meta_keywords" id="meta_keywords" value="{{ old('meta_keywords', $page->seo->meta_keywords ?? '') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="e.g., software, services, consulting">
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="canonical_url" class="block text-sm font-medium text-gray-700">Canonical URL</label>
-                        <input type="url" name="canonical_url" id="canonical_url" value="{{ old('canonical_url', $page->seo->canonical_url ?? '') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                    </div>
-                    <div>
-                        <label for="robots" class="block text-sm font-medium text-gray-700">Robots Meta</label>
-                        <input type="text" name="robots" id="robots" value="{{ old('robots', $page->seo->robots ?? 'index, follow') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                    </div>
-                </div>
-
-                <hr class="border-gray-200">
-                <h3 class="text-sm font-semibold text-gray-800">Open Graph (Social Media)</h3>
-
-                <div>
-                    <label for="og_title" class="block text-sm font-medium text-gray-700">OG Title</label>
-                    <input type="text" name="og_title" id="og_title" value="{{ old('og_title', $page->seo->og_title ?? '') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                </div>
-
-                <div>
-                    <label for="og_description" class="block text-sm font-medium text-gray-700">OG Description</label>
-                    <textarea name="og_description" id="og_description" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">{{ old('og_description', $page->seo->og_description ?? '') }}</textarea>
-                </div>
+                @include('admin.partials.seo-form', ['model' => $page ?? new \App\Models\Page()])
             </div>
             
             <div class="mt-8 pt-5 border-t border-gray-200 flex justify-end">

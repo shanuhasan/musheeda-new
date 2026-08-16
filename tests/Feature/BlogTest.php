@@ -17,7 +17,8 @@ class BlogTest extends TestCase
     public function test_admin_can_create_post()
     {
         $admin = User::factory()->create();
-        $admin->assignRole('admin');
+        \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'Admin']);
+        $admin->assignRole('Admin');
 
         $response = $this->actingAs($admin)->post(route('admin.posts.store'), [
             'title' => 'Test Blog Post',

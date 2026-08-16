@@ -31,13 +31,7 @@ class PageRequest extends FormRequest
             'existing_media_id' => 'nullable|integer|exists:media,id',
             
             // SEO Fields
-            'meta_title' => 'nullable|string|max:255',
-            'meta_description' => 'nullable|string|max:500',
-            'meta_keywords' => 'nullable|string|max:255',
-            'canonical_url' => 'nullable|url|max:255',
-            'robots' => 'nullable|string|max:50',
-            'og_title' => 'nullable|string|max:255',
-            'og_description' => 'nullable|string|max:500',
+            'seo' => 'nullable|array',
         ];
     }
 }

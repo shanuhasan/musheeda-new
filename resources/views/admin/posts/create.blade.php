@@ -38,19 +38,7 @@
         </div>
         
         <!-- SEO -->
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-white/[0.03] md:p-6">
-            <h3 class="mb-4 text-lg font-bold text-slate-800 dark:text-white/90">SEO Optimization</h3>
-            <div class="space-y-5">
-                <div>
-                    <label for="meta_title" class="mb-2.5 block text-sm font-medium text-slate-800 dark:text-white/90">Meta Title</label>
-                    <input type="text" name="meta_title" id="meta_title" value="{{ old('meta_title') }}" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-900 dark:focus:border-brand-500 transition-all">
-                </div>
-                <div>
-                    <label for="meta_description" class="mb-2.5 block text-sm font-medium text-slate-800 dark:text-white/90">Meta Description</label>
-                    <textarea name="meta_description" id="meta_description" rows="3" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-900 dark:focus:border-brand-500 transition-all">{{ old('meta_description') }}</textarea>
-                </div>
-            </div>
-        </div>
+        @include('admin.partials.seo-form', ['model' => new \App\Models\Post()])
     </div>
     
     <div class="space-y-6">

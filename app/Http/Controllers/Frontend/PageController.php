@@ -21,6 +21,6 @@ class PageController extends Controller
 
         $page = $query->firstOrFail();
 
-        return view('pages.show', compact('page'));
+        return view('pages.show', compact('page'))->with('seoModel', $page);
     }
 }

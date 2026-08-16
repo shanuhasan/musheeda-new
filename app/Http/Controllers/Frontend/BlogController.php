@@ -49,7 +49,7 @@ class BlogController extends Controller
                             ->take(3)
                             ->get();
 
-        return view('frontend.blog.show', compact('post', 'relatedPosts'));
+        return view('frontend.blog.show', compact('post', 'relatedPosts'))->with('seoModel', $post);
     }
 
     public function category($slug)
@@ -60,7 +60,7 @@ class BlogController extends Controller
         $categories = Category::withCount('posts')->orderBy('name')->get();
         $tags = Tag::withCount('posts')->orderBy('name')->get();
 
-        return view('frontend.blog.index', compact('posts', 'category', 'categories', 'tags'));
+        return view('frontend.blog.index', compact('posts', 'category', 'categories', 'tags'))->with('seoModel', $category);
     }
 
     public function tag($slug)
@@ -71,6 +71,6 @@ class BlogController extends Controller
         $categories = Category::withCount('posts')->orderBy('name')->get();
         $tags = Tag::withCount('posts')->orderBy('name')->get();
 
-        return view('frontend.blog.index', compact('posts', 'tag', 'categories', 'tags'));
+        return view('frontend.blog.index', compact('posts', 'tag', 'categories', 'tags'))->with('seoModel', $tag);
     }
 }

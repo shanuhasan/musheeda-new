@@ -105,20 +105,8 @@ class PageService
      */
     protected function saveSeoMetadata($model, array $data): void
     {
-        $seoData = [
-            'meta_title' => $data['meta_title'] ?? null,
-            'meta_description' => $data['meta_description'] ?? null,
-            'meta_keywords' => $data['meta_keywords'] ?? null,
-            'canonical_url' => $data['canonical_url'] ?? null,
-            'robots' => $data['robots'] ?? null,
-            'og_title' => $data['og_title'] ?? null,
-            'og_description' => $data['og_description'] ?? null,
-        ];
-
-        if ($model->seo) {
-            $model->seo->update($seoData);
-        } else {
-            $model->seo()->create($seoData);
+        if (isset($data['seo']) && is_array($data['seo'])) {
+            $model->syncSeo($data['seo']);
         }
     }
 }

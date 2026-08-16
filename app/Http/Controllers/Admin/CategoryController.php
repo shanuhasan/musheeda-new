@@ -26,11 +26,16 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:categories',
             'description' => 'nullable|string',
+            'seo' => 'nullable|array',
         ]);
 
         $validated['slug'] = $validated['slug'] ? Str::slug($validated['slug']) : Str::slug($validated['name']);
 
-        Category::create($validated);
+        $category = Category::create($validated);
+
+        if ($request->has('seo') && is_array($request->seo)) {
+            $category->syncSeo($request->seo);
+        }
 
         return redirect()->route('admin.categories.index')->with('success', 'Category created successfully.');
     }
@@ -46,11 +51,16 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:categories,slug,' . $category->id,
             'description' => 'nullable|string',
+            'seo' => 'nullable|array',
         ]);
 
         $validated['slug'] = $validated['slug'] ? Str::slug($validated['slug']) : Str::slug($validated['name']);
 
         $category->update($validated);
+
+        if ($request->has('seo') && is_array($request->seo)) {
+            $category->syncSeo($request->seo);
+        }
 
         return redirect()->route('admin.categories.index')->with('success', 'Category updated successfully.');
     }

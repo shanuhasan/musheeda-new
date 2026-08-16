@@ -42,9 +42,10 @@ class PostController extends Controller
             'tags' => 'array',
             'tags.*' => 'exists:tags,id',
             'featured_image' => 'nullable|image|max:2048',
+            'seo' => 'nullable|array',
         ]);
 
-        $validated['slug'] = $validated['slug'] ? Str::slug($validated['slug']) : Str::slug($validated['title']);
+        $validated['slug'] = !empty($validated['slug']) ? Str::slug($validated['slug']) : Str::slug($validated['title']);
         $validated['author_id'] = auth()->id();
         $validated['is_featured'] = $request->has('is_featured');
         
@@ -61,6 +62,10 @@ class PostController extends Controller
         }
         if (isset($validated['tags'])) {
             $post->tags()->sync($validated['tags']);
+        }
+
+        if ($request->has('seo') && is_array($request->seo)) {
+            $post->syncSeo($request->seo);
         }
 
         if ($request->hasFile('featured_image')) {
@@ -95,9 +100,10 @@ class PostController extends Controller
             'tags' => 'array',
             'tags.*' => 'exists:tags,id',
             'featured_image' => 'nullable|image|max:2048',
+            'seo' => 'nullable|array',
         ]);
 
-        $validated['slug'] = $validated['slug'] ? Str::slug($validated['slug']) : Str::slug($validated['title']);
+        $validated['slug'] = !empty($validated['slug']) ? Str::slug($validated['slug']) : Str::slug($validated['title']);
         $validated['is_featured'] = $request->has('is_featured');
         
         // Calculate reading time roughly if not provided
@@ -118,6 +124,10 @@ class PostController extends Controller
             $post->tags()->sync($validated['tags']);
         } else {
             $post->tags()->detach();
+        }
+
+        if ($request->has('seo') && is_array($request->seo)) {
+            $post->syncSeo($request->seo);
         }
 
         if ($request->hasFile('featured_image')) {

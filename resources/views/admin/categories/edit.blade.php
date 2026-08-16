@@ -28,7 +28,9 @@
             @error('description') <span class="text-sm text-error-500 mt-1">{{ $message }}</span> @enderror
         </div>
         
-        <button type="submit" class="inline-flex items-center justify-center gap-2.5 rounded-lg bg-brand-500 px-4 py-2 text-center font-medium text-white hover:bg-brand-600">
+        @include('admin.partials.seo-form', ['model' => $category])
+        
+        <button type="submit" class="mt-6 inline-flex items-center justify-center gap-2.5 rounded-lg bg-brand-500 px-4 py-2 text-center font-medium text-white hover:bg-brand-600">
             Update Category
         </button>
     </div>
