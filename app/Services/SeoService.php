@@ -11,6 +11,8 @@ class SeoService
 {
     protected ?Model $model = null;
     protected array $settings = [];
+    protected ?string $customTitle = null;
+    protected ?string $customDescription = null;
 
     public function __construct()
     {
@@ -26,6 +28,13 @@ class SeoService
         return $this;
     }
 
+    public function setDefaultSeo(?string $title, ?string $description)
+    {
+        $this->customTitle = $title;
+        $this->customDescription = $description;
+        return $this;
+    }
+
     public function getSetting(string $key, $default = null)
     {
         return $this->settings[$key] ?? $default;
@@ -38,6 +47,8 @@ class SeoService
             $title = $this->model->seoMetadata->meta_title;
         } elseif ($this->model) {
             $title = $this->model->title ?? $this->model->name ?? null;
+        } elseif ($this->customTitle) {
+            $title = $this->customTitle;
         }
 
         $suffix = $this->getSetting('site_name', config('app.name'));
@@ -55,6 +66,8 @@ class SeoService
             return $this->model->seoMetadata->meta_description;
         } elseif ($this->model && isset($this->model->excerpt)) {
             return $this->model->excerpt;
+        } elseif ($this->customDescription) {
+            return $this->customDescription;
         }
 
         return $this->getSetting('default_meta_description', '');

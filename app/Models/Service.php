@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\HasSeo;
 
-class Product extends Model
+class Service extends Model
 {
     use HasFactory, SoftDeletes, HasSeo;
 
@@ -15,23 +15,27 @@ class Product extends Model
         'name',
         'slug',
         'short_description',
-        'description',
-        'images',
-        'features',
+        'full_description',
+        'icon',
+        'featured_image',
         'benefits',
-        'price',
-        'pricing_type',
-        'demo_url',
-        'documentation_url',
+        'features',
+        'faq',
         'cta',
         'status',
+        'sort_order',
     ];
 
     protected $casts = [
-        'price' => 'decimal:2',
-        'images' => 'array',
-        'features' => 'array',
         'benefits' => 'array',
+        'features' => 'array',
+        'faq' => 'array',
         'cta' => 'array',
+        'sort_order' => 'integer',
     ];
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
 }

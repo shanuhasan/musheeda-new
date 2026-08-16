@@ -8,6 +8,12 @@ Route::get('/', function () {
 });
 
 Route::get('/sitemap.xml', [\App\Http\Controllers\Frontend\SitemapController::class, 'index'])->name('sitemap.xml');
+Route::get('/services', [\App\Http\Controllers\Frontend\ServiceController::class, 'index'])->name('services.index');
+Route::get('/services/{service:slug}', [\App\Http\Controllers\Frontend\ServiceController::class, 'show'])->name('services.show');
+
+Route::get('/products', [\App\Http\Controllers\Frontend\ProductController::class, 'index'])->name('products.index');
+Route::get('/products/{product:slug}', [\App\Http\Controllers\Frontend\ProductController::class, 'show'])->name('products.show');
+
 Route::get('/robots.txt', [\App\Http\Controllers\Frontend\RobotsController::class, 'index'])->name('robots.txt');
 
 Route::get('/dashboard', function () {
@@ -41,6 +47,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Redirects
     Route::resource('redirects', \App\Http\Controllers\Admin\RedirectController::class)->except(['show']);
+
+    // Services & Products
+    Route::resource('services', \App\Http\Controllers\Admin\ServiceController::class)->except(['show']);
+    Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->except(['show']);
 
     // Menus
     Route::resource('menus', \App\Http\Controllers\Admin\NavigationMenuController::class)->except(['show', 'create']);

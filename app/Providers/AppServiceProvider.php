@@ -9,6 +9,7 @@ use App\Models\Page;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Service;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -41,5 +42,7 @@ class AppServiceProvider extends ServiceProvider
         Category::deleted($clearSitemap);
         Product::saved($clearSitemap);
         Product::deleted($clearSitemap);
+        Service::saved($clearSitemap);
+        Service::deleted($clearSitemap);
     }
 }

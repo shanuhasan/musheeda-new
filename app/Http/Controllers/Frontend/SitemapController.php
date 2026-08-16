@@ -10,6 +10,7 @@ use App\Models\Page;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Service;
 
 class SitemapController extends Controller
 {
@@ -63,12 +64,24 @@ class SitemapController extends Controller
             }
 
             // Products
-            $products = Product::where('status', 'active')->with('seoMetadata')->get();
+            $products = Product::whereIn('status', ['active', 'discontinued'])->with('seoMetadata')->get();
             foreach ($products as $product) {
                 if ($this->isNoIndex($product)) continue;
                 $urls[] = [
-                    'loc' => url('/products/' . $product->slug), // Assuming there's a products route
+                    'loc' => route('products.show', $product->slug),
                     'lastmod' => $product->updated_at->toAtomString(),
+                    'changefreq' => 'weekly',
+                    'priority' => '0.9'
+                ];
+            }
+
+            // Services
+            $services = Service::active()->with('seoMetadata')->get();
+            foreach ($services as $service) {
+                if ($this->isNoIndex($service)) continue;
+                $urls[] = [
+                    'loc' => route('services.show', $service->slug),
+                    'lastmod' => $service->updated_at->toAtomString(),
                     'changefreq' => 'weekly',
                     'priority' => '0.9'
                 ];
