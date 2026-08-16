@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\View;
 use App\Models\Page;
 use App\Models\Post;
 use App\Models\Category;
@@ -28,6 +29,11 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::before(function ($user, $ability) {
             return $user->hasRole('Super Admin') ? true : null;
+        });
+
+        View::composer('layouts.app', function ($view) {
+            $view->with('headerServices', Service::active()->orderBy('sort_order')->take(5)->get());
+            $view->with('headerProducts', Product::active()->latest()->take(5)->get());
         });
 
         $clearSitemap = function () {

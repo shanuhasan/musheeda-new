@@ -34,4 +34,9 @@ class Product extends Model
         'benefits' => 'array',
         'cta' => 'array',
     ];
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
 }

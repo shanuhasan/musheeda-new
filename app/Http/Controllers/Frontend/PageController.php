@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
-    public function show(Request $request, $slug)
+    public function show(Request $request, $slug, \App\Services\SeoService $seoService)
     {
         $query = Page::where('slug', $slug)->with('seo', 'media');
 
@@ -21,6 +21,8 @@ class PageController extends Controller
 
         $page = $query->firstOrFail();
 
-        return view('pages.show', compact('page'))->with('seoModel', $page);
+        $seoService->setModel($page);
+
+        return view('pages.show', compact('page'));
     }
 }
