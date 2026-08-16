@@ -24,25 +24,25 @@ class RolesAndPermissionsSeeder extends Seeder
         ];
 
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
+            Permission::findOrCreate($permission, 'web');
         }
 
         // Create Roles and assign created permissions
 
         // Super Admin gets all permissions via Gate::before in AppServiceProvider
 
-        Role::create(['name' => 'Super Admin']);
+        $superAdmin = Role::findOrCreate('Super Admin', 'web');
 
-        $admin = Role::create(['name' => 'Admin']);
+        $admin = Role::findOrCreate('Admin', 'web');
         $admin->givePermissionTo(Permission::all());
 
-        $editor = Role::create(['name' => 'Editor']);
+        $editor = Role::findOrCreate('Editor', 'web');
         $editor->givePermissionTo(['manage_pages', 'manage_blogs', 'manage_media']);
 
-        $author = Role::create(['name' => 'Author']);
+        $author = Role::findOrCreate('Author', 'web');
         $author->givePermissionTo(['manage_blogs']);
 
-        $seoManager = Role::create(['name' => 'SEO Manager']);
+        $seoManager = Role::findOrCreate('SEO Manager', 'web');
         $seoManager->givePermissionTo(['manage_seo']);
     }
 }
