@@ -288,7 +288,7 @@
                     <div class="lg:col-span-2">
                         <a href="/" class="text-2xl font-black text-white tracking-tight flex items-center gap-2 mb-6">
                             @if(setting('site_logo'))
-                                <img src="{{ setting('site_logo') }}" alt="{{ setting('site_name', 'Musheeda') }}" class="h-10 w-auto">
+                                <img src="{{ setting('site_logo') }}" alt="{{ setting('site_name', 'Musheeda') }}" class="h-20 md:h-28 object-contain w-auto max-w-full">
                             @else
                                 <div class="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center text-white text-lg">
                                     {{ substr(setting('header_logo', setting('site_name', 'Musheeda')), 0, 1) }}
