@@ -74,6 +74,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\LeadController as FrontendLeadController;
 use App\Http\Controllers\Frontend\NewsletterController;
+use App\Http\Controllers\Frontend\SearchController;
+
+Route::get('/search', [SearchController::class, 'index'])->name('search')->middleware('throttle:search');
 
 Route::post('/leads', [FrontendLeadController::class, 'store'])->name('leads.store')->middleware('throttle:5,1');
 

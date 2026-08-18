@@ -23,6 +23,10 @@ class AppServiceProvider extends ServiceProvider
             \App\Contracts\NewsletterServiceInterface::class,
             \App\Services\Newsletter\DatabaseNewsletterService::class
         );
+        $this->app->bind(
+            \App\Contracts\SearchServiceInterface::class,
+            \App\Services\Search\DatabaseSearchService::class
+        );
         $this->app->singleton(\App\Services\SeoService::class);
     }
 
@@ -33,6 +37,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::before(function ($user, $ability) {
             return $user->hasRole('Super Admin') ? true : null;
+        });
+
+        \Illuminate\Support\Facades\RateLimiter::for('search', function (\Illuminate\Http\Request $request) {
+            return \Illuminate\Cache\RateLimiting\Limit::perMinute(30)->by($request->ip());
         });
 
         View::composer('layouts.app', function ($view) {

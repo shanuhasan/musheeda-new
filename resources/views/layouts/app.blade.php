@@ -120,8 +120,22 @@
                         @endforeach
                     </nav>
 
-                    <!-- CTA Button -->
-                    <div class="hidden md:flex items-center">
+                    <!-- Search & CTA Button -->
+                    <div class="hidden md:flex items-center space-x-4">
+                        <div x-data="{ searchOpen: false }" class="relative">
+                            <button @click="searchOpen = !searchOpen" class="text-slate-500 hover:text-brand-600 focus:outline-none transition-colors p-2 rounded-full hover:bg-slate-100">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            </button>
+                            <div x-show="searchOpen" @click.away="searchOpen = false" x-transition class="absolute right-0 mt-3 w-72 bg-white rounded-xl shadow-xl ring-1 ring-black/5 z-50 p-4" style="display: none;">
+                                <form action="{{ route('search') }}" method="GET" class="relative">
+                                    <input type="text" name="q" placeholder="Search..." class="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 bg-slate-50 text-slate-900" required>
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
                         <a href="{{ setting('header_cta_url', '/contact') }}" class="inline-flex items-center justify-center px-6 py-2.5 border border-transparent text-sm font-bold rounded-xl text-white bg-brand-600 hover:bg-brand-700 shadow-md shadow-brand-500/30 transition-all hover:-translate-y-0.5">
                             {{ setting('header_cta_text', 'Get a Quote') }}
                         </a>
@@ -144,6 +158,14 @@
 
             <!-- Mobile menu -->
             <div id="mobile-menu" x-show="mobileMenuOpen" x-collapse class="md:hidden border-t border-slate-200 bg-white/95 backdrop-blur-md shadow-lg absolute w-full" style="display: none;">
+                <div class="pt-4 px-4 pb-2">
+                    <form action="{{ route('search') }}" method="GET" class="relative">
+                        <input type="text" name="q" placeholder="Search..." class="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-xl focus:ring-brand-500 focus:border-brand-500 bg-slate-50 text-slate-900" required>
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </div>
+                    </form>
+                </div>
                 <div class="pt-2 pb-6 space-y-1 px-4">
                     <!-- Dynamic Services Mobile Dropdown -->
                     @if(isset($headerServices) && $headerServices->count() > 0)
