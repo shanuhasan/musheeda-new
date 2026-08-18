@@ -123,7 +123,7 @@
                     <!-- Search & CTA Button -->
                     <div class="hidden md:flex items-center space-x-4">
                         <div x-data="{ searchOpen: false }" class="relative">
-                            <button @click="searchOpen = !searchOpen" class="text-slate-500 hover:text-brand-600 focus:outline-none transition-colors p-2 rounded-full hover:bg-slate-100">
+                            <button type="button" @click="searchOpen = !searchOpen" class="text-slate-500 hover:text-brand-600 focus:outline-none transition-colors p-2 rounded-full hover:bg-slate-100">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                             </button>
                             <div x-show="searchOpen" @click.away="searchOpen = false" x-transition class="absolute right-0 mt-3 w-72 bg-white rounded-xl shadow-xl ring-1 ring-black/5 z-50 p-4" style="display: none;">
