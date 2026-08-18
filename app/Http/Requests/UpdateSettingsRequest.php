@@ -26,6 +26,7 @@ class UpdateSettingsRequest extends FormRequest
             'settings' => 'required|array',
             'group' => 'required|string',
             'favicon' => 'nullable|file|mimes:ico,png,svg,jpg,jpeg|max:1024',
+            'site_logo' => 'nullable|file|mimes:png,svg,jpg,jpeg,webp|max:2048',
         ];
     }
 }

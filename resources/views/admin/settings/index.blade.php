@@ -86,14 +86,25 @@
 
         <!-- Header Tab -->
         <div x-show="activeTab === 'header'" class="p-6" style="display: none;">
-            <form action="{{ route('admin.settings.update') }}" method="POST">
+            <form action="{{ route('admin.settings.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="group" value="header">
                 
                 <div class="mb-5">
-                    <label class="mb-3 block text-sm font-medium text-slate-800 dark:text-white">Header Logo Text (or URL to Image)</label>
+                    <label class="mb-3 block text-sm font-medium text-slate-800 dark:text-white">Header Logo Text</label>
                     <input type="text" name="settings[header_logo]" value="{{ $settings['header_logo'] ?? 'Musheeda' }}" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 text-slate-800 outline-none transition focus:border-brand-500 active:border-brand-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white" />
+                </div>
+                
+                <div class="mb-5">
+                    <label class="mb-3 block text-sm font-medium text-slate-800 dark:text-white">Site Logo Image (Overrides Text)</label>
+                    @if(!empty($settings['site_logo']))
+                        <div class="mb-3">
+                            <img src="{{ $settings['site_logo'] }}" alt="Site Logo" class="h-12 object-contain bg-slate-100 dark:bg-slate-800 p-2 rounded border border-slate-200 dark:border-slate-700">
+                        </div>
+                    @endif
+                    <input type="file" name="site_logo" accept=".png,.jpg,.jpeg,.svg,.webp" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 text-slate-800 outline-none transition focus:border-brand-500 active:border-brand-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white" />
+                    <p class="text-xs text-slate-500 mt-1">Recommended format: .png or .svg with transparent background, height: 64px.</p>
                 </div>
                 
                 <div class="mb-5">

@@ -287,10 +287,14 @@
                     <!-- Company Info -->
                     <div class="lg:col-span-2">
                         <a href="/" class="text-2xl font-black text-white tracking-tight flex items-center gap-2 mb-6">
-                            <div class="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center text-white text-lg">
-                                {{ substr(setting('header_logo', setting('site_name', 'Musheeda')), 0, 1) }}
-                            </div>
-                            {{ setting('header_logo', setting('site_name', 'Musheeda')) }}
+                            @if(setting('site_logo'))
+                                <img src="{{ setting('site_logo') }}" alt="{{ setting('site_name', 'Musheeda') }}" class="h-10 w-auto">
+                            @else
+                                <div class="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center text-white text-lg">
+                                    {{ substr(setting('header_logo', setting('site_name', 'Musheeda')), 0, 1) }}
+                                </div>
+                                {{ setting('header_logo', setting('site_name', 'Musheeda')) }}
+                            @endif
                         </a>
                         <p class="text-base text-slate-400 mb-8 leading-relaxed max-w-sm">
                             {{ setting('footer_about', 'Musheeda Solutions provides cutting edge IT services and software solutions designed to accelerate digital transformation.') }}
