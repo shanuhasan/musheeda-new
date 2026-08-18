@@ -90,7 +90,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 @foreach($relatedPosts as $related)
                 <article class="flex flex-col items-start justify-between rounded-2xl bg-white shadow-sm ring-1 ring-slate-200 transition-all hover:shadow-md dark:bg-slate-800 dark:ring-slate-700/50 group overflow-hidden">
-                    <div class="w-full h-48 overflow-hidden bg-slate-100 dark:bg-slate-700 relative">
+                    <div class="w-full aspect-video sm:h-48 sm:aspect-auto overflow-hidden bg-slate-100 dark:bg-slate-700 relative">
                         @if($related->hasMedia('featured_image'))
                             <img src="{{ $related->getFirstMediaUrl('featured_image', 'featured') }}" alt="{{ $related->title }}" loading="lazy" class="h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105">
                         @endif

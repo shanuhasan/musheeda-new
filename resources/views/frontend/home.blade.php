@@ -13,7 +13,7 @@
                     Welcome to {{ setting('site_name', 'Musheeda Solutions') }}
                 </span>
                 
-                <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold text-slate-900 tracking-tight mb-8 leading-tight transition-all duration-700 delay-100 transform" :class="show ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-slate-900 tracking-tight mb-8 leading-tight transition-all duration-700 delay-100 transform" :class="show ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'">
                     Empowering your business with <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-blue-600">cutting-edge software</span>
                 </h1>
                 
@@ -35,7 +35,7 @@
 
     <!-- Services Section -->
     @if($services->count() > 0)
-    <section class="py-24 bg-slate-50">
+    <section class="py-16 md:py-24 bg-slate-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-base text-brand-600 font-semibold tracking-wide uppercase">Our Expertise</h2>
@@ -58,7 +58,7 @@
                             <p class="text-slate-600 mb-6 flex-grow line-clamp-3">
                                 {{ $service->short_description ?? Str::limit(strip_tags($service->full_description), 120) }}
                             </p>
-                            <span class="inline-flex items-center text-brand-600 font-semibold group-hover:translate-x-2 transition-transform duration-300 mt-auto">
+                            <span class="inline-flex items-center py-2 text-brand-600 font-semibold group-hover:translate-x-2 transition-transform duration-300 mt-auto">
                                 Learn more
                                 <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                             </span>
@@ -78,7 +78,7 @@
 
     <!-- Products Section (Dark Theme) -->
     @if($products->count() > 0)
-    <section class="py-24 bg-slate-900 text-white relative overflow-hidden">
+    <section class="py-16 md:py-24 bg-slate-900 text-white relative overflow-hidden">
         <!-- Background decorative elements -->
         <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] opacity-50"></div>
         <div class="absolute -top-24 -right-24 w-96 h-96 bg-brand-600 rounded-full blur-3xl opacity-20"></div>
@@ -120,7 +120,7 @@
                                 @else
                                     <span class="text-brand-400 font-medium">Custom</span>
                                 @endif
-                                <a href="{{ route('products.show', $product->slug) }}" class="px-4 py-2 bg-slate-700 hover:bg-brand-600 text-white text-sm font-semibold rounded-lg transition-colors">
+                                <a href="{{ route('products.show', $product->slug) }}" class="px-4 py-3 sm:py-2 bg-slate-700 hover:bg-brand-600 text-white text-sm font-semibold rounded-lg transition-colors inline-flex items-center justify-center">
                                     View Details
                                 </a>
                             </div>
@@ -141,7 +141,7 @@
 
     <!-- Blog Section -->
     @if($posts->count() > 0)
-    <section class="py-24 bg-white">
+    <section class="py-16 md:py-24 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-end mb-12">
                 <div>
@@ -196,7 +196,7 @@
     @endif
 
     <!-- CTA Section -->
-    <section class="py-20 relative overflow-hidden">
+    <section class="py-16 md:py-20 relative overflow-hidden">
         <div class="absolute inset-0 bg-brand-600"></div>
         <!-- Decorative SVG -->
         <svg class="absolute top-0 right-0 transform translate-x-1/3 -translate-y-1/4 text-brand-500 opacity-50" width="404" height="404" fill="none" viewBox="0 0 404 404" aria-hidden="true">

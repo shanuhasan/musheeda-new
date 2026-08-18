@@ -16,12 +16,16 @@
                 </div>
     
                 <div class="flex flex-col sm:flex-row gap-3">
+                    <label for="newsletter_email" class="sr-only">Email Address</label>
                     <input 
                         type="email" 
                         name="email" 
+                        id="newsletter_email"
                         required
+                        aria-invalid="{{ $errors->has('email') ? 'true' : 'false' }}"
+                        @error('email') aria-describedby="newsletter-email-error" @enderror
                         placeholder="Enter your email address" 
-                        class="flex-1 rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand-500 focus:ring-brand-500 shadow-sm"
+                        class="flex-1 px-4 py-3 rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand-500 focus:ring-brand-500 shadow-sm"
                     >
                     <button 
                         type="submit" 
@@ -32,7 +36,7 @@
                 </div>
                 
                 @error('email')
-                    <p class="mt-2 text-sm text-error-600 dark:text-error-400 text-left">{{ $message }}</p>
+                    <p class="mt-2 text-sm text-error-600 dark:text-error-400 text-left" id="newsletter-email-error">{{ $message }}</p>
                 @enderror
             </form>
             

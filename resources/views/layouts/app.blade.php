@@ -42,8 +42,8 @@
                     <nav class="hidden md:flex space-x-8">
                         <!-- Dynamic Services Dropdown -->
                         @if(isset($headerServices) && $headerServices->count() > 0)
-                            <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
-                                <a href="/services" class="text-slate-600 hover:text-brand-600 inline-flex items-center px-1 pt-1 font-semibold transition-colors">
+                            <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" @focusin="open = true" @focusout="open = false">
+                                <a href="/services" aria-haspopup="true" :aria-expanded="open" class="text-slate-600 hover:text-brand-600 inline-flex items-center px-1 pt-1 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md">
                                     Services
                                     <svg class="ml-1 h-4 w-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -68,8 +68,8 @@
 
                         <!-- Dynamic Products Dropdown -->
                         @if(isset($headerProducts) && $headerProducts->count() > 0)
-                            <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
-                                <a href="/products" class="text-slate-600 hover:text-brand-600 inline-flex items-center px-1 pt-1 font-semibold transition-colors">
+                            <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" @focusin="open = true" @focusout="open = false">
+                                <a href="/products" aria-haspopup="true" :aria-expanded="open" class="text-slate-600 hover:text-brand-600 inline-flex items-center px-1 pt-1 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md">
                                     Products
                                     <svg class="ml-1 h-4 w-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -94,8 +94,8 @@
 
                         @foreach(menu('header') as $item)
                             @if($item->children->count() > 0)
-                                <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
-                                    <button class="text-slate-600 hover:text-brand-600 inline-flex items-center px-1 pt-1 font-semibold transition-colors">
+                                <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" @focusin="open = true" @focusout="open = false">
+                                    <button aria-haspopup="true" :aria-expanded="open" class="text-slate-600 hover:text-brand-600 inline-flex items-center px-1 pt-1 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md">
                                         {{ $item->title }}
                                         <svg class="ml-1 h-4 w-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -113,7 +113,7 @@
                                     </div>
                                 </div>
                             @else
-                                <a href="{{ $item->url }}" target="{{ $item->target }}" class="text-slate-600 hover:text-brand-600 inline-flex items-center px-1 pt-1 font-semibold transition-colors">
+                                <a href="{{ $item->url }}" target="{{ $item->target }}" class="text-slate-600 hover:text-brand-600 inline-flex items-center px-1 pt-1 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md">
                                     {{ $item->title }}
                                 </a>
                             @endif
@@ -129,12 +129,12 @@
                     
                     <!-- Mobile menu button -->
                     <div class="flex items-center md:hidden">
-                        <button @click="mobileMenuOpen = !mobileMenuOpen" type="button" class="inline-flex items-center justify-center p-2 rounded-lg text-slate-500 hover:text-brand-600 hover:bg-brand-50 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <button @click="mobileMenuOpen = !mobileMenuOpen" type="button" :aria-expanded="mobileMenuOpen" aria-controls="mobile-menu" class="inline-flex items-center justify-center p-2 rounded-lg text-slate-500 hover:text-brand-600 hover:bg-brand-50 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500">
                             <span class="sr-only">Open main menu</span>
-                            <svg :class="{'hidden': mobileMenuOpen, 'block': !mobileMenuOpen }" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg x-show="!mobileMenuOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                             </svg>
-                            <svg :class="{'block': mobileMenuOpen, 'hidden': !mobileMenuOpen }" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg x-show="mobileMenuOpen" style="display: none;" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                             </svg>
                         </button>
@@ -143,18 +143,18 @@
             </div>
 
             <!-- Mobile menu -->
-            <div x-show="mobileMenuOpen" x-collapse class="md:hidden border-t border-slate-200 bg-white/95 backdrop-blur-md shadow-lg absolute w-full" style="display: none;">
+            <div id="mobile-menu" x-show="mobileMenuOpen" x-collapse class="md:hidden border-t border-slate-200 bg-white/95 backdrop-blur-md shadow-lg absolute w-full" style="display: none;">
                 <div class="pt-2 pb-6 space-y-1 px-4">
                     <!-- Dynamic Services Mobile Dropdown -->
                     @if(isset($headerServices) && $headerServices->count() > 0)
                         <div x-data="{ childOpen: false }">
-                            <button @click="childOpen = !childOpen" class="w-full flex justify-between items-center py-3 text-base font-bold text-slate-700 border-b border-slate-100">
+                            <button @click="childOpen = !childOpen" aria-haspopup="true" :aria-expanded="childOpen" class="w-full flex justify-between items-center py-3 text-base font-bold text-slate-700 border-b border-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md px-2">
                                 Services
                                 <svg :class="{'rotate-180': childOpen}" class="h-5 w-5 text-slate-400 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                                 </svg>
                             </button>
-                            <div x-show="childOpen" class="pl-4 py-2 space-y-2 bg-slate-50/50 rounded-lg mt-1" style="display: none;">
+                            <div x-show="childOpen" x-collapse class="pl-4 py-2 space-y-2 bg-slate-50/50 rounded-lg mt-1" style="display: none;">
                                 @foreach($headerServices as $headerService)
                                     <a href="{{ url('/services/' . $headerService->slug) }}" class="block py-2 text-sm font-medium text-slate-600 hover:text-brand-600">
                                         {{ $headerService->name }}
@@ -168,13 +168,13 @@
                     <!-- Dynamic Products Mobile Dropdown -->
                     @if(isset($headerProducts) && $headerProducts->count() > 0)
                         <div x-data="{ childOpen: false }">
-                            <button @click="childOpen = !childOpen" class="w-full flex justify-between items-center py-3 text-base font-bold text-slate-700 border-b border-slate-100">
+                            <button @click="childOpen = !childOpen" aria-haspopup="true" :aria-expanded="childOpen" class="w-full flex justify-between items-center py-3 text-base font-bold text-slate-700 border-b border-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md px-2">
                                 Products
                                 <svg :class="{'rotate-180': childOpen}" class="h-5 w-5 text-slate-400 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                                 </svg>
                             </button>
-                            <div x-show="childOpen" class="pl-4 py-2 space-y-2 bg-slate-50/50 rounded-lg mt-1" style="display: none;">
+                            <div x-show="childOpen" x-collapse class="pl-4 py-2 space-y-2 bg-slate-50/50 rounded-lg mt-1" style="display: none;">
                                 @foreach($headerProducts as $headerProduct)
                                     <a href="{{ url('/products/' . $headerProduct->slug) }}" class="block py-2 text-sm font-medium text-slate-600 hover:text-brand-600">
                                         {{ $headerProduct->name }}
@@ -188,13 +188,13 @@
                     @foreach(menu('header') as $item)
                         @if($item->children->count() > 0)
                             <div x-data="{ childOpen: false }">
-                                <button @click="childOpen = !childOpen" class="w-full flex justify-between items-center py-3 text-base font-bold text-slate-700 border-b border-slate-100">
+                                <button @click="childOpen = !childOpen" aria-haspopup="true" :aria-expanded="childOpen" class="w-full flex justify-between items-center py-3 text-base font-bold text-slate-700 border-b border-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md px-2">
                                     {{ $item->title }}
                                     <svg :class="{'rotate-180': childOpen}" class="h-5 w-5 text-slate-400 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                                     </svg>
                                 </button>
-                                <div x-show="childOpen" class="pl-4 py-2 space-y-2 bg-slate-50/50 rounded-lg mt-1" style="display: none;">
+                                <div x-show="childOpen" x-collapse class="pl-4 py-2 space-y-2 bg-slate-50/50 rounded-lg mt-1" style="display: none;">
                                     @foreach($item->children as $child)
                                         <a href="{{ $child->url }}" target="{{ $child->target }}" class="block py-2 text-sm font-medium text-slate-600 hover:text-brand-600">
                                             {{ $child->title }}
@@ -203,7 +203,7 @@
                                 </div>
                             </div>
                         @else
-                            <a href="{{ $item->url }}" target="{{ $item->target }}" class="block py-3 text-base font-bold text-slate-700 hover:text-brand-600 border-b border-slate-100">
+                            <a href="{{ $item->url }}" target="{{ $item->target }}" class="block py-3 text-base font-bold text-slate-700 hover:text-brand-600 border-b border-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md px-2">
                                 {{ $item->title }}
                             </a>
                         @endif
