@@ -29,6 +29,9 @@ class ServiceController extends Controller
 
         $seoService->setModel($service);
 
+        // Sanitize rich content to prevent XSS
+        $service->full_description = \Mews\Purifier\Facades\Purifier::clean($service->full_description);
+
         return view('frontend.services.show', compact('service'));
     }
 }

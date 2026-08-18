@@ -23,6 +23,9 @@ class PageController extends Controller
 
         $seoService->setModel($page);
 
+        // Sanitize rich content to prevent XSS
+        $page->content = \Mews\Purifier\Facades\Purifier::clean($page->content);
+
         return view('pages.show', compact('page'));
     }
 }

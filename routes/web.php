@@ -37,38 +37,38 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
     // CMS Modules
-    Route::resource('landing-pages', AdminLandingPageController::class);
-    Route::resource('pages', AdminPageController::class);
-    Route::resource('posts', \App\Http\Controllers\Admin\PostController::class);
-    Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class)->except(['show']);
-    Route::resource('tags', \App\Http\Controllers\Admin\TagController::class)->except(['show']);
+    Route::resource('landing-pages', AdminLandingPageController::class)->middleware('can:manage_pages');
+    Route::resource('pages', AdminPageController::class)->middleware('can:manage_pages');
+    Route::resource('posts', \App\Http\Controllers\Admin\PostController::class)->middleware('can:manage_blogs');
+    Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class)->except(['show'])->middleware('can:manage_blogs');
+    Route::resource('tags', \App\Http\Controllers\Admin\TagController::class)->except(['show'])->middleware('can:manage_blogs');
     
     // Settings
-    Route::get('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
-    Route::put('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
+    Route::get('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index')->middleware('can:manage_settings');
+    Route::put('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update')->middleware('can:manage_settings');
 
     // Redirects
-    Route::resource('redirects', \App\Http\Controllers\Admin\RedirectController::class)->except(['show']);
+    Route::resource('redirects', \App\Http\Controllers\Admin\RedirectController::class)->except(['show'])->middleware('can:manage_settings');
 
     // Services & Products
-    Route::resource('services', \App\Http\Controllers\Admin\ServiceController::class)->except(['show']);
-    Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->except(['show']);
+    Route::resource('services', \App\Http\Controllers\Admin\ServiceController::class)->except(['show'])->middleware('can:manage_products');
+    Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->except(['show'])->middleware('can:manage_products');
 
     // Menus
-    Route::resource('menus', \App\Http\Controllers\Admin\NavigationMenuController::class)->except(['show', 'create']);
-    Route::resource('menu-items', \App\Http\Controllers\Admin\NavigationMenuItemController::class)->only(['store', 'update', 'destroy']);
-    Route::patch('menu-items/{menu_item}/toggle', [\App\Http\Controllers\Admin\NavigationMenuItemController::class, 'toggle'])->name('menu-items.toggle');
+    Route::resource('menus', \App\Http\Controllers\Admin\NavigationMenuController::class)->except(['show', 'create'])->middleware('can:manage_settings');
+    Route::resource('menu-items', \App\Http\Controllers\Admin\NavigationMenuItemController::class)->only(['store', 'update', 'destroy'])->middleware('can:manage_settings');
+    Route::patch('menu-items/{menu_item}/toggle', [\App\Http\Controllers\Admin\NavigationMenuItemController::class, 'toggle'])->name('menu-items.toggle')->middleware('can:manage_settings');
 
     // Media Library
-    Route::resource('media', \App\Http\Controllers\Admin\MediaController::class)->except(['show', 'create', 'edit']);
+    Route::resource('media', \App\Http\Controllers\Admin\MediaController::class)->except(['show', 'create', 'edit'])->middleware('can:manage_media');
 
     // Leads
-    Route::resource('leads', \App\Http\Controllers\Admin\LeadController::class)->except(['create', 'store']);
+    Route::resource('leads', \App\Http\Controllers\Admin\LeadController::class)->except(['create', 'store'])->middleware('can:manage_leads');
 
     // Subscribers
-    Route::resource('advertisements', \App\Http\Controllers\Admin\AdvertisementController::class)->except(['show']);
-    Route::get('subscribers/export', [\App\Http\Controllers\Admin\SubscriberController::class, 'export'])->name('subscribers.export');
-    Route::resource('subscribers', \App\Http\Controllers\Admin\SubscriberController::class)->only(['index', 'destroy']);
+    Route::resource('advertisements', \App\Http\Controllers\Admin\AdvertisementController::class)->except(['show'])->middleware('can:manage_settings');
+    Route::get('subscribers/export', [\App\Http\Controllers\Admin\SubscriberController::class, 'export'])->name('subscribers.export')->middleware('can:manage_leads');
+    Route::resource('subscribers', \App\Http\Controllers\Admin\SubscriberController::class)->only(['index', 'destroy'])->middleware('can:manage_leads');
 });
 
 use App\Http\Controllers\Frontend\BlogController;

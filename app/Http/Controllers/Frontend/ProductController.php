@@ -29,6 +29,9 @@ class ProductController extends Controller
 
         $seoService->setModel($product);
 
+        // Sanitize rich content to prevent XSS
+        $product->description = \Mews\Purifier\Facades\Purifier::clean($product->description);
+
         return view('frontend.products.show', compact('product'));
     }
 }

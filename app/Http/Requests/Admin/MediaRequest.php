@@ -28,7 +28,7 @@ class MediaRequest extends FormRequest
                     'required',
                     'file',
                     'max:10240', // 10MB max
-                    'mimes:jpg,jpeg,png,gif,webp,svg,pdf,doc,docx,xls,xlsx'
+                    'mimes:jpg,jpeg,png,gif,webp,pdf,doc,docx,xls,xlsx'
                 ],
             ];
         }
