@@ -25,6 +25,7 @@ class UpdateSettingsRequest extends FormRequest
         return [
             'settings' => 'required|array',
             'group' => 'required|string',
+            'favicon' => 'nullable|file|mimes:ico,png,svg,jpg,jpeg|max:1024',
         ];
     }
 }

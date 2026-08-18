@@ -47,7 +47,7 @@
         
         <!-- General Tab -->
         <div x-show="activeTab === 'general'" class="p-6">
-            <form action="{{ route('admin.settings.update') }}" method="POST">
+            <form action="{{ route('admin.settings.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="group" value="general">
@@ -65,6 +65,17 @@
                 <div class="mb-5">
                     <label class="mb-3 block text-sm font-medium text-slate-800 dark:text-white">Contact Phone</label>
                     <input type="text" name="settings[contact_phone]" value="{{ $settings['contact_phone'] ?? '' }}" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 text-slate-800 outline-none transition focus:border-brand-500 active:border-brand-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white" />
+                </div>
+                
+                <div class="mb-5">
+                    <label class="mb-3 block text-sm font-medium text-slate-800 dark:text-white">Favicon</label>
+                    @if(!empty($settings['favicon']))
+                        <div class="mb-3">
+                            <img src="{{ $settings['favicon'] }}" alt="Favicon" class="w-8 h-8 rounded shadow-sm border border-slate-200 dark:border-slate-700">
+                        </div>
+                    @endif
+                    <input type="file" name="favicon" accept=".ico,.png,.jpg,.jpeg,.svg" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 text-slate-800 outline-none transition focus:border-brand-500 active:border-brand-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white" />
+                    <p class="text-xs text-slate-500 mt-1">Recommended format: .ico or .png, size: 32x32 or 16x16.</p>
                 </div>
                 
                 <button type="submit" class="inline-flex items-center justify-center gap-2.5 rounded-lg bg-brand-500 px-6 py-3 text-center font-medium text-white hover:bg-brand-600 lg:px-8 xl:px-10">

@@ -7,6 +7,12 @@
 
         <x-seo :model="$seoModel ?? null" />
 
+        @if(setting('favicon'))
+            <link rel="icon" type="image/x-icon" href="{{ setting('favicon') }}">
+            <link rel="shortcut icon" type="image/x-icon" href="{{ setting('favicon') }}">
+            <link rel="apple-touch-icon" href="{{ setting('favicon') }}">
+        @endif
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link rel="dns-prefetch" href="https://fonts.bunny.net">
