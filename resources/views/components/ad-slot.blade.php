@@ -1,10 +1,12 @@
 <div>
     <!-- No surplus words or unnecessary actions. - Marcus Aurelius -->
     @php
-        $ads = \App\Models\Advertisement::where('placement', $placement)
-            ->where('is_active', true)
-            ->orderBy('sort_order', 'asc')
-            ->get();
+        $ads = \Illuminate\Support\Facades\Cache::rememberForever("advertisements.{$placement}", function () use ($placement) {
+            return \App\Models\Advertisement::where('placement', $placement)
+                ->where('is_active', true)
+                ->orderBy('sort_order', 'asc')
+                ->get();
+        });
     @endphp
 
     @if($ads->count() > 0)

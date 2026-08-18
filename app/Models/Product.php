@@ -39,4 +39,14 @@ class Product extends Model
     {
         return $query->where('status', 'active');
     }
+
+    protected static function booted()
+    {
+        static::saved(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget('home.products');
+        });
+        static::deleted(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget('home.products');
+        });
+    }
 }

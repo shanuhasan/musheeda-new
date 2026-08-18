@@ -14,13 +14,19 @@ class HomeController extends Controller
     public function index(SeoService $seoService)
     {
         // Fetch active services (limit to 3 for homepage)
-        $services = Service::active()->orderBy('sort_order')->take(3)->get();
+        $services = \Illuminate\Support\Facades\Cache::rememberForever('home.services', function () {
+            return Service::active()->orderBy('sort_order')->take(3)->get();
+        });
         
         // Fetch active products (limit to 3 for homepage)
-        $products = Product::active()->latest()->take(3)->get();
+        $products = \Illuminate\Support\Facades\Cache::rememberForever('home.products', function () {
+            return Product::active()->latest()->take(3)->get();
+        });
         
         // Fetch recent published posts (limit to 3)
-        $posts = Post::published()->latest('published_at')->take(3)->get();
+        $posts = \Illuminate\Support\Facades\Cache::rememberForever('home.posts', function () {
+            return Post::published()->latest('published_at')->take(3)->get();
+        });
 
         // Set Default SEO for homepage
         $seoService->setDefaultSeo(

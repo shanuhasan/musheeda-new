@@ -16,4 +16,14 @@ class Category extends Model
     {
         return $this->belongsToMany(Post::class);
     }
+
+    protected static function booted()
+    {
+        static::saved(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget('blog.categories');
+        });
+        static::deleted(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget('blog.categories');
+        });
+    }
 }

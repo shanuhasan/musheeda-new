@@ -73,4 +73,14 @@ class Post extends Model implements HasMedia
     {
         return $query->where('status', 'draft');
     }
+
+    protected static function booted()
+    {
+        static::saved(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget('home.posts');
+        });
+        static::deleted(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget('home.posts');
+        });
+    }
 }

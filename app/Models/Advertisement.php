@@ -22,4 +22,14 @@ class Advertisement extends Model
         'is_active' => 'boolean',
         'is_lazy' => 'boolean',
     ];
+
+    protected static function booted()
+    {
+        static::saved(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget("advertisements.{$model->placement}");
+        });
+        static::deleted(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget("advertisements.{$model->placement}");
+        });
+    }
 }

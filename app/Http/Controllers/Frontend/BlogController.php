@@ -25,8 +25,12 @@ class BlogController extends Controller
         }
 
         $posts = $query->paginate(12)->withQueryString();
-        $categories = Category::withCount('posts')->orderBy('name')->get();
-        $tags = Tag::withCount('posts')->orderBy('name')->get();
+        $categories = \Illuminate\Support\Facades\Cache::rememberForever('blog.categories', function () {
+            return Category::withCount('posts')->orderBy('name')->get();
+        });
+        $tags = \Illuminate\Support\Facades\Cache::rememberForever('blog.tags', function () {
+            return Tag::withCount('posts')->orderBy('name')->get();
+        });
 
         return view('frontend.blog.index', compact('posts', 'categories', 'tags'));
     }
@@ -57,8 +61,12 @@ class BlogController extends Controller
         $category = Category::where('slug', $slug)->firstOrFail();
         $posts = $category->posts()->published()->with(['author', 'categories', 'tags'])->latest('published_at')->paginate(12);
         
-        $categories = Category::withCount('posts')->orderBy('name')->get();
-        $tags = Tag::withCount('posts')->orderBy('name')->get();
+        $categories = \Illuminate\Support\Facades\Cache::rememberForever('blog.categories', function () {
+            return Category::withCount('posts')->orderBy('name')->get();
+        });
+        $tags = \Illuminate\Support\Facades\Cache::rememberForever('blog.tags', function () {
+            return Tag::withCount('posts')->orderBy('name')->get();
+        });
 
         return view('frontend.blog.index', compact('posts', 'category', 'categories', 'tags'))->with('seoModel', $category);
     }
@@ -68,8 +76,12 @@ class BlogController extends Controller
         $tag = Tag::where('slug', $slug)->firstOrFail();
         $posts = $tag->posts()->published()->with(['author', 'categories', 'tags'])->latest('published_at')->paginate(12);
 
-        $categories = Category::withCount('posts')->orderBy('name')->get();
-        $tags = Tag::withCount('posts')->orderBy('name')->get();
+        $categories = \Illuminate\Support\Facades\Cache::rememberForever('blog.categories', function () {
+            return Category::withCount('posts')->orderBy('name')->get();
+        });
+        $tags = \Illuminate\Support\Facades\Cache::rememberForever('blog.tags', function () {
+            return Tag::withCount('posts')->orderBy('name')->get();
+        });
 
         return view('frontend.blog.index', compact('posts', 'tag', 'categories', 'tags'))->with('seoModel', $tag);
     }
