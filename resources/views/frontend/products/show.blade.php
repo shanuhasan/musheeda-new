@@ -120,6 +120,16 @@
                             </div>
                         </div>
                     @endif
+
+                    <!-- Lead Form in Content Area -->
+                    <div class="mt-12">
+                        <x-lead-form 
+                            source="product" 
+                            product-service="{{ $product->name }}" 
+                            title="Inquire About {{ $product->name }}" 
+                            button-text="Send Inquiry"
+                        />
+                    </div>
                 </div>
                 
                 <!-- Sidebar -->

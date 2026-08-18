@@ -82,6 +82,16 @@
                     @endif
                 </div>
                 
+                <!-- Lead Form in Content Area -->
+                <div class="lg:col-span-8 mt-12">
+                    <x-lead-form 
+                        source="service" 
+                        product-service="{{ $service->name }}" 
+                        title="Inquire About {{ $service->name }}" 
+                        button-text="Send Inquiry"
+                    />
+                </div>
+                
                 <!-- Sidebar -->
                 <div class="lg:col-span-4 space-y-8 sticky top-24">
                     

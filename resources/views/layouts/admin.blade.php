@@ -171,6 +171,20 @@
                             </li>
                             @endcan
 
+                            <!-- Leads -->
+                            <li>
+                                <a
+                                    href="{{ route('admin.leads.index') }}"
+                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
+                                    :class="request()->routeIs('admin.leads.*') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
+                                >
+                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7ZM14 7C14 8.10457 13.1046 9 12 9C10.8954 9 10 8.10457 10 7C10 5.89543 10.8954 5 12 5C13.1046 5 14 5.89543 14 7ZM12 14C8.13401 14 5 17.134 5 21H7C7 18.2386 9.23858 16 12 16C14.7614 16 17 18.2386 17 21H19C19 17.134 15.866 14 12 14Z"></path>
+                                    </svg>
+                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Leads</span>
+                                </a>
+                            </li>
+
                             <!-- Media Library -->
                             <li>
                                 <a

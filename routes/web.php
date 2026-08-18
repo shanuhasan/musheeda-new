@@ -61,9 +61,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Media Library
     Route::resource('media', \App\Http\Controllers\Admin\MediaController::class)->except(['show', 'create', 'edit']);
+
+    // Leads
+    Route::resource('leads', \App\Http\Controllers\Admin\LeadController::class)->except(['create', 'store']);
 });
 
 use App\Http\Controllers\Frontend\BlogController;
+use App\Http\Controllers\Frontend\LeadController as FrontendLeadController;
+
+Route::post('/leads', [FrontendLeadController::class, 'store'])->name('leads.store')->middleware('throttle:5,1');
 
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/category/{slug}', [BlogController::class, 'category'])->name('blog.category');
