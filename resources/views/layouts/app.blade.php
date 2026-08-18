@@ -378,5 +378,7 @@
                 </div>
             </div>
         </footer>
+        @stack('scripts')
+        <x-cookie-consent />
     </body>
 </html>

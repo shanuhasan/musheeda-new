@@ -34,6 +34,14 @@ class NewsletterController extends Controller
 
         $this->newsletter->subscribe($request->email, $data);
 
+        session()->flash('conversion', [
+            'event' => 'sign_up',
+            'data' => [
+                'signup_type' => 'newsletter',
+                'source' => $data['source'],
+            ]
+        ]);
+
         return back()->with('success', 'Thanks for subscribing! Please check your email to verify your subscription.');
     }
 

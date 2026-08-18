@@ -46,6 +46,14 @@ class LeadController extends Controller
         $admins = User::role('admin')->get(); // Assumes Spatie Permission is used
         Notification::send($admins, new NewLeadNotification($lead));
 
+        session()->flash('conversion', [
+            'event' => 'generate_lead',
+            'data' => [
+                'lead_source' => $lead->source,
+                'lead_product' => $lead->product_service,
+            ]
+        ]);
+
         return back()->with('success', 'Thank you! We will get in touch with you shortly.');
     }
 }

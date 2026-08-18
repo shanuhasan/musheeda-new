@@ -179,6 +179,19 @@
                     <input type="text" name="settings[adsense_publisher_id]" value="{{ $settings['adsense_publisher_id'] ?? '' }}" placeholder="e.g. ca-pub-XXXXXXXXXXXXXXXX" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 text-slate-800 outline-none transition focus:border-brand-500 active:border-brand-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white" />
                 </div>
                 
+                <div class="mb-5">
+                    <label class="mb-3 block text-sm font-medium text-slate-800 dark:text-white">Google Search Console Verification Code</label>
+                    <input type="text" name="settings[google_site_verification]" value="{{ $settings['google_site_verification'] ?? '' }}" placeholder="e.g. y0uRvEr1f1c4t10nC0d3" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 text-slate-800 outline-none transition focus:border-brand-500 active:border-brand-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white" />
+                </div>
+
+                <div class="mb-5">
+                    <label class="flex items-center gap-3">
+                        <input type="hidden" name="settings[cookie_consent_enabled]" value="0">
+                        <input type="checkbox" name="settings[cookie_consent_enabled]" value="1" {{ ($settings['cookie_consent_enabled'] ?? '1') == '1' ? 'checked' : '' }} class="h-5 w-5 rounded border-slate-300 text-brand-500 focus:ring-brand-500" />
+                        <span class="text-sm font-medium text-slate-800 dark:text-white">Enable Cookie Consent Banner (GDPR/CCPA Compliance)</span>
+                    </label>
+                </div>
+                
                 <button type="submit" class="inline-flex items-center justify-center gap-2.5 rounded-lg bg-brand-500 px-6 py-3 text-center font-medium text-white hover:bg-brand-600 lg:px-8 xl:px-10">
                     Save Changes
                 </button>
