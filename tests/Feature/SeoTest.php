@@ -14,7 +14,7 @@ class SeoTest extends TestCase
 
     public function test_seo_metadata_can_be_saved_to_post()
     {
-        \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'Admin']);
+        $this->seed(\Database\Seeders\RolesAndPermissionsSeeder::class);
         $user = User::factory()->create();
         $user->assignRole('Admin');
 

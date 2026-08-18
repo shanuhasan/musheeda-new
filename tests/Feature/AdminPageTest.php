@@ -34,7 +34,9 @@ class AdminPageTest extends TestCase
             'slug' => 'about-us',
             'content' => '<p>About us content</p>',
             'status' => 'published',
-            'meta_title' => 'About Us SEO',
+            'seo' => [
+                'meta_title' => 'About Us SEO',
+            ],
         ]);
 
         $response->assertRedirect(route('admin.pages.index'));

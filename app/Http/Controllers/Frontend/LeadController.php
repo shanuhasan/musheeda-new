@@ -43,7 +43,7 @@ class LeadController extends Controller
         ]));
 
         // Notify Admins
-        $admins = User::role('admin')->get(); // Assumes Spatie Permission is used
+        $admins = User::role('Admin')->get(); // Assumes Spatie Permission is used
         Notification::send($admins, new NewLeadNotification($lead));
 
         session()->flash('conversion', [

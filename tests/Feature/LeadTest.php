@@ -16,7 +16,9 @@ class LeadTest extends TestCase
     public function test_can_submit_lead()
     {
         Notification::fake();
-        \Spatie\Permission\Models\Role::create(['name' => 'admin']);
+        $this->seed(\Database\Seeders\RolesAndPermissionsSeeder::class);
+        $admin = \App\Models\User::factory()->create();
+        $admin->assignRole('Admin');
 
         $response = $this->post(route('leads.store'), [
             'name' => 'John Doe',
@@ -33,7 +35,7 @@ class LeadTest extends TestCase
         ]);
 
         Notification::assertSentTo(
-            \App\Models\User::role('admin')->get(),
+            \App\Models\User::role('Admin')->get(),
             NewLeadNotification::class
         );
     }
