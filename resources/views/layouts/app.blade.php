@@ -13,6 +13,8 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <x-tracking-scripts />
     </head>
     <body class="font-sans antialiased bg-slate-50 text-slate-800" x-data="{ mobileMenuOpen: false }">
         
@@ -214,8 +216,15 @@
             </div>
         </header>
 
+        <!-- Header Ad Slot -->
+        <div class="mt-20 pt-4">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <x-ad-slot placement="header" />
+            </div>
+        </div>
+
         <!-- Page Content -->
-        <main class="min-h-[60vh] pt-20">
+        <main class="min-h-[60vh] pt-4">
             {{ $slot ?? '' }}
             @yield('content')
         </main>
@@ -230,6 +239,13 @@
                 />
             </div>
         </section>
+
+        <!-- Footer Ad Slot -->
+        <div class="bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 pb-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <x-ad-slot placement="footer" />
+            </div>
+        </div>
 
         <!-- Footer -->
         <footer class="bg-slate-900 text-slate-300 relative overflow-hidden">

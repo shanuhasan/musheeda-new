@@ -66,6 +66,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('leads', \App\Http\Controllers\Admin\LeadController::class)->except(['create', 'store']);
 
     // Subscribers
+    Route::resource('advertisements', \App\Http\Controllers\Admin\AdvertisementController::class)->except(['show']);
     Route::get('subscribers/export', [\App\Http\Controllers\Admin\SubscriberController::class, 'export'])->name('subscribers.export');
     Route::resource('subscribers', \App\Http\Controllers\Admin\SubscriberController::class)->only(['index', 'destroy']);
 });

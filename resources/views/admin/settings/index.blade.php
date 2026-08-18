@@ -37,6 +37,9 @@
         <button @click="activeTab = 'socials'" :class="{'bg-brand-500 text-white': activeTab === 'socials', 'bg-white text-slate-700 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700': activeTab !== 'socials'}" class="rounded-lg px-4 py-2 font-medium transition-colors">
             Social Links
         </button>
+        <button @click="activeTab = 'integrations'" :class="{'bg-brand-500 text-white': activeTab === 'integrations', 'bg-white text-slate-700 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700': activeTab !== 'integrations'}" class="rounded-lg px-4 py-2 font-medium transition-colors">
+            Integrations
+        </button>
     </div>
 
     <!-- Forms -->
@@ -146,6 +149,34 @@
                 <div class="mb-5">
                     <label class="mb-3 block text-sm font-medium text-slate-800 dark:text-white">Instagram URL</label>
                     <input type="url" name="settings[social_instagram]" value="{{ $settings['social_instagram'] ?? '' }}" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 text-slate-800 outline-none transition focus:border-brand-500 active:border-brand-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white" />
+                </div>
+                
+                <button type="submit" class="inline-flex items-center justify-center gap-2.5 rounded-lg bg-brand-500 px-6 py-3 text-center font-medium text-white hover:bg-brand-600 lg:px-8 xl:px-10">
+                    Save Changes
+                </button>
+            </form>
+        </div>
+
+        <!-- Integrations Tab -->
+        <div x-show="activeTab === 'integrations'" class="p-6" style="display: none;">
+            <form action="{{ route('admin.settings.update') }}" method="POST">
+                @csrf
+                @method('PUT')
+                <input type="hidden" name="group" value="integrations">
+                
+                <div class="mb-5">
+                    <label class="mb-3 block text-sm font-medium text-slate-800 dark:text-white">Google Analytics ID</label>
+                    <input type="text" name="settings[google_analytics_id]" value="{{ $settings['google_analytics_id'] ?? '' }}" placeholder="e.g. G-XXXXXXXXXX" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 text-slate-800 outline-none transition focus:border-brand-500 active:border-brand-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white" />
+                </div>
+                
+                <div class="mb-5">
+                    <label class="mb-3 block text-sm font-medium text-slate-800 dark:text-white">Google Tag Manager ID</label>
+                    <input type="text" name="settings[google_tag_manager_id]" value="{{ $settings['google_tag_manager_id'] ?? '' }}" placeholder="e.g. GTM-XXXXXXX" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 text-slate-800 outline-none transition focus:border-brand-500 active:border-brand-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white" />
+                </div>
+                
+                <div class="mb-5">
+                    <label class="mb-3 block text-sm font-medium text-slate-800 dark:text-white">Google AdSense Publisher ID</label>
+                    <input type="text" name="settings[adsense_publisher_id]" value="{{ $settings['adsense_publisher_id'] ?? '' }}" placeholder="e.g. ca-pub-XXXXXXXXXXXXXXXX" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 text-slate-800 outline-none transition focus:border-brand-500 active:border-brand-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white" />
                 </div>
                 
                 <button type="submit" class="inline-flex items-center justify-center gap-2.5 rounded-lg bg-brand-500 px-6 py-3 text-center font-medium text-white hover:bg-brand-600 lg:px-8 xl:px-10">
