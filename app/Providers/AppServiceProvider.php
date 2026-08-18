@@ -19,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->bind(
+            \App\Contracts\NewsletterServiceInterface::class,
+            \App\Services\Newsletter\DatabaseNewsletterService::class
+        );
         $this->app->singleton(\App\Services\SeoService::class);
     }
 

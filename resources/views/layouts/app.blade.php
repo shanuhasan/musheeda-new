@@ -220,6 +220,17 @@
             @yield('content')
         </main>
 
+        <!-- Newsletter Subscription Section -->
+        <section class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <x-newsletter-form 
+                    source="global_footer" 
+                    title="Stay up to date" 
+                    description="Get the latest news, articles, and resources delivered straight to your inbox every month."
+                />
+            </div>
+        </section>
+
         <!-- Footer -->
         <footer class="bg-slate-900 text-slate-300 relative overflow-hidden">
             <!-- Footer Gradients -->

@@ -64,12 +64,21 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Leads
     Route::resource('leads', \App\Http\Controllers\Admin\LeadController::class)->except(['create', 'store']);
+
+    // Subscribers
+    Route::get('subscribers/export', [\App\Http\Controllers\Admin\SubscriberController::class, 'export'])->name('subscribers.export');
+    Route::resource('subscribers', \App\Http\Controllers\Admin\SubscriberController::class)->only(['index', 'destroy']);
 });
 
 use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\LeadController as FrontendLeadController;
+use App\Http\Controllers\Frontend\NewsletterController;
 
 Route::post('/leads', [FrontendLeadController::class, 'store'])->name('leads.store')->middleware('throttle:5,1');
+
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe')->middleware('throttle:3,1');
+Route::get('/newsletter/verify/{token}', [NewsletterController::class, 'verify'])->name('newsletter.verify');
+Route::get('/newsletter/unsubscribe/{token}', [NewsletterController::class, 'unsubscribe'])->name('newsletter.unsubscribe');
 
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/category/{slug}', [BlogController::class, 'category'])->name('blog.category');
