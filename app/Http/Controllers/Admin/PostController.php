@@ -21,7 +21,9 @@ class PostController extends Controller
     {
         $categories = Category::all();
         $tags = Tag::all();
-        return view('admin.posts.create', compact('categories', 'tags'));
+        $users = \App\Models\User::all();
+        $posts = Post::latest()->get();
+        return view('admin.posts.create', compact('categories', 'tags', 'users', 'posts'));
     }
 
     public function store(Request $request)
@@ -42,12 +44,26 @@ class PostController extends Controller
             'tags' => 'array',
             'tags.*' => 'exists:tags,id',
             'featured_image' => 'nullable|image|max:2048',
+            'featured_image_alt' => 'nullable|string|max:255',
             'seo' => 'nullable|array',
+            'author_id' => 'required|exists:users,id',
+            'show_toc' => 'boolean',
+            'faqs' => 'nullable|array',
+            'faqs.*.question' => 'required_with:faqs|string|max:255',
+            'faqs.*.answer' => 'required_with:faqs|string',
+            'related_posts' => 'nullable|array',
+            'related_posts.*' => 'exists:posts,id',
         ]);
 
         $validated['slug'] = !empty($validated['slug']) ? Str::slug($validated['slug']) : Str::slug($validated['title']);
-        $validated['author_id'] = auth()->id();
+        $validated['author_id'] = $request->input('author_id', auth()->id());
         $validated['is_featured'] = $request->has('is_featured');
+        $validated['show_toc'] = $request->has('show_toc');
+        if ($request->has('faqs')) {
+            $validated['faqs'] = array_values(array_filter($request->input('faqs'), function($faq) {
+                return !empty($faq['question']) && !empty($faq['answer']);
+            }));
+        }
         
         // Calculate reading time roughly if not provided
         if (empty($validated['reading_time_minutes'])) {
@@ -63,13 +79,20 @@ class PostController extends Controller
         if (isset($validated['tags'])) {
             $post->tags()->sync($validated['tags']);
         }
+        if (isset($validated['related_posts'])) {
+            $post->relatedPosts()->sync($validated['related_posts']);
+        }
 
         if ($request->has('seo') && is_array($request->seo)) {
             $post->syncSeo($request->seo);
         }
 
         if ($request->hasFile('featured_image')) {
-            $post->addMediaFromRequest('featured_image')->toMediaCollection('featured_image');
+            $media = $post->addMediaFromRequest('featured_image')->toMediaCollection('featured_image');
+            if ($request->filled('featured_image_alt')) {
+                $media->setCustomProperty('alt', $request->input('featured_image_alt'));
+                $media->save();
+            }
         }
 
         return redirect()->route('admin.posts.index')->with('success', 'Post created successfully.');
@@ -79,7 +102,9 @@ class PostController extends Controller
     {
         $categories = Category::all();
         $tags = Tag::all();
-        return view('admin.posts.edit', compact('post', 'categories', 'tags'));
+        $users = \App\Models\User::all();
+        $posts = Post::where('id', '!=', $post->id)->latest()->get();
+        return view('admin.posts.edit', compact('post', 'categories', 'tags', 'users', 'posts'));
     }
 
     public function update(Request $request, Post $post)
@@ -100,11 +125,25 @@ class PostController extends Controller
             'tags' => 'array',
             'tags.*' => 'exists:tags,id',
             'featured_image' => 'nullable|image|max:2048',
+            'featured_image_alt' => 'nullable|string|max:255',
             'seo' => 'nullable|array',
+            'author_id' => 'required|exists:users,id',
+            'show_toc' => 'boolean',
+            'faqs' => 'nullable|array',
+            'faqs.*.question' => 'required_with:faqs|string|max:255',
+            'faqs.*.answer' => 'required_with:faqs|string',
+            'related_posts' => 'nullable|array',
+            'related_posts.*' => 'exists:posts,id',
         ]);
 
         $validated['slug'] = !empty($validated['slug']) ? Str::slug($validated['slug']) : Str::slug($validated['title']);
         $validated['is_featured'] = $request->has('is_featured');
+        $validated['show_toc'] = $request->has('show_toc');
+        if ($request->has('faqs')) {
+            $validated['faqs'] = array_values(array_filter($request->input('faqs'), function($faq) {
+                return !empty($faq['question']) && !empty($faq['answer']);
+            }));
+        }
         
         // Calculate reading time roughly if not provided
         if (empty($validated['reading_time_minutes'])) {
@@ -126,13 +165,29 @@ class PostController extends Controller
             $post->tags()->detach();
         }
 
+        if (isset($validated['related_posts'])) {
+            $post->relatedPosts()->sync($validated['related_posts']);
+        } else {
+            $post->relatedPosts()->detach();
+        }
+
         if ($request->has('seo') && is_array($request->seo)) {
             $post->syncSeo($request->seo);
         }
 
         if ($request->hasFile('featured_image')) {
             $post->clearMediaCollection('featured_image');
-            $post->addMediaFromRequest('featured_image')->toMediaCollection('featured_image');
+            $media = $post->addMediaFromRequest('featured_image')->toMediaCollection('featured_image');
+            if ($request->filled('featured_image_alt')) {
+                $media->setCustomProperty('alt', $request->input('featured_image_alt'));
+                $media->save();
+            }
+        } elseif ($request->filled('featured_image_alt')) {
+            $media = $post->getFirstMedia('featured_image');
+            if ($media) {
+                $media->setCustomProperty('alt', $request->input('featured_image_alt'));
+                $media->save();
+            }
         }
 
         return redirect()->route('admin.posts.index')->with('success', 'Post updated successfully.');

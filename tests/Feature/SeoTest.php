@@ -27,7 +27,8 @@ class SeoTest extends TestCase
                 'meta_title' => 'Custom Meta Title',
                 'meta_description' => 'Custom Meta Description',
                 'robots' => 'noindex, nofollow'
-            ]
+            ],
+            'author_id' => $user->id,
         ];
 
         $response = $this->actingAs($user)->post(route('admin.posts.store'), $postData);

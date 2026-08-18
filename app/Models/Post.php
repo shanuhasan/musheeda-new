@@ -26,12 +26,21 @@ class Post extends Model implements HasMedia
         'meta_description',
         'author_id',
         'published_at',
+        'show_toc',
+        'faqs',
     ];
 
     protected $casts = [
         'is_featured' => 'boolean',
+        'show_toc' => 'boolean',
+        'faqs' => 'array',
         'published_at' => 'datetime',
     ];
+
+    public function relatedPosts()
+    {
+        return $this->belongsToMany(Post::class, 'post_related', 'post_id', 'related_post_id');
+    }
 
     public function author()
     {

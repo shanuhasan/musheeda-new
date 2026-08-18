@@ -12,6 +12,7 @@ class SeoMetadata extends Model
         'meta_title', 
         'meta_description', 
         'meta_keywords', 
+        'focus_keyword', 
         'canonical_url',
         'robots', 
         'og_title', 

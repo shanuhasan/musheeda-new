@@ -42,16 +42,19 @@ class BlogController extends Controller
         // Sanitize rich content before passing to view to prevent XSS
         $post->sanitized_content = Purifier::clean($post->content);
 
-        // Fetch related posts (same categories, exclude current)
-        $categoryIds = $post->categories->pluck('id');
-        $relatedPosts = Post::published()
-                            ->where('id', '!=', $post->id)
-                            ->whereHas('categories', function($q) use ($categoryIds) {
-                                $q->whereIn('categories.id', $categoryIds);
-                            })
-                            ->latest('published_at')
-                            ->take(3)
-                            ->get();
+        // Fetch related posts (first try explicit relation, then fallback to categories)
+        $relatedPosts = $post->relatedPosts()->published()->latest('published_at')->take(3)->get();
+        if ($relatedPosts->isEmpty()) {
+            $categoryIds = $post->categories->pluck('id');
+            $relatedPosts = Post::published()
+                                ->where('id', '!=', $post->id)
+                                ->whereHas('categories', function($q) use ($categoryIds) {
+                                    $q->whereIn('categories.id', $categoryIds);
+                                })
+                                ->latest('published_at')
+                                ->take(3)
+                                ->get();
+        }
 
         return view('frontend.blog.show', compact('post', 'relatedPosts'))->with('seoModel', $post);
     }

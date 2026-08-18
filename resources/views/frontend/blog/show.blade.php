@@ -64,9 +64,35 @@
 
     <!-- Content Area -->
     <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-16">
-        <div class="prose prose-lg prose-slate dark:prose-invert max-w-none prose-a:text-brand-600 hover:prose-a:text-brand-500 dark:prose-a:text-brand-400 dark:hover:prose-a:text-brand-300 prose-img:rounded-xl">
+        @if($post->show_toc)
+            <div class="mb-10 bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-6 border border-slate-100 dark:border-slate-800" id="toc-container" style="display: none;">
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Table of Contents</h3>
+                <nav id="toc-nav" class="space-y-2 text-sm font-medium"></nav>
+            </div>
+        @endif
+
+        <div class="prose prose-lg prose-slate dark:prose-invert max-w-none prose-a:text-brand-600 hover:prose-a:text-brand-500 dark:prose-a:text-brand-400 dark:hover:prose-a:text-brand-300 prose-img:rounded-xl" id="article-content">
             {!! $post->sanitized_content !!}
         </div>
+        
+        @if(!empty($post->faqs) && is_array($post->faqs) && count($post->faqs) > 0)
+            <div class="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800">
+                <h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">Frequently Asked Questions</h2>
+                <div class="space-y-4">
+                    @foreach($post->faqs as $index => $faq)
+                        <div class="bg-slate-50 dark:bg-slate-800/30 rounded-2xl p-6 border border-slate-100 dark:border-slate-800" x-data="{ open: false }">
+                            <button @click="open = !open" class="flex justify-between items-center w-full text-left font-bold text-slate-900 dark:text-white focus:outline-none">
+                                <span>{{ $faq['question'] ?? '' }}</span>
+                                <svg :class="{'rotate-180': open}" class="w-5 h-5 text-slate-500 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-collapse class="mt-4 text-slate-600 dark:text-slate-300 prose prose-slate dark:prose-invert max-w-none">
+                                {!! nl2br(e($faq['answer'] ?? '')) !!}
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
         
         <!-- Tags -->
         @if($post->tags->isNotEmpty())
@@ -118,3 +144,63 @@
     @endif
 </article>
 @endsection
+
+@push('scripts')
+    @if($post->show_toc)
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const content = document.getElementById('article-content');
+            const headings = content.querySelectorAll('h2, h3');
+            const tocContainer = document.getElementById('toc-container');
+            const tocNav = document.getElementById('toc-nav');
+            
+            if (headings.length > 0) {
+                tocContainer.style.display = 'block';
+                const ul = document.createElement('ul');
+                ul.className = 'space-y-2';
+                
+                headings.forEach((heading, index) => {
+                    if (!heading.id) {
+                        heading.id = 'heading-' + index;
+                    }
+                    
+                    const li = document.createElement('li');
+                    li.className = heading.tagName === 'H3' ? 'ml-4 text-slate-600 dark:text-slate-400' : 'text-slate-800 dark:text-slate-200';
+                    
+                    const a = document.createElement('a');
+                    a.href = '#' + heading.id;
+                    a.className = 'hover:text-brand-600 dark:hover:text-brand-400 transition-colors';
+                    a.textContent = heading.textContent;
+                    
+                    li.appendChild(a);
+                    ul.appendChild(li);
+                });
+                
+                tocNav.appendChild(ul);
+            }
+        });
+    </script>
+    @endif
+
+    @if(!empty($post->faqs) && is_array($post->faqs) && count($post->faqs) > 0)
+        @php
+            $faqSchema = [
+                '@context' => 'https://schema.org',
+                '@type' => 'FAQPage',
+                'mainEntity' => collect($post->faqs)->map(function($faq) {
+                    return [
+                        '@type' => 'Question',
+                        'name' => $faq['question'] ?? '',
+                        'acceptedAnswer' => [
+                            '@type' => 'Answer',
+                            'text' => $faq['answer'] ?? ''
+                        ]
+                    ];
+                })->toArray()
+            ];
+        @endphp
+        <script type="application/ld+json">
+            {!! json_encode($faqSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+        </script>
+    @endif
+@endpush

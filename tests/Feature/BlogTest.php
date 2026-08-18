@@ -25,6 +25,7 @@ class BlogTest extends TestCase
             'content' => '<p>This is a test post.</p>',
             'status' => 'published',
             'published_at' => now(),
+            'author_id' => $admin->id,
         ]);
 
         $response->assertRedirect(route('admin.posts.index'));
