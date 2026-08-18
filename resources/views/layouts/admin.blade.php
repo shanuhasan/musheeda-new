@@ -261,6 +261,20 @@
                                 </a>
                             </li>
 
+                            <!-- Activity Logs -->
+                            <li>
+                                <a
+                                    href="{{ route('admin.activity-logs.index') }}"
+                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
+                                    :class="request()->routeIs('admin.activity-logs.*') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
+                                >
+                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Activity Logs</span>
+                                </a>
+                            </li>
+
                             <!-- Redirects -->
                             <li>
                                 <a

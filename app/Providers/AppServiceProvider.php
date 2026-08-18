@@ -28,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\Search\DatabaseSearchService::class
         );
         $this->app->singleton(\App\Services\SeoService::class);
+        $this->app->singleton(\App\Services\ActivityLogger::class);
     }
 
     /**
@@ -62,5 +63,32 @@ class AppServiceProvider extends ServiceProvider
         Product::deleted($clearSitemap);
         Service::saved($clearSitemap);
         Service::deleted($clearSitemap);
+
+        // Activity Logging Observers
+        $observedModels = [
+            \App\Models\Page::class,
+            \App\Models\Post::class,
+            \App\Models\Product::class,
+            \App\Models\Service::class,
+            \App\Models\Setting::class,
+            \Spatie\Permission\Models\Role::class,
+            \Spatie\Permission\Models\Permission::class,
+        ];
+
+        foreach ($observedModels as $modelClass) {
+            if (class_exists($modelClass)) {
+                $modelClass::observe(\App\Observers\ActivityLogObserver::class);
+            }
+        }
+
+        \Illuminate\Support\Facades\Event::listen(function (\Illuminate\Auth\Events\Login $event) {
+            log_activity('login', $event->user);
+        });
+
+        \Illuminate\Support\Facades\Event::listen(function (\Illuminate\Auth\Events\Logout $event) {
+            if ($event->user) {
+                log_activity('logout', $event->user);
+            }
+        });
     }
 }

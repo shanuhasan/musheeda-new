@@ -15,7 +15,12 @@ class ActivityLog extends Model
         'model_type',
         'model_id',
         'description',
+        'metadata',
         'ip_address',
+    ];
+
+    protected $casts = [
+        'metadata' => 'array',
     ];
 
     public function user()

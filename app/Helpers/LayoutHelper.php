@@ -30,3 +30,19 @@ if (!function_exists('menu')) {
         return App::make(NavigationService::class)->getMenu($location);
     }
 }
+
+if (!function_exists('log_activity')) {
+    /**
+     * Helper to easily log activities.
+     *
+     * @param string $action
+     * @param mixed $subject
+     * @param array $metadata
+     * @param string|null $description
+     * @return \App\Models\ActivityLog
+     */
+    function log_activity(string $action, $subject = null, array $metadata = [], ?string $description = null)
+    {
+        return app(\App\Services\ActivityLogger::class)->log($action, $subject, $metadata, $description);
+    }
+}

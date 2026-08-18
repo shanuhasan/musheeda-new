@@ -50,6 +50,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Redirects
     Route::resource('redirects', \App\Http\Controllers\Admin\RedirectController::class)->except(['show'])->middleware('can:manage_settings');
 
+    // Activity Logs
+    Route::resource('activity-logs', \App\Http\Controllers\Admin\ActivityLogController::class)->only(['index', 'show'])->middleware('can:manage_settings');
+
     // Services & Products
     Route::resource('services', \App\Http\Controllers\Admin\ServiceController::class)->except(['show'])->middleware('can:manage_products');
     Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->except(['show'])->middleware('can:manage_products');
