@@ -25,6 +25,7 @@ class Product extends Model
         'documentation_url',
         'cta',
         'status',
+        'download_file_path',
     ];
 
     protected $casts = [

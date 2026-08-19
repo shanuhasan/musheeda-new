@@ -52,16 +52,19 @@ class EbookPurchaseMail extends Mailable
      */
     public function attachments(): array
     {
-        // For testing, we will attach a dummy PDF file from public or storage.
-        // If the file doesn't exist, it will skip.
-        $pdfPath = storage_path('app/ebooks/kids_learning_ebook.pdf');
-        
-        if (file_exists($pdfPath)) {
-            return [
-                Attachment::fromPath($pdfPath)
-                        ->as('Kids_Learning_EBook.pdf')
-                        ->withMime('application/pdf'),
-            ];
+        $slug = $this->order->product_name; // We saved the slug in this field
+        $product = \App\Models\Product::where('slug', $slug)->first();
+
+        if ($product && $product->download_file_path) {
+            $pdfPath = storage_path($product->download_file_path);
+            
+            if (file_exists($pdfPath)) {
+                return [
+                    Attachment::fromPath($pdfPath)
+                            ->as(str_replace(' ', '_', $product->name) . '.pdf')
+                            ->withMime('application/pdf'),
+                ];
+            }
         }
 
         return [];

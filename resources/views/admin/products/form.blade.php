@@ -107,6 +107,13 @@
                 <label class="mb-2.5 block text-sm font-medium text-slate-800 dark:text-white/90">Images (JSON Array of URLs)</label>
                 <textarea name="images" rows="3" placeholder='["url1", "url2"]' class="font-mono w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-900 transition-all">{{ old('images', is_array($product->images) ? json_encode($product->images) : $product->images) }}</textarea>
             </div>
+            <div class="mt-4">
+                <label class="mb-2.5 block text-sm font-medium text-slate-800 dark:text-white/90">E-Book PDF File (for digital download)</label>
+                <input type="file" name="download_file" accept=".pdf,.zip" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-900 transition-all">
+                @if($product->download_file_path)
+                    <p class="mt-2 text-sm text-slate-500">Current file: {{ $product->download_file_path }}</p>
+                @endif
+            </div>
         </div>
 
         <button type="submit" class="w-full inline-flex items-center justify-center gap-2.5 rounded-lg bg-brand-500 px-4 py-3 text-center font-medium text-white hover:bg-brand-600 transition-all">

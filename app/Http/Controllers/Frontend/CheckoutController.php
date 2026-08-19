@@ -24,14 +24,14 @@ class CheckoutController extends Controller
 
     public function index($product)
     {
-        if ($product !== 'kids-learning-ebook') {
+        $productDetails = \App\Models\Product::where('slug', $product)->first();
+        if (!$productDetails) {
             abort(404);
         }
 
-        // Set static price for the eBook (e.g. 99 INR for testing)
-        $price = 99;
+        $price = $productDetails->price;
         
-        return view('frontend.checkout.index', compact('product', 'price'));
+        return view('frontend.checkout.index', compact('product', 'productDetails', 'price'));
     }
 
     public function process(Request $request)
@@ -43,7 +43,12 @@ class CheckoutController extends Controller
             'product' => 'required|string'
         ]);
 
-        $amount = 99; // 99 INR
+        $productDetails = \App\Models\Product::where('slug', $validated['product'])->first();
+        if (!$productDetails) {
+            abort(404);
+        }
+
+        $amount = $productDetails->price;
 
         $api = new Api($this->razorpayId, $this->razorpaySecret);
 
@@ -79,7 +84,10 @@ class CheckoutController extends Controller
             'razorpayId' => $this->razorpayId,
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'phone' => $validated['phone'] ?? ''
+            'phone' => $validated['phone'] ?? '',
+            'productName' => $productDetails->name,
+            'productDescription' => $productDetails->short_description,
+            'productSlug' => $validated['product']
         ]);
     }
 
@@ -117,7 +125,17 @@ class CheckoutController extends Controller
 
             return redirect()->route('checkout.success')->with('success', 'Payment successful! Your eBook has been emailed to you.');
         } else {
-            return redirect()->route('checkout.index', 'kids-learning-ebook')->withError('Payment failed or signature mismatch.');
+            // For failed payment, try to extract product slug from order if available
+            $order = Order::where('razorpay_order_id', $request->razorpay_order_id)->first();
+            $slug = 'kids-learning-ebook';
+            if ($order) {
+                // Find slug by product name
+                $product = \App\Models\Product::where('name', $order->product_name)->first();
+                if ($product) {
+                    $slug = $product->slug;
+                }
+            }
+            return redirect()->route('checkout.index', $slug)->withError('Payment failed or signature mismatch.');
         }
     }
 

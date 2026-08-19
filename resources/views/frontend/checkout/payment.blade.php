@@ -29,7 +29,7 @@
         "amount": "{{ $amount }}", 
         "currency": "INR",
         "name": "Musheeda Solutions",
-        "description": "Kids Learning E-Book",
+        "description": "{{ $productName }}",
         "image": "{{ asset('img/logo.png') }}",
         "order_id": "{{ $razorpayOrderId }}",
         "handler": function (response){
@@ -48,7 +48,7 @@
         },
         "modal": {
             "ondismiss": function(){
-                window.location.href = "{{ route('checkout.index', 'kids-learning-ebook') }}";
+                window.location.href = "{{ route('checkout.index', $productSlug) }}";
             }
         }
     };

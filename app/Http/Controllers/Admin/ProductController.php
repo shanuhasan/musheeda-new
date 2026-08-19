@@ -30,6 +30,11 @@ class ProductController extends Controller
         
         $product = Product::create($validated);
         
+        if ($request->hasFile('download_file')) {
+            $path = $request->file('download_file')->store('ebooks');
+            $product->update(['download_file_path' => 'app/' . $path]);
+        }
+        
         if ($request->has('seo')) {
             $product->syncSeo($request->input('seo'));
         }
@@ -50,6 +55,11 @@ class ProductController extends Controller
         }
 
         $product->update($validated);
+        
+        if ($request->hasFile('download_file')) {
+            $path = $request->file('download_file')->store('ebooks');
+            $product->update(['download_file_path' => 'app/' . $path]);
+        }
 
         if ($request->has('seo')) {
             $product->syncSeo($request->input('seo'));
@@ -80,6 +90,7 @@ class ProductController extends Controller
             'documentation_url' => 'nullable|url|max:255',
             'cta' => 'nullable|array',
             'status' => 'required|in:active,inactive,discontinued',
+            'download_file' => 'nullable|file|mimes:pdf,zip|max:51200',
         ]);
     }
 }

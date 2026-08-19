@@ -6,7 +6,7 @@
         
         <div class="text-center mb-10">
             <h1 class="text-3xl font-extrabold text-slate-900 sm:text-4xl">Secure Checkout</h1>
-            <p class="mt-4 text-lg text-slate-500">You are about to purchase the Kids Learning E-Book.</p>
+            <p class="mt-4 text-lg text-slate-500">You are about to purchase the {{ $productDetails->name }}.</p>
         </div>
 
         <div class="bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-100">
@@ -17,10 +17,10 @@
                     
                     <div class="flex items-start gap-4 mb-6 pb-6 border-b border-slate-700">
                         <div class="w-16 h-20 bg-slate-800 rounded-lg flex items-center justify-center overflow-hidden shrink-0">
-                            <img src="{{ asset('storage/kids_ebook_hero.jpg') }}" class="object-cover h-full" alt="E-Book Cover">
+                            <img src="{{ asset(is_array($productDetails->images) && count($productDetails->images) > 0 ? $productDetails->images[0] : 'img/placeholder.jpg') }}" class="object-cover h-full" alt="E-Book Cover">
                         </div>
                         <div>
-                            <h4 class="font-bold text-white text-sm">Kids Learning E-Book</h4>
+                            <h4 class="font-bold text-white text-sm">{{ $productDetails->name }}</h4>
                             <p class="text-slate-400 text-xs mt-1">Digital PDF Download</p>
                         </div>
                     </div>
