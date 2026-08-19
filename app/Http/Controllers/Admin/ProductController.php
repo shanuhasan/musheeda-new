@@ -94,6 +94,7 @@ class ProductController extends Controller
     {
         return $request->validate([
             'name' => 'required|string|max:255',
+            'type' => 'required|in:software,ebook,service,other',
             'slug' => 'nullable|string|max:255|unique:products,slug,' . $id,
             'short_description' => 'nullable|string',
             'description' => 'nullable|string',

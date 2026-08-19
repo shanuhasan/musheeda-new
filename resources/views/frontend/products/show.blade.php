@@ -74,8 +74,14 @@
                         <div class="flex flex-col sm:flex-row gap-4">
                             @php
                                 $cta = is_array($product->cta) ? $product->cta : [];
-                                $ctaUrl = $cta['url'] ?? '/contact';
-                                $ctaText = $cta['title'] ?? 'Get Started';
+                                
+                                if ($product->type === 'ebook') {
+                                    $ctaUrl = url('/checkout/' . $product->slug);
+                                    $ctaText = 'Buy Now';
+                                } else {
+                                    $ctaUrl = $cta['url'] ?? '/contact';
+                                    $ctaText = $cta['title'] ?? 'Get Started';
+                                }
                             @endphp
                             
                             @if($product->status != 'discontinued')

@@ -4,14 +4,25 @@
             <h3 class="mb-4 text-lg font-semibold text-slate-800 dark:text-white/90">General Information</h3>
             
             <div class="space-y-4">
-                <div>
-                    <label class="mb-2.5 block text-sm font-medium text-slate-800 dark:text-white/90">Name <span class="text-error-500">*</span></label>
-                    <input type="text" name="name" value="{{ old('name', $product->name) }}" required class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-900 transition-all">
-                    @error('name') <span class="text-sm text-error-500 mt-1">{{ $message }}</span> @enderror
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="mb-2.5 block text-sm font-medium text-slate-800 dark:text-white/90">Product Name <span class="text-error-500">*</span></label>
+                        <input type="text" name="name" value="{{ old('name', $product->name) }}" required class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-900 transition-all">
+                        @error('name') <span class="text-sm text-error-500 mt-1">{{ $message }}</span> @enderror
+                    </div>
+                    <div>
+                        <label class="mb-2.5 block text-sm font-medium text-slate-800 dark:text-white/90">Product Type <span class="text-error-500">*</span></label>
+                        <select name="type" required class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-900 transition-all">
+                            <option value="software" {{ old('type', $product->type ?? 'software') === 'software' ? 'selected' : '' }}>Software</option>
+                            <option value="ebook" {{ old('type', $product->type ?? 'software') === 'ebook' ? 'selected' : '' }}>E-Book</option>
+                            <option value="service" {{ old('type', $product->type ?? 'software') === 'service' ? 'selected' : '' }}>Service</option>
+                            <option value="other" {{ old('type', $product->type ?? 'software') === 'other' ? 'selected' : '' }}>Other</option>
+                        </select>
+                        @error('type') <span class="text-sm text-error-500 mt-1">{{ $message }}</span> @enderror
+                    </div>
                 </div>
-
                 <div>
-                    <label class="mb-2.5 block text-sm font-medium text-slate-800 dark:text-white/90">Slug</label>
+                    <label class="mb-2.5 block text-sm font-medium text-slate-800 dark:text-white/90">Slug (URL)</label>
                     <input type="text" name="slug" value="{{ old('slug', $product->slug) }}" placeholder="Leave blank to auto-generate" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-900 transition-all">
                     @error('slug') <span class="text-sm text-error-500 mt-1">{{ $message }}</span> @enderror
                 </div>
