@@ -20,7 +20,7 @@
                     
                     @if(count($images) > 0)
                         <div class="rounded-3xl overflow-hidden shadow-2xl shadow-gray-200/50 border border-gray-100 bg-gray-50 aspect-video flex items-center justify-center relative group">
-                            <img src="{{ $images[0] }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+                            <img src="{{ asset($images[0]) }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
                             
                             @if(count($images) > 1)
                                 <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
@@ -35,7 +35,7 @@
                             <div class="flex gap-4 mt-4 overflow-x-auto pb-2 snap-x">
                                 @foreach($images as $idx => $img)
                                     <div class="w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden border-2 {{ $idx === 0 ? 'border-brand-500' : 'border-transparent' }} cursor-pointer snap-start">
-                                        <img src="{{ $img }}" class="w-full h-full object-cover">
+                                        <img src="{{ asset($img) }}" class="w-full h-full object-cover">
                                     </div>
                                 @endforeach
                             </div>
@@ -60,7 +60,7 @@
                     <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100">
                         <div class="flex items-end gap-3 mb-6">
                             @if($product->price)
-                                <span class="text-4xl font-black text-gray-900">${{ number_format($product->price, 2) }}</span>
+                                <span class="text-4xl font-black text-gray-900">₹{{ number_format($product->price, 2) }}</span>
                                 @if($product->pricing_type)
                                     <span class="text-lg text-gray-500 mb-1 capitalize">/ {{ $product->pricing_type }}</span>
                                 @endif

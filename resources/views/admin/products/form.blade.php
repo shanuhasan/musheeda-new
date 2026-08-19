@@ -74,7 +74,7 @@
             
             <div class="space-y-4">
                 <div>
-                    <label class="mb-2.5 block text-sm font-medium text-slate-800 dark:text-white/90">Price</label>
+                    <label class="mb-2.5 block text-sm font-medium text-slate-800 dark:text-white/90">Price (₹)</label>
                     <input type="number" step="0.01" name="price" value="{{ old('price', $product->price) }}" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-900 transition-all">
                 </div>
                 <div>

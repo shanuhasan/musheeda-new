@@ -23,6 +23,7 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        $this->decodeJsonFields($request);
         $validated = $this->validateProduct($request);
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['name']);
@@ -56,6 +57,7 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
+        $this->decodeJsonFields($request);
         $validated = $this->validateProduct($request, $product->id);
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['name']);
@@ -107,5 +109,20 @@ class ProductController extends Controller
             'download_file' => 'nullable|file|mimes:pdf,zip|max:51200',
             'image_upload' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
         ]);
+    }
+
+    private function decodeJsonFields(Request $request)
+    {
+        $fields = ['images', 'features', 'benefits', 'cta'];
+        foreach ($fields as $field) {
+            if ($request->filled($field) && is_string($request->input($field))) {
+                $decoded = json_decode($request->input($field), true);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    $request->merge([$field => $decoded]);
+                } else {
+                    $request->merge([$field => []]);
+                }
+            }
+        }
     }
 }

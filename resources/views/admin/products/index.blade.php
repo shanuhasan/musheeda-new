@@ -30,13 +30,20 @@
                 <tr>
                     <td class="border-b border-slate-200 px-4 py-5 pl-5 dark:border-slate-800">
                         <div class="flex items-center gap-3">
+                            @if(is_array($product->images) && count($product->images) > 0)
+                                <img src="{{ asset($product->images[0]) }}" alt="{{ $product->name }}" class="h-10 w-10 rounded-md object-cover border border-slate-200 dark:border-slate-700">
+                            @else
+                                <div class="h-10 w-10 rounded-md bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 border border-slate-200 dark:border-slate-700">
+                                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                </div>
+                            @endif
                             <p class="text-slate-800 dark:text-white font-medium">
                                 {{ $product->name }}
                             </p>
                         </div>
                     </td>
                     <td class="border-b border-slate-200 px-4 py-5 dark:border-slate-800 text-slate-500">
-                        {{ $product->price ? '$' . number_format($product->price, 2) : 'Custom' }}
+                        {{ $product->price ? '₹' . number_format($product->price, 2) : 'Custom' }}
                     </td>
                     <td class="border-b border-slate-200 px-4 py-5 dark:border-slate-800">
                         @if($product->status == 'active')
