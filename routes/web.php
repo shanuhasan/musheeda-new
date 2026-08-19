@@ -99,4 +99,10 @@ Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
 Route::get('/landing/{slug}', [FrontendLandingPageController::class, 'show'])->name('landing.show');
 
 // Fallback Route for Dynamic Pages (Must be at the very bottom of the file)
+// Checkout & Razorpay Routes
+Route::get('/checkout/{product}', [App\Http\Controllers\Frontend\CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout/process', [App\Http\Controllers\Frontend\CheckoutController::class, 'process'])->name('checkout.process');
+Route::post('/checkout/callback', [App\Http\Controllers\Frontend\CheckoutController::class, 'callback'])->name('checkout.callback');
+Route::get('/checkout-success', [App\Http\Controllers\Frontend\CheckoutController::class, 'success'])->name('checkout.success');
+
 Route::get('/{slug}', [FrontendPageController::class, 'show'])->name('page.show')->where('slug', '.*');

@@ -11,6 +11,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
         "mews/purifier": "^3.4",
+        "razorpay/razorpay": "^2.9",
         "spatie/laravel-medialibrary": "^11.23",
         "spatie/laravel-permission": "^6.25"
     },
