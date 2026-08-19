@@ -19,27 +19,29 @@
                     @endphp
                     
                     @if(count($images) > 0)
-                        <div class="rounded-3xl overflow-hidden shadow-2xl shadow-gray-200/50 border border-gray-100 bg-gray-50 aspect-video flex items-center justify-center relative group">
-                            <img src="{{ asset($images[0]) }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+                        <div x-data="{ activeImage: '{{ asset($images[0]) }}' }">
+                            <div class="rounded-3xl overflow-hidden shadow-2xl shadow-gray-200/50 border border-gray-100 bg-gray-50 aspect-video flex items-center justify-center relative group">
+                                <img :src="activeImage" alt="{{ $product->name }}" class="w-full h-full object-cover">
+                                
+                                @if(count($images) > 1)
+                                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                                        @foreach($images as $idx => $img)
+                                            <div class="w-2.5 h-2.5 rounded-full shadow cursor-pointer" :class="activeImage === '{{ asset($img) }}' ? 'bg-white' : 'bg-white/50'" @click="activeImage = '{{ asset($img) }}'"></div>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
                             
                             @if(count($images) > 1)
-                                <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                                <div class="flex gap-4 mt-4 overflow-x-auto pb-2 snap-x">
                                     @foreach($images as $idx => $img)
-                                        <div class="w-2.5 h-2.5 rounded-full {{ $idx === 0 ? 'bg-white' : 'bg-white/50' }} shadow"></div>
+                                        <div @click="activeImage = '{{ asset($img) }}'" class="w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden border-2 cursor-pointer snap-start transition-colors duration-200" :class="activeImage === '{{ asset($img) }}' ? 'border-brand-500' : 'border-transparent'">
+                                            <img src="{{ asset($img) }}" class="w-full h-full object-cover">
+                                        </div>
                                     @endforeach
                                 </div>
                             @endif
                         </div>
-                        
-                        @if(count($images) > 1)
-                            <div class="flex gap-4 mt-4 overflow-x-auto pb-2 snap-x">
-                                @foreach($images as $idx => $img)
-                                    <div class="w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden border-2 {{ $idx === 0 ? 'border-brand-500' : 'border-transparent' }} cursor-pointer snap-start">
-                                        <img src="{{ asset($img) }}" class="w-full h-full object-cover">
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endif
                     @else
                         <div class="rounded-3xl shadow-lg border border-gray-100 bg-gray-50 aspect-video flex items-center justify-center">
                             <svg class="w-24 h-24 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
