@@ -68,7 +68,9 @@ class PageService
 
             $this->saveSeoMetadata($page, $data);
 
-            if (isset($data['featured_image'])) {
+            if (!empty($data['remove_featured_image']) && $data['remove_featured_image'] == '1') {
+                $page->clearMediaCollection('featured_image');
+            } elseif (isset($data['featured_image'])) {
                 $page->clearMediaCollection('featured_image');
                 $page->addMedia($data['featured_image'])->toMediaCollection('featured_image');
             } elseif (isset($data['featured_image_existing_id'])) {

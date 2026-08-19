@@ -25,11 +25,11 @@
         init() {
             let titleInput = document.querySelector('input[name=\'title\']');
             if (titleInput) {
-                titleInput.addEventListener('input', (e) => { this.postTitle = e.target.value; });
+                titleInput.addEventListener('input', function(e) { this.postTitle = e.target.value; }.bind(this));
             }
             let slugInput = document.querySelector('input[name=\'slug\']');
             if (slugInput) {
-                slugInput.addEventListener('input', (e) => { this.postSlug = e.target.value; });
+                slugInput.addEventListener('input', function(e) { this.postSlug = e.target.value; }.bind(this));
             }
         }
     }">

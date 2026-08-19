@@ -5,6 +5,7 @@
     
     <!-- Hidden inputs for form submission -->
     <input type="hidden" :name="inputName + '_existing_id'" x-model="selectedMediaId">
+    <input type="hidden" :name="'remove_' + inputName" x-model="removeMedia">
     
     <!-- Selected Image Preview -->
     <div x-show="previewUrl" style="display: none;" class="mb-3 relative w-full max-w-sm rounded-lg border border-slate-200 bg-slate-50 p-2 dark:border-slate-700 dark:bg-slate-800">
@@ -78,6 +79,7 @@
             inputName: inputName,
             previewUrl: currentUrl || null,
             selectedMediaId: null,
+            removeMedia: '0',
             modalOpen: false,
             loading: false,
             media: [],
@@ -115,6 +117,7 @@
                 if (this.tempSelected) {
                     this.selectedMediaId = this.tempSelected.id;
                     this.previewUrl = this.tempSelected.original_url;
+                    this.removeMedia = '0';
                     
                     // Clear any direct file input
                     const fileInput = document.querySelector(`input[type="file"][name="${this.inputName}"]`);
@@ -128,12 +131,14 @@
                 if (file) {
                     this.previewUrl = URL.createObjectURL(file);
                     this.selectedMediaId = null; // clear library selection
+                    this.removeMedia = '0';
                 }
             },
 
             clearSelection() {
                 this.previewUrl = null;
                 this.selectedMediaId = null;
+                this.removeMedia = '1';
                 const fileInput = document.querySelector(`input[type="file"][name="${this.inputName}"]`);
                 if (fileInput) fileInput.value = '';
             }

@@ -27,8 +27,9 @@ class PageRequest extends FormRequest
             'slug' => 'nullable|string|max:255',
             'content' => 'nullable|string',
             'status' => 'required|in:draft,published',
-            'featured_image' => 'nullable', // Can be a file upload OR an integer ID
-            'existing_media_id' => 'nullable|integer|exists:media,id',
+            'featured_image' => 'nullable', // Can be a file upload
+            'featured_image_existing_id' => 'nullable|integer|exists:media,id',
+            'remove_featured_image' => 'nullable|in:0,1',
             
             // SEO Fields
             'seo' => 'nullable|array',
