@@ -22,6 +22,10 @@ class LandingPageController extends Controller
 
     public function store(Request $request)
     {
+        if ($request->has('blocks') && is_string($request->blocks)) {
+            $request->merge(['blocks' => json_decode($request->blocks, true)]);
+        }
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:landing_pages',
@@ -41,6 +45,10 @@ class LandingPageController extends Controller
 
     public function update(Request $request, LandingPage $landingPage)
     {
+        if ($request->has('blocks') && is_string($request->blocks)) {
+            $request->merge(['blocks' => json_decode($request->blocks, true)]);
+        }
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:landing_pages,slug,' . $landingPage->id,
