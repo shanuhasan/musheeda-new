@@ -43,10 +43,11 @@ class BlogController extends Controller
         $post->sanitized_content = Purifier::clean($post->content);
 
         // Fetch related posts (first try explicit relation, then fallback to categories)
-        $relatedPosts = $post->relatedPosts()->published()->latest('published_at')->take(3)->get();
+        $relatedPosts = $post->relatedPosts()->published()->with(['author', 'categories', 'tags'])->latest('published_at')->take(3)->get();
         if ($relatedPosts->isEmpty()) {
             $categoryIds = $post->categories->pluck('id');
             $relatedPosts = Post::published()
+                                ->with(['author', 'categories', 'tags'])
                                 ->where('id', '!=', $post->id)
                                 ->whereHas('categories', function($q) use ($categoryIds) {
                                     $q->whereIn('categories.id', $categoryIds);

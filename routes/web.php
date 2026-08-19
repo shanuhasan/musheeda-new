@@ -14,6 +14,10 @@ Route::get('/services/{service:slug}', [\App\Http\Controllers\Frontend\ServiceCo
 Route::get('/products', [\App\Http\Controllers\Frontend\ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{product:slug}', [\App\Http\Controllers\Frontend\ProductController::class, 'show'])->name('products.show');
 
+use App\Http\Controllers\Frontend\ContactController;
+
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+
 Route::get('/robots.txt', [\App\Http\Controllers\Frontend\RobotsController::class, 'index'])->name('robots.txt');
 
 Route::get('/dashboard', function () {
