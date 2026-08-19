@@ -104,8 +104,13 @@
         <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-white/[0.03]">
             <h3 class="mb-4 text-lg font-semibold text-slate-800 dark:text-white/90">Media</h3>
             <div>
+                <label class="mb-2.5 block text-sm font-medium text-slate-800 dark:text-white/90">Upload New Image</label>
+                <input type="file" name="image_upload" accept="image/*" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-900 transition-all">
+                <p class="mt-2 text-sm text-slate-500">Uploading an image here will automatically add it to the Images list.</p>
+            </div>
+            <div class="mt-4">
                 <label class="mb-2.5 block text-sm font-medium text-slate-800 dark:text-white/90">Images (JSON Array of URLs)</label>
-                <textarea name="images" rows="3" placeholder='["url1", "url2"]' class="font-mono w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-900 transition-all">{{ old('images', is_array($product->images) ? json_encode($product->images) : $product->images) }}</textarea>
+                <textarea name="images" rows="2" placeholder='["url1", "url2"]' class="font-mono w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-900 transition-all">{{ old('images', is_array($product->images) ? json_encode($product->images) : $product->images) }}</textarea>
             </div>
             <div class="mt-4">
                 <label class="mb-2.5 block text-sm font-medium text-slate-800 dark:text-white/90">E-Book PDF File (for digital download)</label>

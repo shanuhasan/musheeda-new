@@ -34,6 +34,13 @@ class ProductController extends Controller
             $path = $request->file('download_file')->store('ebooks');
             $product->update(['download_file_path' => 'app/' . $path]);
         }
+
+        if ($request->hasFile('image_upload')) {
+            $imagePath = $request->file('image_upload')->store('products', 'public');
+            $images = is_array($product->images) ? $product->images : [];
+            $images[] = '/storage/' . $imagePath;
+            $product->update(['images' => $images]);
+        }
         
         if ($request->has('seo')) {
             $product->syncSeo($request->input('seo'));
@@ -59,6 +66,13 @@ class ProductController extends Controller
         if ($request->hasFile('download_file')) {
             $path = $request->file('download_file')->store('ebooks');
             $product->update(['download_file_path' => 'app/' . $path]);
+        }
+
+        if ($request->hasFile('image_upload')) {
+            $imagePath = $request->file('image_upload')->store('products', 'public');
+            $images = is_array($product->images) ? $product->images : [];
+            $images[] = '/storage/' . $imagePath;
+            $product->update(['images' => $images]);
         }
 
         if ($request->has('seo')) {
@@ -91,6 +105,7 @@ class ProductController extends Controller
             'cta' => 'nullable|array',
             'status' => 'required|in:active,inactive,discontinued',
             'download_file' => 'nullable|file|mimes:pdf,zip|max:51200',
+            'image_upload' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
         ]);
     }
 }

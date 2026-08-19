@@ -102,7 +102,13 @@
                                                 </div>
                                                 <div>
                                                     <label class="block text-xs font-medium text-gray-700">Image URL</label>
-                                                    <input type="text" x-model="block.data.image_url" placeholder="/images/hero.jpg" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                    <div class="flex gap-2">
+                                                        <input type="text" x-model="block.data.image_url" placeholder="/images/hero.jpg" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                        <label class="mt-1 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 cursor-pointer">
+                                                            Upload
+                                                            <input type="file" class="hidden" accept="image/*" @change="uploadImage($event, block)">
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </template>
@@ -137,7 +143,13 @@
                                                 </div>
                                                 <div>
                                                     <label class="block text-xs font-medium text-gray-700">Image URL</label>
-                                                    <input type="text" x-model="block.data.image_url" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                    <div class="flex gap-2">
+                                                        <input type="text" x-model="block.data.image_url" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                        <label class="mt-1 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 cursor-pointer">
+                                                            Upload
+                                                            <input type="file" class="hidden" accept="image/*" @change="uploadImage($event, block)">
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </template>
@@ -325,11 +337,42 @@
                 }
             },
             
-            moveDown(index) {
-                if(index < this.blocks.length - 1) {
-                    const temp = this.blocks[index];
-                    this.blocks[index] = this.blocks[index + 1];
-                    this.blocks[index + 1] = temp;
+            moveBlockDown(index) {
+                if (index < this.blocks.length - 1) {
+                    const block = this.blocks[index];
+                    this.blocks.splice(index, 1);
+                    this.blocks.splice(index + 1, 0, block);
+                }
+            },
+            
+            async uploadImage(event, block) {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const formData = new FormData();
+                formData.append('file', file);
+                
+                try {
+                    // Assuming we have a media upload endpoint, otherwise fallback to basic URL
+                    const response = await fetch('{{ route("admin.media.store") }}', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Accept': 'application/json'
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    if (data.success && data.url) {
+                        block.data.image_url = data.url;
+                        alert('Image uploaded successfully!');
+                    } else {
+                        alert('Failed to upload image.');
+                    }
+                } catch (error) {
+                    console.error('Upload Error:', error);
+                    alert('An error occurred while uploading.');
                 }
             }
         }));
