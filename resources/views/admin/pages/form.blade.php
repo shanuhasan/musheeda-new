@@ -87,7 +87,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Featured Image</label>
+                    <!-- <label class="block text-sm font-medium text-gray-700 mb-2">Featured Image</label> -->
                     <x-admin.media-picker name="featured_image" :current="isset($page) ? $page->getFirstMediaUrl('featured_image') : null" />
                     <p class="mt-1 text-xs text-gray-500">Max size: 2MB. Recommended format: WEBP/JPG.</p>
                 </div>
