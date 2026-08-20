@@ -5,18 +5,23 @@
         </h2>
     </x-slot>
 
+    <!-- Hero Section -->
+    <section class="bg-brand-900 text-white py-20 lg:py-32">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">Get in Touch</h1>
+            <p class="text-xl text-brand-100 max-w-2xl mx-auto">
+                Have a question about our services, need a demo, or want to explore how we can help your business grow? Send us a message and our team will get back to you shortly.
+            </p>
+        </div>
+    </section>
+
     <div class="py-12 bg-white">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-8">
                 
                 <!-- Left: Info -->
                 <div class="space-y-6">
-                    <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Get in Touch</h1>
-                    <p class="text-lg text-slate-600">
-                        Have a question about our services, need a demo, or want to explore how we can help your business grow? Send us a message and our team will get back to you shortly.
-                    </p>
-                    
-                    <div class="mt-8 pt-8 border-t border-slate-100 space-y-4">
+                    <div class="space-y-4">
                         <div class="flex items-center gap-4 text-slate-700">
                             <div class="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center text-brand-600">
                                 <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -6,23 +6,23 @@
     @endif
 
     <!-- Hero Section -->
-    <div class="relative bg-slate-50 pt-16 pb-20 sm:pt-24 sm:pb-32 overflow-hidden border-b border-slate-200">
+    <div class="relative bg-brand-900 pt-16 pb-20 sm:pt-24 sm:pb-32 overflow-hidden border-b border-brand-800 text-white">
         <!-- Decorative blobs -->
-        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-[500px] h-[500px] rounded-full bg-brand-200/30 blur-3xl -z-10"></div>
-        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-[400px] h-[400px] rounded-full bg-blue-200/30 blur-3xl -z-10"></div>
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-[500px] h-[500px] rounded-full bg-brand-600/30 blur-3xl -z-10"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-[400px] h-[400px] rounded-full bg-blue-600/30 blur-3xl -z-10"></div>
 
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight mb-6">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-6">
                 {{ $page->title }}
             </h1>
             
             @if($page->author && $page->published_at)
-            <div class="mt-8 flex items-center justify-center gap-3 text-sm text-slate-500 font-medium">
-                <div class="w-8 h-8 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center font-bold text-xs">
+            <div class="mt-8 flex items-center justify-center gap-3 text-sm text-brand-100 font-medium">
+                <div class="w-8 h-8 rounded-full bg-brand-800 text-brand-100 flex items-center justify-center font-bold text-xs">
                     {{ substr($page->author->name, 0, 1) }}
                 </div>
-                <div class="text-slate-800">{{ $page->author->name }}</div>
-                <span class="text-slate-300">&bull;</span>
+                <div class="text-white">{{ $page->author->name }}</div>
+                <span class="text-brand-300">&bull;</span>
                 <time datetime="{{ $page->published_at->toIso8601String() }}">{{ $page->published_at->format('F d, Y') }}</time>
             </div>
             @endif

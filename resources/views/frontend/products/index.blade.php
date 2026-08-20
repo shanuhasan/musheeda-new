@@ -2,11 +2,11 @@
     <x-seo />
 
     <!-- Hero Section -->
-    <section class="bg-gray-900 text-white py-20 lg:py-32 relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-br from-brand-900/50 to-transparent"></div>
+    <section class="bg-brand-900 text-white py-20 lg:py-32 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-brand-800/50 to-transparent"></div>
         <div class="container mx-auto px-4 text-center relative z-10">
             <h1 class="text-4xl md:text-5xl font-bold mb-6">Our Products</h1>
-            <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+            <p class="text-xl text-brand-100 max-w-2xl mx-auto">
                 Powerful, scalable software products designed to take your business to the next level.
             </p>
         </div>

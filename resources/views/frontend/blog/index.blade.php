@@ -3,20 +3,19 @@
 @section('title', isset($category) ? "Category: {$category->name}" : (isset($tag) ? "Tag: {$tag->name}" : 'Blog'))
 
 @section('content')
-<div class="bg-slate-50 dark:bg-slate-900 py-16 sm:py-24">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        
-        <div class="text-center mb-16">
-            <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
+    <!-- Hero Section -->
+    <section class="bg-brand-900 text-white py-20 lg:py-32">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">
                 @if(isset($category))
-                    Category: <span class="text-brand-500">{{ $category->name }}</span>
+                    Category: <span class="text-brand-300">{{ $category->name }}</span>
                 @elseif(isset($tag))
-                    Tag: <span class="text-brand-500">#{{ $tag->name }}</span>
+                    Tag: <span class="text-brand-300">#{{ $tag->name }}</span>
                 @else
                     Our Blog
                 @endif
             </h1>
-            <p class="mt-4 max-w-2xl mx-auto text-xl text-slate-500 dark:text-slate-400">
+            <p class="text-xl text-brand-100 max-w-2xl mx-auto">
                 @if(isset($category))
                     {{ $category->description ?? 'Browse posts in this category.' }}
                 @else
@@ -24,7 +23,11 @@
                 @endif
             </p>
         </div>
+    </section>
 
+<div class="bg-slate-50 dark:bg-slate-900 py-12 sm:py-16">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-12">
             
             <div class="lg:col-span-3 space-y-12">
