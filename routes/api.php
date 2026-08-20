@@ -14,7 +14,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 // V1 API Routes
-Route::prefix('v1')->group(function () {
+Route::prefix('v1')->name('api.v1.')->group(function () {
     
     // Public Routes
     Route::apiResource('products', ProductController::class)->only(['index', 'show']);
