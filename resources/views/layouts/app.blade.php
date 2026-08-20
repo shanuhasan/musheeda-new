@@ -98,6 +98,10 @@
                             </div>
                         @endif
 
+                        <a href="{{ route('blog.index') }}" class="text-slate-600 hover:text-brand-600 inline-flex items-center px-1 pt-1 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md">
+                            Blogs
+                        </a>
+
                         @foreach(menu('header') as $item)
                             @if($item->children->count() > 0)
                                 <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" @focusin="open = true" @focusout="open = false">
@@ -212,6 +216,10 @@
                             </div>
                         </div>
                     @endif
+
+                    <a href="{{ route('blog.index') }}" class="block py-3 text-base font-bold text-slate-700 hover:text-brand-600 border-b border-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md px-2">
+                        Blogs
+                    </a>
 
                     @foreach(menu('header') as $item)
                         @if($item->children->count() > 0)
