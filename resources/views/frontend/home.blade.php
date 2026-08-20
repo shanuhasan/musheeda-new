@@ -98,7 +98,7 @@
                             $imageUrl = $product->images[0];
                         }
                     @endphp
-                    <div class="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl overflow-hidden hover:border-brand-500/50 transition-colors duration-300 flex flex-col h-full group">
+                    <a href="{{ $product->demo_url ?? route('products.show', $product->slug) }}" target="{{ $product->demo_url ? '_blank' : '_self' }}" class="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl overflow-hidden hover:border-brand-500/50 transition-colors duration-300 flex flex-col h-full group block cursor-pointer">
                         @if($imageUrl)
                             <div class="h-48 overflow-hidden relative">
                                 <img src="{{ $imageUrl }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -116,16 +116,16 @@
                             </p>
                             <div class="flex items-center justify-between mt-auto">
                                 @if($product->price)
-                                    <span class="text-lg font-bold text-white">${{ number_format($product->price, 2) }}</span>
+                                    <span class="text-lg font-bold text-white">₹{{ number_format($product->price, 2) }}</span>
                                 @else
                                     <span class="text-brand-400 font-medium">Custom</span>
                                 @endif
-                                <a href="{{ route('products.show', $product->slug) }}" class="px-4 py-3 sm:py-2 bg-slate-700 hover:bg-brand-600 text-white text-sm font-semibold rounded-lg transition-colors inline-flex items-center justify-center">
+                                <span class="px-4 py-3 sm:py-2 bg-slate-700 group-hover:bg-brand-600 text-white text-sm font-semibold rounded-lg transition-colors inline-flex items-center justify-center">
                                     View Details
-                                </a>
+                                </span>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 @endforeach
             </div>
             
