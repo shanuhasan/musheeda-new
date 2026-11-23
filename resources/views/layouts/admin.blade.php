@@ -8,6 +8,8 @@
 
     <title>{{ config('app.name', 'Musheeda') }} &middot; Admin</title>
 
+    @include('layouts.partials.favicon')
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
@@ -96,8 +98,14 @@
             class="fixed inset-y-0 left-0 z-50 flex w-[248px] flex-col bg-slate-950 transition-transform duration-300 ease-out lg:static lg:translate-x-0"
         >
             <div class="flex h-16 shrink-0 items-center gap-2.5 border-b border-white/[0.06] px-5">
-                <span class="grid h-7 w-7 place-items-center rounded-md bg-white text-[13px] font-semibold text-slate-950">{{ mb_substr(config('app.name', 'Musheeda'), 0, 1) }}</span>
-                <a href="{{ route('admin.dashboard') }}" class="text-[15px] font-semibold tracking-tight text-white">{{ config('app.name', 'Musheeda') }}</a>
+                <a href="{{ route('admin.dashboard') }}" class="flex min-w-0 items-center gap-2.5" aria-label="{{ setting('site_name', config('app.name', 'Musheeda')) }} admin">
+                    @if(setting('site_logo'))
+                        <img src="{{ asset(setting('site_logo')) }}" alt="{{ setting('site_name', config('app.name', 'Musheeda')) }}" class="h-8 w-auto max-w-[160px] object-contain">
+                    @else
+                        <span class="grid h-7 w-7 place-items-center rounded-md bg-white text-[13px] font-semibold text-slate-950">{{ mb_substr(config('app.name', 'Musheeda'), 0, 1) }}</span>
+                        <span class="text-[15px] font-semibold tracking-tight text-white">{{ config('app.name', 'Musheeda') }}</span>
+                    @endif
+                </a>
                 <span class="ml-auto rounded border border-white/10 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-slate-500">CMS</span>
             </div>
 

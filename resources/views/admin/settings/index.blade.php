@@ -71,7 +71,7 @@
                     <label class="mb-3 block text-sm font-medium text-slate-800 dark:text-white">Favicon</label>
                     @if(!empty($settings['favicon']))
                         <div class="mb-3">
-                            <img src="{{ $settings['favicon'] }}" alt="Favicon" class="w-8 h-8 rounded shadow-sm border border-slate-200 dark:border-slate-700">
+                            <img src="{{ asset($settings['favicon']) }}" alt="Favicon" class="w-8 h-8 rounded shadow-sm border border-slate-200 dark:border-slate-700">
                         </div>
                     @endif
                     <input type="file" name="favicon" accept=".ico,.png,.jpg,.jpeg,.svg" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 text-slate-800 outline-none transition focus:border-brand-500 active:border-brand-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white" />
@@ -100,11 +100,11 @@
                     <label class="mb-3 block text-sm font-medium text-slate-800 dark:text-white">Site Logo Image (Overrides Text)</label>
                     @if(!empty($settings['site_logo']))
                         <div class="mb-3">
-                            <img src="{{ $settings['site_logo'] }}" alt="Site Logo" class="h-12 object-contain bg-slate-100 dark:bg-slate-800 p-2 rounded border border-slate-200 dark:border-slate-700">
+                            <img src="{{ asset($settings['site_logo']) }}" alt="Site Logo" class="h-12 object-contain bg-slate-900 p-2 rounded border border-slate-700">
                         </div>
                     @endif
                     <input type="file" name="site_logo" accept=".png,.jpg,.jpeg,.svg,.webp" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 text-slate-800 outline-none transition focus:border-brand-500 active:border-brand-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white" />
-                    <p class="text-xs text-slate-500 mt-1">Recommended format: .png or .svg with transparent background, height: 64px.</p>
+                    <p class="text-xs text-slate-500 mt-1">Used in the dark header and footer (light/white logo works best). Transparent .png or .svg.</p>
                 </div>
                 
                 <div class="mb-5">

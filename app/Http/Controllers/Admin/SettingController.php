@@ -27,13 +27,14 @@ class SettingController extends Controller
         $settings = $request->validated('settings');
 
         if ($request->hasFile('favicon')) {
+            // Store a host-independent path; views render it with asset().
             $path = $request->file('favicon')->storePublicly('settings', 'public');
-            $settings['favicon'] = \Illuminate\Support\Facades\Storage::disk('public')->url($path);
+            $settings['favicon'] = 'storage/' . $path;
         }
 
         if ($request->hasFile('site_logo')) {
             $path = $request->file('site_logo')->storePublicly('settings', 'public');
-            $settings['site_logo'] = \Illuminate\Support\Facades\Storage::disk('public')->url($path);
+            $settings['site_logo'] = 'storage/' . $path;
         }
 
         $this->settingService->set($settings, $request->validated('group'));

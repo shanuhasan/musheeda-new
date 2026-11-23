@@ -8,9 +8,9 @@
         <x-seo :model="$seoModel ?? null" />
 
         @if(setting('favicon'))
-            <link rel="icon" type="image/x-icon" href="{{ setting('favicon') }}">
-            <link rel="shortcut icon" type="image/x-icon" href="{{ setting('favicon') }}">
-            <link rel="apple-touch-icon" href="{{ setting('favicon') }}">
+            <link rel="icon" type="image/x-icon" href="{{ asset(setting('favicon')) }}">
+            <link rel="shortcut icon" type="image/x-icon" href="{{ asset(setting('favicon')) }}">
+            <link rel="apple-touch-icon" href="{{ asset(setting('favicon')) }}">
         @endif
 
         <!-- Fonts -->
@@ -29,18 +29,22 @@
         <header 
             x-data="{ scrolled: false }"
             @scroll.window="scrolled = (window.pageYOffset > 20)"
-            :class="{'bg-white/90 backdrop-blur-md shadow-sm border-slate-200': scrolled, 'bg-white border-slate-200': !scrolled}"
-            class="fixed w-full top-0 z-50 transition-all duration-300 border-b"
+            :class="{'shadow-lg shadow-black/20': scrolled, 'bg-slate-900 border-slate-800': !scrolled}"
+            class="fixed w-full top-0 z-50 transition-all duration-300 border-b bg-slate-900 border-slate-800"
         >
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-20 items-center">
                     <!-- Logo -->
                     <div class="flex-shrink-0 flex items-center">
-                        <a href="/" class="text-2xl font-black text-brand-600 tracking-tight flex items-center gap-2">
-                            <div class="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center text-white text-lg">
-                                {{ substr(setting('header_logo', setting('site_name', 'Musheeda')), 0, 1) }}
-                            </div>
-                            {{ setting('header_logo', setting('site_name', 'Musheeda')) }}
+                        <a href="/" class="text-2xl font-black text-white tracking-tight flex items-center gap-2">
+                            @if(setting('site_logo'))
+                                <img src="{{ asset(setting('site_logo')) }}" alt="{{ setting('site_name', 'Musheeda') }}" class="h-10 w-auto max-w-[260px] object-contain">
+                            @else
+                                <div class="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center text-white text-lg">
+                                    {{ substr(setting('header_logo', setting('site_name', 'Musheeda')), 0, 1) }}
+                                </div>
+                                {{ setting('header_logo', setting('site_name', 'Musheeda')) }}
+                            @endif
                         </a>
                     </div>
                     
@@ -49,22 +53,22 @@
                         <!-- Dynamic Services Dropdown -->
                         @if(isset($headerServices) && $headerServices->count() > 0)
                             <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" @focusin="open = true" @focusout="open = false">
-                                <a href="/services" aria-haspopup="true" :aria-expanded="open" class="text-slate-600 hover:text-brand-600 inline-flex items-center px-1 pt-1 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md">
+                                <a href="/services" aria-haspopup="true" :aria-expanded="open" class="text-slate-300 hover:text-white inline-flex items-center px-1 pt-1 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md">
                                     Services
                                     <svg class="ml-1 h-4 w-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                                     </svg>
                                 </a>
                                 
-                                <div x-show="open" x-transition.opacity.duration.200ms class="absolute left-0 mt-2 w-56 rounded-xl shadow-xl bg-white ring-1 ring-black/5 z-50 overflow-hidden" style="display: none;">
+                                <div x-show="open" x-transition.opacity.duration.200ms class="absolute left-0 mt-2 w-56 rounded-xl shadow-xl bg-slate-900 ring-1 ring-white/10 z-50 overflow-hidden" style="display: none;">
                                     <div class="py-2">
                                         @foreach($headerServices as $headerService)
-                                            <a href="{{ url('/services/' . $headerService->slug) }}" class="block px-5 py-2.5 text-sm font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600 transition-colors">
+                                            <a href="{{ url('/services/' . $headerService->slug) }}" class="block px-5 py-2.5 text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
                                                 {{ $headerService->name }}
                                             </a>
                                         @endforeach
-                                        <div class="border-t border-slate-100 mt-1"></div>
-                                        <a href="/services" class="block px-5 py-2 text-xs font-bold text-brand-600 hover:bg-brand-50 uppercase tracking-wider text-center transition-colors">
+                                        <div class="border-t border-slate-800 mt-1"></div>
+                                        <a href="/services" class="block px-5 py-2 text-xs font-bold text-brand-400 hover:bg-slate-800 hover:text-brand-300 uppercase tracking-wider text-center transition-colors">
                                             View All
                                         </a>
                                     </div>
@@ -75,22 +79,22 @@
                         <!-- Dynamic Products Dropdown -->
                         @if(isset($headerProducts) && $headerProducts->count() > 0)
                             <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" @focusin="open = true" @focusout="open = false">
-                                <a href="/products" aria-haspopup="true" :aria-expanded="open" class="text-slate-600 hover:text-brand-600 inline-flex items-center px-1 pt-1 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md">
+                                <a href="/products" aria-haspopup="true" :aria-expanded="open" class="text-slate-300 hover:text-white inline-flex items-center px-1 pt-1 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md">
                                     Products
                                     <svg class="ml-1 h-4 w-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                                     </svg>
                                 </a>
                                 
-                                <div x-show="open" x-transition.opacity.duration.200ms class="absolute left-0 mt-2 w-56 rounded-xl shadow-xl bg-white ring-1 ring-black/5 z-50 overflow-hidden" style="display: none;">
+                                <div x-show="open" x-transition.opacity.duration.200ms class="absolute left-0 mt-2 w-56 rounded-xl shadow-xl bg-slate-900 ring-1 ring-white/10 z-50 overflow-hidden" style="display: none;">
                                     <div class="py-2">
                                         @foreach($headerProducts as $headerProduct)
-                                            <a href="{{ url('/products/' . $headerProduct->slug) }}" class="block px-5 py-2.5 text-sm font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600 transition-colors">
+                                            <a href="{{ url('/products/' . $headerProduct->slug) }}" class="block px-5 py-2.5 text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
                                                 {{ $headerProduct->name }}
                                             </a>
                                         @endforeach
-                                        <div class="border-t border-slate-100 mt-1"></div>
-                                        <a href="/products" class="block px-5 py-2 text-xs font-bold text-brand-600 hover:bg-brand-50 uppercase tracking-wider text-center transition-colors">
+                                        <div class="border-t border-slate-800 mt-1"></div>
+                                        <a href="/products" class="block px-5 py-2 text-xs font-bold text-brand-400 hover:bg-slate-800 hover:text-brand-300 uppercase tracking-wider text-center transition-colors">
                                             View All
                                         </a>
                                     </div>
@@ -98,24 +102,24 @@
                             </div>
                         @endif
 
-                        <a href="{{ route('blog.index') }}" class="text-slate-600 hover:text-brand-600 inline-flex items-center px-1 pt-1 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md">
+                        <a href="{{ route('blog.index') }}" class="text-slate-300 hover:text-white inline-flex items-center px-1 pt-1 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md">
                             Blogs
                         </a>
 
                         @foreach(menu('header') as $item)
                             @if($item->children->count() > 0)
                                 <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" @focusin="open = true" @focusout="open = false">
-                                    <button aria-haspopup="true" :aria-expanded="open" class="text-slate-600 hover:text-brand-600 inline-flex items-center px-1 pt-1 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md">
+                                    <button aria-haspopup="true" :aria-expanded="open" class="text-slate-300 hover:text-white inline-flex items-center px-1 pt-1 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md">
                                         {{ $item->title }}
                                         <svg class="ml-1 h-4 w-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                                         </svg>
                                     </button>
                                     
-                                    <div x-show="open" x-transition.opacity.duration.200ms class="absolute left-0 mt-2 w-56 rounded-xl shadow-xl bg-white ring-1 ring-black/5 z-50 overflow-hidden" style="display: none;">
+                                    <div x-show="open" x-transition.opacity.duration.200ms class="absolute left-0 mt-2 w-56 rounded-xl shadow-xl bg-slate-900 ring-1 ring-white/10 z-50 overflow-hidden" style="display: none;">
                                         <div class="py-2">
                                             @foreach($item->children as $child)
-                                                <a href="{{ $child->url }}" target="{{ $child->target }}" class="block px-5 py-2.5 text-sm font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600 transition-colors">
+                                                <a href="{{ $child->url }}" target="{{ $child->target }}" class="block px-5 py-2.5 text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
                                                     {{ $child->title }}
                                                 </a>
                                             @endforeach
@@ -123,7 +127,7 @@
                                     </div>
                                 </div>
                             @else
-                                <a href="{{ $item->url }}" target="{{ $item->target }}" class="text-slate-600 hover:text-brand-600 inline-flex items-center px-1 pt-1 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md">
+                                <a href="{{ $item->url }}" target="{{ $item->target }}" class="text-slate-300 hover:text-white inline-flex items-center px-1 pt-1 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md">
                                     {{ $item->title }}
                                 </a>
                             @endif
@@ -133,12 +137,12 @@
                     <!-- Search & CTA Button -->
                     <div class="hidden md:flex items-center space-x-4">
                         <div x-data="{ searchOpen: false }" class="relative">
-                            <button type="button" @click="searchOpen = !searchOpen" class="text-slate-500 hover:text-brand-600 focus:outline-none transition-colors p-2 rounded-full hover:bg-slate-100">
+                            <button type="button" @click="searchOpen = !searchOpen" class="text-slate-300 hover:text-white focus:outline-none transition-colors p-2 rounded-full hover:bg-slate-800">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                             </button>
-                            <div x-show="searchOpen" @click.away="searchOpen = false" x-transition class="absolute right-0 mt-3 w-72 bg-white rounded-xl shadow-xl ring-1 ring-black/5 z-50 p-4" style="display: none;">
+                            <div x-show="searchOpen" @click.away="searchOpen = false" x-transition class="absolute right-0 mt-3 w-72 bg-slate-900 rounded-xl shadow-xl ring-1 ring-white/10 z-50 p-4" style="display: none;">
                                 <form action="{{ route('search') }}" method="GET" class="relative">
-                                    <input type="text" name="q" placeholder="Search..." class="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 bg-slate-50 text-slate-900" required>
+                                    <input type="text" name="q" placeholder="Search..." class="w-full pl-10 pr-4 py-2 border border-slate-700 rounded-lg focus:ring-brand-500 focus:border-brand-500 bg-slate-800 text-white placeholder-slate-400" required>
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                                     </div>
@@ -153,7 +157,7 @@
                     
                     <!-- Mobile menu button -->
                     <div class="flex items-center md:hidden">
-                        <button @click="mobileMenuOpen = !mobileMenuOpen" type="button" :aria-expanded="mobileMenuOpen" aria-controls="mobile-menu" class="inline-flex items-center justify-center p-2 rounded-lg text-slate-500 hover:text-brand-600 hover:bg-brand-50 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <button @click="mobileMenuOpen = !mobileMenuOpen" type="button" :aria-expanded="mobileMenuOpen" aria-controls="mobile-menu" class="inline-flex items-center justify-center p-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500">
                             <span class="sr-only">Open main menu</span>
                             <svg x-show="!mobileMenuOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -167,10 +171,10 @@
             </div>
 
             <!-- Mobile menu -->
-            <div id="mobile-menu" x-show="mobileMenuOpen" x-collapse class="md:hidden border-t border-slate-200 bg-white/95 backdrop-blur-md shadow-lg absolute w-full" style="display: none;">
+            <div id="mobile-menu" x-show="mobileMenuOpen" x-collapse class="md:hidden border-t border-slate-800 bg-slate-900/95 backdrop-blur-md shadow-lg absolute w-full" style="display: none;">
                 <div class="pt-4 px-4 pb-2">
                     <form action="{{ route('search') }}" method="GET" class="relative">
-                        <input type="text" name="q" placeholder="Search..." class="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-xl focus:ring-brand-500 focus:border-brand-500 bg-slate-50 text-slate-900" required>
+                        <input type="text" name="q" placeholder="Search..." class="w-full pl-10 pr-4 py-2.5 border border-slate-700 rounded-xl focus:ring-brand-500 focus:border-brand-500 bg-slate-800 text-white placeholder-slate-400" required>
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </div>
@@ -180,19 +184,19 @@
                     <!-- Dynamic Services Mobile Dropdown -->
                     @if(isset($headerServices) && $headerServices->count() > 0)
                         <div x-data="{ childOpen: false }">
-                            <button @click="childOpen = !childOpen" aria-haspopup="true" :aria-expanded="childOpen" class="w-full flex justify-between items-center py-3 text-base font-bold text-slate-700 border-b border-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md px-2">
+                            <button @click="childOpen = !childOpen" aria-haspopup="true" :aria-expanded="childOpen" class="w-full flex justify-between items-center py-3 text-base font-bold text-slate-200 border-b border-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md px-2">
                                 Services
                                 <svg :class="{'rotate-180': childOpen}" class="h-5 w-5 text-slate-400 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                                 </svg>
                             </button>
-                            <div x-show="childOpen" x-collapse class="pl-4 py-2 space-y-2 bg-slate-50/50 rounded-lg mt-1" style="display: none;">
+                            <div x-show="childOpen" x-collapse class="pl-4 py-2 space-y-2 bg-slate-800/50 rounded-lg mt-1" style="display: none;">
                                 @foreach($headerServices as $headerService)
-                                    <a href="{{ url('/services/' . $headerService->slug) }}" class="block py-2 text-sm font-medium text-slate-600 hover:text-brand-600">
+                                    <a href="{{ url('/services/' . $headerService->slug) }}" class="block py-2 text-sm font-medium text-slate-400 hover:text-white">
                                         {{ $headerService->name }}
                                     </a>
                                 @endforeach
-                                <a href="/services" class="block py-2 text-sm font-bold text-brand-600 hover:text-brand-700">View All Services &rarr;</a>
+                                <a href="/services" class="block py-2 text-sm font-bold text-brand-400 hover:text-brand-300">View All Services &rarr;</a>
                             </div>
                         </div>
                     @endif
@@ -200,46 +204,46 @@
                     <!-- Dynamic Products Mobile Dropdown -->
                     @if(isset($headerProducts) && $headerProducts->count() > 0)
                         <div x-data="{ childOpen: false }">
-                            <button @click="childOpen = !childOpen" aria-haspopup="true" :aria-expanded="childOpen" class="w-full flex justify-between items-center py-3 text-base font-bold text-slate-700 border-b border-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md px-2">
+                            <button @click="childOpen = !childOpen" aria-haspopup="true" :aria-expanded="childOpen" class="w-full flex justify-between items-center py-3 text-base font-bold text-slate-200 border-b border-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md px-2">
                                 Products
                                 <svg :class="{'rotate-180': childOpen}" class="h-5 w-5 text-slate-400 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                                 </svg>
                             </button>
-                            <div x-show="childOpen" x-collapse class="pl-4 py-2 space-y-2 bg-slate-50/50 rounded-lg mt-1" style="display: none;">
+                            <div x-show="childOpen" x-collapse class="pl-4 py-2 space-y-2 bg-slate-800/50 rounded-lg mt-1" style="display: none;">
                                 @foreach($headerProducts as $headerProduct)
-                                    <a href="{{ url('/products/' . $headerProduct->slug) }}" class="block py-2 text-sm font-medium text-slate-600 hover:text-brand-600">
+                                    <a href="{{ url('/products/' . $headerProduct->slug) }}" class="block py-2 text-sm font-medium text-slate-400 hover:text-white">
                                         {{ $headerProduct->name }}
                                     </a>
                                 @endforeach
-                                <a href="/products" class="block py-2 text-sm font-bold text-brand-600 hover:text-brand-700">View All Products &rarr;</a>
+                                <a href="/products" class="block py-2 text-sm font-bold text-brand-400 hover:text-brand-300">View All Products &rarr;</a>
                             </div>
                         </div>
                     @endif
 
-                    <a href="{{ route('blog.index') }}" class="block py-3 text-base font-bold text-slate-700 hover:text-brand-600 border-b border-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md px-2">
+                    <a href="{{ route('blog.index') }}" class="block py-3 text-base font-bold text-slate-200 hover:text-white border-b border-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md px-2">
                         Blogs
                     </a>
 
                     @foreach(menu('header') as $item)
                         @if($item->children->count() > 0)
                             <div x-data="{ childOpen: false }">
-                                <button @click="childOpen = !childOpen" aria-haspopup="true" :aria-expanded="childOpen" class="w-full flex justify-between items-center py-3 text-base font-bold text-slate-700 border-b border-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md px-2">
+                                <button @click="childOpen = !childOpen" aria-haspopup="true" :aria-expanded="childOpen" class="w-full flex justify-between items-center py-3 text-base font-bold text-slate-200 border-b border-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md px-2">
                                     {{ $item->title }}
                                     <svg :class="{'rotate-180': childOpen}" class="h-5 w-5 text-slate-400 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                                     </svg>
                                 </button>
-                                <div x-show="childOpen" x-collapse class="pl-4 py-2 space-y-2 bg-slate-50/50 rounded-lg mt-1" style="display: none;">
+                                <div x-show="childOpen" x-collapse class="pl-4 py-2 space-y-2 bg-slate-800/50 rounded-lg mt-1" style="display: none;">
                                     @foreach($item->children as $child)
-                                        <a href="{{ $child->url }}" target="{{ $child->target }}" class="block py-2 text-sm font-medium text-slate-600 hover:text-brand-600">
+                                        <a href="{{ $child->url }}" target="{{ $child->target }}" class="block py-2 text-sm font-medium text-slate-400 hover:text-white">
                                             {{ $child->title }}
                                         </a>
                                     @endforeach
                                 </div>
                             </div>
                         @else
-                            <a href="{{ $item->url }}" target="{{ $item->target }}" class="block py-3 text-base font-bold text-slate-700 hover:text-brand-600 border-b border-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md px-2">
+                            <a href="{{ $item->url }}" target="{{ $item->target }}" class="block py-3 text-base font-bold text-slate-200 hover:text-white border-b border-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md px-2">
                                 {{ $item->title }}
                             </a>
                         @endif
@@ -296,7 +300,7 @@
                     <div class="lg:col-span-2">
                         <a href="/" class="text-2xl font-black text-white tracking-tight flex items-center gap-2 mb-6">
                             @if(setting('site_logo'))
-                                <img src="{{ setting('site_logo') }}" alt="{{ setting('site_name', 'Musheeda') }}" class="h-20 md:h-28 object-contain w-auto max-w-full">
+                                <img src="{{ asset(setting('site_logo')) }}" alt="{{ setting('site_name', 'Musheeda') }}" class="h-12 md:h-14 object-contain w-auto max-w-full">
                             @else
                                 <div class="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center text-white text-lg">
                                     {{ substr(setting('header_logo', setting('site_name', 'Musheeda')), 0, 1) }}
