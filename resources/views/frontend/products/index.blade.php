@@ -33,8 +33,8 @@
                         @endphp
                         
                         @if($imageUrl)
-                            <div class="h-56 w-full overflow-hidden relative">
-                                <img src="{{ asset($imageUrl) }}" alt="{{ $product->name }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+                            <div class="h-56 w-full overflow-hidden relative bg-gray-50">
+                                <img src="{{ asset($imageUrl) }}" alt="{{ $product->name }}" class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105" loading="lazy">
                                 <div class="absolute inset-0 bg-gradient-to-t from-gray-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                             </div>
                         @else
@@ -53,6 +53,10 @@
                                 @if($product->price)
                                     <div>
                                         <span class="text-lg font-bold text-gray-900">₹{{ number_format($product->price, 2) }}</span>
+                                        @if($product->has_discount)
+                                            <span class="ml-1 text-sm text-gray-400 line-through">₹{{ number_format($product->mrp, 2) }}</span>
+                                            <span class="ml-1 text-xs font-semibold text-success-600">{{ $product->discount_percent }}% off</span>
+                                        @endif
                                         @if($product->pricing_type)
                                             <span class="text-sm text-gray-500 capitalize">/ {{ $product->pricing_type }}</span>
                                         @endif

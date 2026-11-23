@@ -84,9 +84,26 @@
             <h3 class="mb-4 text-lg font-semibold text-slate-800 dark:text-white/90">Pricing & Links</h3>
             
             <div class="space-y-4">
-                <div>
-                    <label class="mb-2.5 block text-sm font-medium text-slate-800 dark:text-white/90">Price (₹)</label>
-                    <input type="number" step="0.01" name="price" value="{{ old('price', $product->price) }}" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-900 transition-all">
+                <div class="grid grid-cols-2 gap-3"
+                     x-data="{ price: '{{ old('price', $product->price) }}', mrp: '{{ old('mrp', $product->mrp) }}' }">
+                    <div>
+                        <label for="mrp" class="mb-2.5 block text-sm font-medium text-slate-800 dark:text-white/90">MRP (₹)</label>
+                        <input type="number" step="0.01" min="0" id="mrp" name="mrp" x-model="mrp" value="{{ old('mrp', $product->mrp) }}" placeholder="e.g. 499" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-900 transition-all @error('mrp') border-error-500 @enderror">
+                    </div>
+                    <div>
+                        <label for="price" class="mb-2.5 block text-sm font-medium text-slate-800 dark:text-white/90">Selling Price (₹)</label>
+                        <input type="number" step="0.01" min="0" id="price" name="price" x-model="price" value="{{ old('price', $product->price) }}" placeholder="e.g. 299" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-900 transition-all @error('price') border-error-500 @enderror">
+                    </div>
+                    <p class="col-span-2 -mt-1 text-xs text-slate-500">
+                        <template x-if="parseFloat(mrp) > 0 && parseFloat(price) >= 0 && parseFloat(mrp) > parseFloat(price)">
+                            <span class="font-medium text-success-600" x-text="Math.round((mrp - price) / mrp * 100) + '% off, customers save ₹' + (mrp - price).toFixed(2)"></span>
+                        </template>
+                        <template x-if="!(parseFloat(mrp) > 0 && parseFloat(price) >= 0 && parseFloat(mrp) > parseFloat(price))">
+                            <span>Optional: set an MRP higher than the selling price to show a strike-through price and discount.</span>
+                        </template>
+                    </p>
+                    @error('mrp')<p class="col-span-2 text-xs text-error-600">{{ $message }}</p>@enderror
+                    @error('price')<p class="col-span-2 text-xs text-error-600">{{ $message }}</p>@enderror
                 </div>
                 <div>
                     <label class="mb-2.5 block text-sm font-medium text-slate-800 dark:text-white/90">Pricing Type</label>

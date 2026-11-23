@@ -101,7 +101,9 @@ class ProductController extends Controller
             'images' => 'nullable|array',
             'features' => 'nullable|array',
             'benefits' => 'nullable|array',
-            'price' => 'nullable|numeric',
+            'price' => 'nullable|numeric|min:0',
+            // MRP must not be lower than the selling price (only checked when a price is given).
+            'mrp' => array_merge(['nullable', 'numeric', 'min:0'], $request->filled('price') ? ['gte:price'] : []),
             'pricing_type' => 'nullable|string|max:255',
             'demo_url' => 'nullable|url|max:255',
             'documentation_url' => 'nullable|url|max:255',
@@ -109,6 +111,11 @@ class ProductController extends Controller
             'status' => 'required|in:active,inactive,discontinued',
             'download_file' => 'nullable|file|mimes:pdf,zip|max:51200',
             'image_upload' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
+        ], [
+            'mrp.gte' => 'MRP must be equal to or higher than the selling price.',
+        ], [
+            'mrp' => 'MRP',
+            'price' => 'selling price',
         ]);
     }
 

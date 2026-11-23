@@ -20,8 +20,8 @@
                     
                     @if(count($images) > 0)
                         <div x-data="{ activeImage: '{{ asset($images[0]) }}' }">
-                            <div class="rounded-3xl overflow-hidden shadow-2xl shadow-gray-200/50 border border-gray-100 bg-gray-50 aspect-video flex items-center justify-center relative group">
-                                <img :src="activeImage" alt="{{ $product->name }}" class="w-full h-full object-cover">
+                            <div class="rounded-3xl overflow-hidden shadow-2xl shadow-gray-200/50 border border-gray-100 bg-gray-50 aspect-[4/3] flex items-center justify-center relative group">
+                                <img :src="activeImage" alt="{{ $product->name }}" class="w-full h-full object-contain">
                                 
                                 @if(count($images) > 1)
                                     <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
@@ -60,11 +60,18 @@
                     
                     <!-- Pricing & CTA -->
                     <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100">
-                        <div class="flex items-end gap-3 mb-6">
+                        <div class="flex flex-wrap items-end gap-x-3 gap-y-2 mb-6">
                             @if($product->price)
                                 <span class="text-4xl font-black text-gray-900">₹{{ number_format($product->price, 2) }}</span>
+                                @if($product->has_discount)
+                                    <span class="text-xl text-gray-400 line-through mb-1">₹{{ number_format($product->mrp, 2) }}</span>
+                                    <span class="mb-1.5 inline-flex items-center rounded-full bg-success-50 px-2.5 py-0.5 text-sm font-semibold text-success-600 border border-success-100">{{ $product->discount_percent }}% off</span>
+                                @endif
                                 @if($product->pricing_type)
                                     <span class="text-lg text-gray-500 mb-1 capitalize">/ {{ $product->pricing_type }}</span>
+                                @endif
+                                @if($product->has_discount)
+                                    <p class="w-full text-sm font-medium text-success-600">You save ₹{{ number_format($product->mrp - $product->price, 2) }}</p>
                                 @endif
                             @else
                                 <span class="text-2xl font-bold text-gray-900">Contact for pricing</span>

@@ -21,6 +21,7 @@ class Product extends Model
         'features',
         'benefits',
         'price',
+        'mrp',
         'pricing_type',
         'demo_url',
         'documentation_url',
@@ -31,11 +32,30 @@ class Product extends Model
 
     protected $casts = [
         'price' => 'decimal:2',
+        'mrp' => 'decimal:2',
         'images' => 'array',
         'features' => 'array',
         'benefits' => 'array',
         'cta' => 'array',
     ];
+
+    /**
+     * True when an MRP is set and is higher than the selling price.
+     */
+    public function getHasDiscountAttribute(): bool
+    {
+        return $this->price !== null && $this->mrp !== null && (float) $this->mrp > (float) $this->price;
+    }
+
+    /**
+     * Whole-number discount percentage off the MRP (0 when there is no discount).
+     */
+    public function getDiscountPercentAttribute(): int
+    {
+        return $this->has_discount
+            ? (int) round(((float) $this->mrp - (float) $this->price) / (float) $this->mrp * 100)
+            : 0;
+    }
 
     public function scopeActive($query)
     {

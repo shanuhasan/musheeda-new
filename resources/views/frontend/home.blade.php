@@ -100,9 +100,8 @@
                     @endphp
                     <a href="{{ $product->demo_url ?? route('products.show', $product->slug) }}" target="{{ $product->demo_url ? '_blank' : '_self' }}" class="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl overflow-hidden hover:border-brand-500/50 transition-colors duration-300 flex flex-col h-full group block cursor-pointer">
                         @if($imageUrl)
-                            <div class="h-48 overflow-hidden relative">
-                                <img src="{{ $imageUrl }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-60"></div>
+                            <div class="h-56 overflow-hidden relative bg-slate-800">
+                                <img src="{{ $imageUrl }}" alt="{{ $product->name }}" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500">
                             </div>
                         @else
                             <div class="h-48 bg-slate-800 flex items-center justify-center">
@@ -116,7 +115,13 @@
                             </p>
                             <div class="flex items-center justify-between mt-auto">
                                 @if($product->price)
-                                    <span class="text-lg font-bold text-white">₹{{ number_format($product->price, 2) }}</span>
+                                    <span>
+                                        <span class="text-lg font-bold text-white">₹{{ number_format($product->price, 2) }}</span>
+                                        @if($product->has_discount)
+                                            <span class="ml-1 text-sm text-slate-500 line-through">₹{{ number_format($product->mrp, 2) }}</span>
+                                            <span class="ml-1 text-xs font-semibold text-success-400">{{ $product->discount_percent }}% off</span>
+                                        @endif
+                                    </span>
                                 @else
                                     <span class="text-brand-400 font-medium">Custom</span>
                                 @endif

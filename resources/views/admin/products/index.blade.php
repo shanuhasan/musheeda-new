@@ -44,6 +44,9 @@
                     </td>
                     <td class="border-b border-slate-200 px-4 py-5 dark:border-slate-800 text-slate-500">
                         {{ $product->price ? '₹' . number_format($product->price, 2) : 'Custom' }}
+                        @if($product->has_discount)
+                            <span class="block text-xs text-slate-400 line-through">MRP ₹{{ number_format($product->mrp, 2) }}</span>
+                        @endif
                     </td>
                     <td class="border-b border-slate-200 px-4 py-5 dark:border-slate-800">
                         @if($product->status == 'active')
