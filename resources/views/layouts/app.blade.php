@@ -29,7 +29,7 @@
         <header 
             x-data="{ scrolled: false }"
             @scroll.window="scrolled = (window.pageYOffset > 20)"
-            :class="{'shadow-lg shadow-black/20': scrolled, 'bg-slate-900 border-slate-800': !scrolled}"
+            :class="{ 'shadow-lg shadow-black/20': scrolled }"
             class="fixed w-full top-0 z-50 transition-all duration-300 border-b bg-slate-900 border-slate-800"
         >
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

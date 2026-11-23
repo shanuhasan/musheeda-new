@@ -25,10 +25,27 @@
                         </div>
                     </div>
                     
+                    @if($productDetails->has_discount)
+                        <dl class="space-y-3 text-sm mb-6 pb-6 border-b border-slate-700">
+                            <div class="flex justify-between items-center">
+                                <dt class="text-slate-400">MRP</dt>
+                                <dd class="text-slate-400 line-through">₹{{ number_format($productDetails->mrp, 2) }}</dd>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <dt class="text-slate-400">Discount <span class="ml-1 rounded-full bg-success-500/15 px-2 py-0.5 text-xs font-semibold text-success-400">{{ $productDetails->discount_percent }}% off</span></dt>
+                                <dd class="font-medium text-success-400">&minus; ₹{{ number_format($productDetails->mrp - $productDetails->price, 2) }}</dd>
+                            </div>
+                        </dl>
+                    @endif
+
                     <div class="flex justify-between items-center font-bold text-lg">
                         <span>Total:</span>
-                        <span>₹{{ $price }}</span>
+                        <span>₹{{ number_format($price, 2) }}</span>
                     </div>
+
+                    @if($productDetails->has_discount)
+                        <p class="mt-3 text-xs font-medium text-success-400">You save ₹{{ number_format($productDetails->mrp - $productDetails->price, 2) }} on this order</p>
+                    @endif
                 </div>
 
                 <!-- Checkout Form -->
