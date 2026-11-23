@@ -3,7 +3,7 @@
 @section('content')
 <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
     <div>
-        <h2 class="text-title-md2 font-bold text-slate-800 dark:text-white/90">Edit Post</h2>
+        <h2 class="text-title-md2 font-semibold text-slate-800 dark:text-white/90">Edit Post</h2>
         <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Update your blog article.</p>
     </div>
     <a href="{{ route('blog.show', $post->slug) }}" target="_blank" class="inline-flex items-center justify-center gap-2.5 rounded-lg bg-slate-100 px-4 py-2 text-center font-medium text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">
@@ -17,7 +17,7 @@
     
     <div class="lg:col-span-2 space-y-6">
         <!-- Main Content -->
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-white/[0.03] md:p-6">
+        <div class="rounded-xl border border-slate-200 bg-white p-5  dark:border-slate-800 dark:bg-slate-900 md:p-6">
             <div class="space-y-5">
                 <div>
                     <label for="title" class="mb-2.5 block text-sm font-medium text-slate-800 dark:text-white/90">Title</label>
@@ -58,7 +58,7 @@
         </div>
 
         <!-- FAQs -->
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-white/[0.03] md:p-6" x-data="{ faqs: {{ json_encode(old('faqs', $post->faqs ?: [])) }} }">
+        <div class="rounded-xl border border-slate-200 bg-white p-5  dark:border-slate-800 dark:bg-slate-900 md:p-6" x-data="{ faqs: {{ json_encode(old('faqs', $post->faqs ?: [])) }} }">
             <div class="flex justify-between items-center mb-4">
                 <div>
                     <h3 class="text-lg font-bold text-slate-800 dark:text-white/90">Frequently Asked Questions</h3>
@@ -97,7 +97,7 @@
     
     <div class="space-y-6">
         <!-- Publishing -->
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-white/[0.03] md:p-6">
+        <div class="rounded-xl border border-slate-200 bg-white p-5  dark:border-slate-800 dark:bg-slate-900 md:p-6">
             <h3 class="mb-4 text-lg font-bold text-slate-800 dark:text-white/90">Publishing</h3>
             
             <div class="space-y-4">
@@ -120,14 +120,14 @@
                     <label for="is_featured" class="text-sm font-medium text-slate-800 dark:text-white/90">Featured Post</label>
                 </div>
 
-                <button type="submit" class="w-full inline-flex items-center justify-center gap-2.5 rounded-lg bg-brand-500 px-4 py-3 text-center font-medium text-white hover:bg-brand-600">
+                <button type="submit" class="w-full inline-flex items-center justify-center gap-2.5 rounded-lg bg-slate-900 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200 px-4 py-3 text-center font-medium text-white hover:bg-slate-800">
                     Update Post
                 </button>
             </div>
         </div>
 
         <!-- Featured Image -->
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-white/[0.03] md:p-6">
+        <div class="rounded-xl border border-slate-200 bg-white p-5  dark:border-slate-800 dark:bg-slate-900 md:p-6">
             <h3 class="mb-4 text-lg font-bold text-slate-800 dark:text-white/90">Featured Image</h3>
             
             @if($post->hasMedia('featured_image'))
@@ -147,7 +147,7 @@
         </div>
 
         <!-- Categories -->
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-white/[0.03] md:p-6">
+        <div class="rounded-xl border border-slate-200 bg-white p-5  dark:border-slate-800 dark:bg-slate-900 md:p-6">
             <h3 class="mb-4 text-lg font-bold text-slate-800 dark:text-white/90">Categories</h3>
             <div class="max-h-48 overflow-y-auto space-y-2">
                 @foreach($categories as $category)
@@ -160,7 +160,7 @@
         </div>
 
         <!-- Tags -->
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-white/[0.03] md:p-6">
+        <div class="rounded-xl border border-slate-200 bg-white p-5  dark:border-slate-800 dark:bg-slate-900 md:p-6">
             <h3 class="mb-4 text-lg font-bold text-slate-800 dark:text-white/90">Tags</h3>
             <div class="max-h-48 overflow-y-auto space-y-2">
                 @foreach($tags as $tag)
@@ -173,7 +173,7 @@
         </div>
 
         <!-- Related Posts -->
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-white/[0.03] md:p-6">
+        <div class="rounded-xl border border-slate-200 bg-white p-5  dark:border-slate-800 dark:bg-slate-900 md:p-6">
             <h3 class="mb-4 text-lg font-bold text-slate-800 dark:text-white/90">Related Posts</h3>
             <div class="max-h-48 overflow-y-auto space-y-2">
                 @foreach($posts as $p)

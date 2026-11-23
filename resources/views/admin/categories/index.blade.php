@@ -3,17 +3,17 @@
 @section('content')
 <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
     <div>
-        <h2 class="text-title-md2 font-bold text-slate-800 dark:text-white/90">Categories</h2>
+        <h2 class="text-title-md2 font-semibold text-slate-800 dark:text-white/90">Categories</h2>
         <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Manage blog categories.</p>
     </div>
-    <a href="{{ route('admin.categories.create') }}" class="inline-flex items-center justify-center gap-2.5 rounded-lg bg-brand-500 px-4 py-2 text-center font-medium text-white hover:bg-brand-600 lg:px-4 xl:px-6">
+    <a href="{{ route('admin.categories.create') }}" class="inline-flex items-center justify-center gap-2.5 rounded-lg bg-slate-900 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200 px-4 py-2 text-center font-medium text-white hover:bg-slate-800 lg:px-4 xl:px-6">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
         Create Category
     </a>
 </div>
 
 @if(session('success'))
-<div class="mb-4 flex w-full border-l-6 border-success bg-success-50 px-7 py-4 shadow-md dark:bg-success-500/15 dark:border-success-500 rounded-lg">
+<div class="mb-4 flex w-full border-l-6 border-success bg-success-50 px-7 py-4 dark:bg-success-500/15 dark:border-success-500 rounded-lg">
     <div class="mr-5 flex h-9 w-full max-w-[36px] items-center justify-center rounded-lg bg-success">
         <svg class="fill-white" width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M15.2984 0.826822L15.2868 0.811827L15.2741 0.797751C14.9173 0.401867 14.3238 0.400754 13.9657 0.794406L5.91888 9.45376L2.05667 5.2868C1.69856 4.89287 1.10487 4.89389 0.747996 5.28987C0.417335 5.65675 0.417335 6.22337 0.747996 6.59026L0.747959 6.59029L0.752701 6.59541L4.86742 11.0348C5.14445 11.3405 5.52858 11.5 5.89581 11.5C6.29242 11.5 6.65178 11.3355 6.92401 11.035L15.2162 2.11161C15.5833 1.74452 15.576 1.18615 15.2984 0.826822Z" stroke="white" stroke-width="0.2"></path>
@@ -26,13 +26,13 @@
 </div>
 @endif
 
-<div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-white/[0.03] md:p-6">
+<div class="rounded-xl border border-slate-200 bg-white p-5  dark:border-slate-800 dark:bg-slate-900 md:p-6">
     <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-slate-100 dark:divide-slate-800">
             <thead class="bg-slate-50 dark:bg-slate-800/50">
                 <tr>
-                    <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Name / Slug</th>
-                    <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Posts Count</th>
+                    <th scope="col" class="px-6 py-4 text-left text-[11px] font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Name / Slug</th>
+                    <th scope="col" class="px-6 py-4 text-left text-[11px] font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Posts Count</th>
                     <th scope="col" class="relative px-6 py-4">
                         <span class="sr-only">Actions</span>
                     </th>

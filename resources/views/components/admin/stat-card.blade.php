@@ -1,16 +1,20 @@
-@props(['title', 'value', 'icon', 'color' => 'indigo'])
+@props(['title', 'value', 'icon' => null, 'color' => 'brand', 'href' => null, 'hint' => null])
 
-<div class="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-white/[0.03] md:p-6 transition-transform hover:-translate-y-1 hover:shadow-sm">
-    <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-{{ $color }}-500">
-        {!! $icon !!}
+@php
+    $tag = $href ? 'a' : 'div';
+@endphp
+
+<{{ $tag }} @if($href) href="{{ $href }}" @endif class="group relative flex flex-col justify-between bg-white p-5 transition-colors dark:bg-slate-900 md:p-6 {{ $href ? 'hover:bg-slate-50 dark:hover:bg-slate-800/60' : '' }}">
+    <div class="flex items-center justify-between gap-3">
+        <span class="text-[13px] font-medium text-slate-500 dark:text-slate-400">{{ $title }}</span>
+        @if($icon)
+            <span class="text-slate-300 transition-colors group-hover:text-slate-500 dark:text-slate-600 [&>svg]:h-[18px] [&>svg]:w-[18px]">{!! $icon !!}</span>
+        @endif
     </div>
-    
-    <div class="mt-5 flex items-end justify-between">
-      <div>
-        <span class="text-sm text-slate-500 dark:text-slate-400">{{ $title }}</span>
-        <h4 class="mt-2 text-2xl font-bold text-slate-800 dark:text-white/90">
-          {{ $value }}
-        </h4>
-      </div>
+    <div class="mt-6 flex items-end justify-between gap-3">
+        <span class="text-[32px] font-semibold leading-none tracking-tight text-slate-900 tabular-nums dark:text-white">{{ $value }}</span>
+        @if($hint)
+            <span class="text-xs text-slate-500">{{ $hint }}</span>
+        @endif
     </div>
-</div>
+</{{ $tag }}>

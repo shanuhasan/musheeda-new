@@ -1,6 +1,6 @@
 <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
     <div class="lg:col-span-2 space-y-6">
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-white/[0.03]">
+        <div class="rounded-xl border border-slate-200 bg-white p-5  dark:border-slate-800 dark:bg-slate-900">
             <h3 class="mb-4 text-lg font-semibold text-slate-800 dark:text-white/90">General Information</h3>
             
             <div class="space-y-4">
@@ -41,7 +41,7 @@
             </div>
         </div>
 
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-white/[0.03]">
+        <div class="rounded-xl border border-slate-200 bg-white p-5  dark:border-slate-800 dark:bg-slate-900">
             <h3 class="mb-4 text-lg font-semibold text-slate-800 dark:text-white/90">Features & Benefits (JSON)</h3>
             <p class="text-sm text-slate-500 mb-4">Enter arrays as valid JSON formats e.g. ["Feature 1", "Feature 2"].</p>
             
@@ -58,14 +58,14 @@
         </div>
 
         <!-- SEO Section -->
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-white/[0.03]">
+        <div class="rounded-xl border border-slate-200 bg-white p-5  dark:border-slate-800 dark:bg-slate-900">
             <h3 class="mb-4 text-lg font-semibold text-slate-800 dark:text-white/90">SEO Metadata</h3>
             @include('admin.partials.seo-form', ['model' => $product])
         </div>
     </div>
 
     <div class="space-y-6">
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-white/[0.03]">
+        <div class="rounded-xl border border-slate-200 bg-white p-5  dark:border-slate-800 dark:bg-slate-900">
             <h3 class="mb-4 text-lg font-semibold text-slate-800 dark:text-white/90">Publishing</h3>
             
             <div class="space-y-4">
@@ -80,7 +80,7 @@
             </div>
         </div>
 
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-white/[0.03]">
+        <div class="rounded-xl border border-slate-200 bg-white p-5  dark:border-slate-800 dark:bg-slate-900">
             <h3 class="mb-4 text-lg font-semibold text-slate-800 dark:text-white/90">Pricing & Links</h3>
             
             <div class="space-y-4">
@@ -112,7 +112,7 @@
             </div>
         </div>
         
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-white/[0.03]">
+        <div class="rounded-xl border border-slate-200 bg-white p-5  dark:border-slate-800 dark:bg-slate-900">
             <h3 class="mb-4 text-lg font-semibold text-slate-800 dark:text-white/90">Media</h3>
             <div>
                 <label class="mb-2.5 block text-sm font-medium text-slate-800 dark:text-white/90">Upload New Image</label>
@@ -132,7 +132,7 @@
             </div>
         </div>
 
-        <button type="submit" class="w-full inline-flex items-center justify-center gap-2.5 rounded-lg bg-brand-500 px-4 py-3 text-center font-medium text-white hover:bg-brand-600 transition-all">
+        <button type="submit" class="w-full inline-flex items-center justify-center gap-2.5 rounded-lg bg-slate-900 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200 px-4 py-3 text-center font-medium text-white hover:bg-slate-800 transition-all">
             Save Product
         </button>
     </div>

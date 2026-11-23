@@ -2,7 +2,7 @@
     $seo = $model->seoMetadata ?? new \App\Models\SeoMetadata();
 @endphp
 
-<div class="mt-8 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-white/[0.03] md:p-6" 
+<div class="mt-8 rounded-xl border border-slate-200 bg-white p-5  dark:border-slate-800 dark:bg-slate-900 md:p-6" 
     x-data="{ 
         seoTab: 'general',
         postTitle: document.querySelector('input[name=\'title\']') ? document.querySelector('input[name=\'title\']').value : '',

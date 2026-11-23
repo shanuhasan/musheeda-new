@@ -4,396 +4,198 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="robots" content="noindex, nofollow">
 
-    <title>{{ config('app.name', 'Musheeda') }} - Admin Panel</title>
+    <title>{{ config('app.name', 'Musheeda') }} &middot; Admin</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=outfit:300,400,500,600,700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
+
+    <!-- Apply the saved theme before paint to avoid a flash -->
+    <script>
+        try { if (JSON.parse(localStorage.getItem('darkMode'))) document.documentElement.classList.add('dark'); } catch (e) {}
+    </script>
 
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <style>
-        [x-cloak] { display: none !important; }
-    </style>
+    @vite(['resources/css/admin.css', 'resources/js/app.js'])
 </head>
+@php
+    $icons = [
+        'home' => 'M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1v-9.5z',
+        'page' => 'M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8l-5-5zM14 3v5h5M9 13h6M9 17h4',
+        'layout' => 'M4 5a1 1 0 011-1h14a1 1 0 011 1v4H4V5zM4 13h7v7H5a1 1 0 01-1-1v-6zM15 13h5v6a1 1 0 01-1 1h-4v-7z',
+        'pen' => 'M4 20h4L19 9a2.828 2.828 0 10-4-4L4 16v4zM13.5 6.5l4 4',
+        'briefcase' => 'M9 6V5a2 2 0 012-2h2a2 2 0 012 2v1M4 7h16a1 1 0 011 1v10a2 2 0 01-2 2H5a2 2 0 01-2-2V8a1 1 0 011-1zM3 12h18',
+        'box' => 'M21 8l-9-5-9 5 9 5 9-5zM3 8v8l9 5 9-5V8M12 13v8',
+        'folder' => 'M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z',
+        'tag' => 'M3 12V4a1 1 0 011-1h8l9 9-9 9-9-9zM7.5 7.5h.01',
+        'users' => 'M16 19v-1a4 4 0 00-4-4H6a4 4 0 00-4 4v1M9 10a3 3 0 100-6 3 3 0 000 6zM22 19v-1a4 4 0 00-3-3.87M16 4.13a3 3 0 010 5.74',
+        'mail' => 'M4 5h16a1 1 0 011 1v12a1 1 0 01-1 1H4a1 1 0 01-1-1V6a1 1 0 011-1zM3 7l9 6 9-6',
+        'megaphone' => 'M3 11v2a1 1 0 001 1h2l5 4V6L6 10H4a1 1 0 00-1 1zM15 9a3 3 0 010 6M18 6a7 7 0 010 12',
+        'image' => 'M4 5h16a1 1 0 011 1v12a1 1 0 01-1 1H4a1 1 0 01-1-1V6a1 1 0 011-1zM3 16l5-5 4 4 3-3 6 6M15.5 9.5h.01',
+        'menu' => 'M4 6h16M4 12h16M4 18h10',
+        'cog' => 'M12 15a3 3 0 100-6 3 3 0 000 6zM19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6 1.65 1.65 0 0010 3.09V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z',
+        'clock' => 'M12 21a9 9 0 100-18 9 9 0 000 18zM12 7v5l3 3',
+        'redirect' => 'M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5',
+    ];
+
+    $navGroups = [
+        'Overview' => [
+            ['Dashboard', 'admin.dashboard', ['admin.dashboard'], 'home', null],
+        ],
+        'Content' => [
+            ['Pages', 'admin.pages.index', ['admin.pages.*'], 'page', 'manage_pages'],
+            ['Landing Pages', 'admin.landing-pages.index', ['admin.landing-pages.*'], 'layout', 'manage_pages'],
+            ['Posts', 'admin.posts.index', ['admin.posts.*'], 'pen', 'manage_pages'],
+            ['Services', 'admin.services.index', ['admin.services.*'], 'briefcase', 'manage_pages'],
+            ['Products', 'admin.products.index', ['admin.products.*'], 'box', 'manage_pages'],
+            ['Categories', 'admin.categories.index', ['admin.categories.*'], 'folder', 'manage_pages'],
+            ['Tags', 'admin.tags.index', ['admin.tags.*'], 'tag', 'manage_pages'],
+            ['Media Library', 'admin.media.index', ['admin.media.*'], 'image', null],
+        ],
+        'Audience' => [
+            ['Leads', 'admin.leads.index', ['admin.leads.*'], 'users', null],
+            ['Subscribers', 'admin.subscribers.index', ['admin.subscribers.*'], 'mail', null],
+            ['Advertisements', 'admin.advertisements.index', ['admin.advertisements.*'], 'megaphone', 'manage_settings'],
+        ],
+        'System' => [
+            ['Menus', 'admin.menus.index', ['admin.menus.*', 'admin.menu-items.*'], 'menu', 'manage_settings'],
+            ['Redirects', 'admin.redirects.index', ['admin.redirects.*'], 'redirect', 'manage_settings'],
+            ['Activity Logs', 'admin.activity-logs.index', ['admin.activity-logs.*'], 'clock', 'manage_settings'],
+            ['Settings', 'admin.settings.index', ['admin.settings.*'], 'cog', 'manage_settings'],
+        ],
+    ];
+
+    $user = Auth::user();
+    $currentLabel = 'Dashboard';
+    foreach ($navGroups as $items) {
+        foreach ($items as $item) {
+            if (request()->routeIs(...$item[2])) { $currentLabel = $item[0]; }
+        }
+    }
+@endphp
 <body
-    x-data="{ page: 'dashboard', 'loaded': true, 'darkMode': false, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
+    x-data="{ darkMode: false, sidebarOpen: false }"
     x-init="
-         darkMode = JSON.parse(localStorage.getItem('darkMode'));
-         $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"
-    :class="{'dark bg-gray-900 text-bodydark': darkMode === true}"
-    class="font-sans text-base font-normal text-slate-500 bg-slate-50"
+        darkMode = document.documentElement.classList.contains('dark');
+        $watch('darkMode', value => {
+            localStorage.setItem('darkMode', JSON.stringify(value));
+            document.documentElement.classList.toggle('dark', value);
+        })"
+    class="admin bg-slate-100 font-sans text-[14px] text-slate-600 antialiased dark:bg-slate-950 dark:text-slate-400"
 >
-    <!-- ===== Page Wrapper Start ===== -->
     <div class="flex h-screen overflow-hidden">
-        
-        <!-- ===== Sidebar Start ===== -->
+
+        <!-- Mobile overlay -->
+        <div x-show="sidebarOpen" x-cloak x-transition.opacity @click="sidebarOpen = false" class="fixed inset-0 z-40 bg-slate-950/50 backdrop-blur-sm lg:hidden"></div>
+
+        <!-- Sidebar -->
         <aside
-            :class="sidebarToggle ? 'translate-x-0 lg:w-[90px]' : '-translate-x-full'"
-            class="sidebar fixed left-0 top-0 z-[9999] flex h-screen w-[290px] flex-col overflow-y-hidden border-r border-slate-200 bg-white px-5 dark:border-slate-800 dark:bg-black lg:static lg:translate-x-0 transition-transform duration-300 ease-in-out"
-            @click.outside="sidebarToggle = false"
+            :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+            class="fixed inset-y-0 left-0 z-50 flex w-[248px] flex-col bg-slate-950 transition-transform duration-300 ease-out lg:static lg:translate-x-0"
         >
-            <!-- SIDEBAR HEADER -->
-            <div class="flex items-center gap-2 pt-8 sidebar-header pb-7" :class="sidebarToggle ? 'justify-center' : 'justify-between'">
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2">
-                    <span class="logo text-2xl font-black text-slate-800 dark:text-white" :class="sidebarToggle ? 'hidden' : 'block'">
-                        Musheeda CMS
-                    </span>
-                    <span class="logo-icon text-2xl font-black text-brand-500" :class="sidebarToggle ? 'block' : 'hidden'">
-                        M
-                    </span>
+            <div class="flex h-16 shrink-0 items-center gap-2.5 border-b border-white/[0.06] px-5">
+                <span class="grid h-7 w-7 place-items-center rounded-md bg-white text-[13px] font-semibold text-slate-950">{{ mb_substr(config('app.name', 'Musheeda'), 0, 1) }}</span>
+                <a href="{{ route('admin.dashboard') }}" class="text-[15px] font-semibold tracking-tight text-white">{{ config('app.name', 'Musheeda') }}</a>
+                <span class="ml-auto rounded border border-white/10 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-slate-500">CMS</span>
+            </div>
+
+            <nav class="custom-scrollbar flex-1 overflow-y-auto px-3 pb-6" aria-label="Admin">
+                @foreach($navGroups as $group => $items)
+                    @php
+                        $visible = array_filter($items, fn ($i) => !$i[4] || $user->can($i[4]));
+                    @endphp
+                    @if(count($visible))
+                        <p class="admin-nav-label">{{ $group }}</p>
+                        <ul class="space-y-0.5">
+                            @foreach($visible as [$label, $route, $patterns, $icon, $perm])
+                                @php $active = request()->routeIs(...$patterns); @endphp
+                                <li>
+                                    <a href="{{ route($route) }}" @class(['admin-nav-link', 'is-active' => $active]) @if($active) aria-current="page" @endif>
+                                        <svg fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="{{ $icons[$icon] }}"/></svg>
+                                        {{ $label }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+                @endforeach
+            </nav>
+
+            <div class="border-t border-white/[0.06] p-3">
+                <a href="{{ url('/') }}" target="_blank" class="admin-nav-link">
+                    <svg fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="{{ $icons['redirect'] }}"/></svg>
+                    View website
                 </a>
             </div>
-
-            <!-- SIDEBAR MENU -->
-            <div class="flex flex-col overflow-y-auto duration-300 ease-linear custom-scrollbar">
-                <nav class="mt-4" x-data="{selected: $persist('Dashboard')}">
-                    <div>
-                        <h3 class="mb-4 text-xs uppercase leading-[20px] text-slate-400">
-                            <span class="menu-group-title" :class="sidebarToggle ? 'hidden lg:block' : 'block'">Main Menu</span>
-                        </h3>
-                        <ul class="flex flex-col gap-2 mb-6">
-                            
-                            <!-- Dashboard -->
-                            <li>
-                                <a
-                                    href="{{ route('admin.dashboard') }}"
-                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
-                                    :class="request()->routeIs('admin.dashboard') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
-                                >
-                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                                    </svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Dashboard</span>
-                                </a>
-                            </li>
-
-                            @can('manage_pages')
-                            <!-- Pages -->
-                            <li>
-                                <a
-                                    href="{{ route('admin.pages.index') }}"
-                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
-                                    :class="request()->routeIs('admin.pages.*') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
-                                >
-                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                                    </svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Pages</span>
-                                </a>
-                            </li>
-                            
-                            <!-- Landing Pages -->
-                            <li>
-                                <a
-                                    href="{{ route('admin.landing-pages.index') }}"
-                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
-                                    :class="request()->routeIs('admin.landing-pages.*') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
-                                >
-                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                                    </svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Landing Pages</span>
-                                </a>
-                            </li>
-                            @endcan
-
-                            @can('manage_pages')
-                            <!-- Posts -->
-                            <li>
-                                <a
-                                    href="{{ route('admin.posts.index') }}"
-                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
-                                    :class="request()->routeIs('admin.posts.*') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
-                                >
-                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                                    </svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Posts</span>
-                                </a>
-                            </li>
-
-                            <!-- Services -->
-                            <li>
-                                <a
-                                    href="{{ route('admin.services.index') }}"
-                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
-                                    :class="request()->routeIs('admin.services.*') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
-                                >
-                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                                    </svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Services</span>
-                                </a>
-                            </li>
-
-                            <!-- Products -->
-                            <li>
-                                <a
-                                    href="{{ route('admin.products.index') }}"
-                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
-                                    :class="request()->routeIs('admin.products.*') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
-                                >
-                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                                    </svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Products</span>
-                                </a>
-                            </li>
-
-                            <!-- Categories -->
-                            <li>
-                                <a
-                                    href="{{ route('admin.categories.index') }}"
-                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
-                                    :class="request()->routeIs('admin.categories.*') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
-                                >
-                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-                                    </svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Categories</span>
-                                </a>
-                            </li>
-
-                            <!-- Tags -->
-                            <li>
-                                <a
-                                    href="{{ route('admin.tags.index') }}"
-                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
-                                    :class="request()->routeIs('admin.tags.*') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
-                                >
-                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-                                    </svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Tags</span>
-                                </a>
-                            </li>
-                            @endcan
-
-                            <!-- Leads -->
-                            <li>
-                                <a
-                                    href="{{ route('admin.leads.index') }}"
-                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
-                                    :class="request()->routeIs('admin.leads.*') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
-                                >
-                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7ZM14 7C14 8.10457 13.1046 9 12 9C10.8954 9 10 8.10457 10 7C10 5.89543 10.8954 5 12 5C13.1046 5 14 5.89543 14 7ZM12 14C8.13401 14 5 17.134 5 21H7C7 18.2386 9.23858 16 12 16C14.7614 16 17 18.2386 17 21H19C19 17.134 15.866 14 12 14Z"></path>
-                                    </svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Leads</span>
-                                </a>
-                            </li>
-
-                            <!-- Subscribers -->
-                            <li>
-                                <a
-                                    href="{{ route('admin.subscribers.index') }}"
-                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
-                                    :class="request()->routeIs('admin.subscribers.*') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
-                                >
-                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M4 7.00005L10.2 11.65C11.2667 12.45 12.7333 12.45 13.8 11.65L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                        <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2" stroke-linecap="round"></rect>
-                                    </svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Subscribers</span>
-                                </a>
-                            </li>
-
-                            @can('manage_settings')
-                            <!-- Advertisements -->
-                            <li>
-                                <a
-                                    href="{{ route('admin.advertisements.index') }}"
-                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
-                                    :class="request()->routeIs('admin.advertisements.*') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
-                                >
-                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                        <path d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                    </svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Advertisements</span>
-                                </a>
-                            </li>
-                            @endcan
-
-                            <!-- Media Library -->
-                            <li>
-                                <a
-                                    href="{{ route('admin.media.index') }}"
-                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
-                                    :class="request()->routeIs('admin.media.*') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
-                                >
-                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                    </svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Media Library</span>
-                                </a>
-                            </li>
-
-                            @can('manage_settings')
-                            <!-- Menus -->
-                            <li>
-                                <a
-                                    href="{{ route('admin.menus.index') }}"
-                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
-                                    :class="request()->routeIs('admin.menus.*') || request()->routeIs('admin.menu-items.*') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
-                                >
-                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M4 6h16M4 12h16m-7 6h7"></path>
-                                    </svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Menus</span>
-                                </a>
-                            </li>
-
-                            <!-- Settings -->
-                            <li>
-                                <a
-                                    href="{{ route('admin.settings.index') }}"
-                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
-                                    :class="request()->routeIs('admin.settings.*') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
-                                >
-                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    </svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Settings</span>
-                                </a>
-                            </li>
-
-                            <!-- Activity Logs -->
-                            <li>
-                                <a
-                                    href="{{ route('admin.activity-logs.index') }}"
-                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
-                                    :class="request()->routeIs('admin.activity-logs.*') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
-                                >
-                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Activity Logs</span>
-                                </a>
-                            </li>
-
-                            <!-- Redirects -->
-                            <li>
-                                <a
-                                    href="{{ route('admin.redirects.index') }}"
-                                    class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors"
-                                    :class="request()->routeIs('admin.redirects.*') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
-                                >
-                                    <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                                    </svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : 'block'">Redirects</span>
-                                </a>
-                            </li>
-                            @endcan
-                    </div>
-                </nav>
-            </div>
         </aside>
-        <!-- ===== Sidebar End ===== -->
 
-        <!-- ===== Content Area Start ===== -->
-        <div class="relative flex flex-col flex-1 overflow-x-hidden overflow-y-auto">
-            
-            <!-- ===== Header Start ===== -->
-            <header class="sticky top-0 z-[999] flex w-full border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
-                <div class="flex grow items-center justify-between px-4 py-4 md:px-6 2xl:px-10">
-                    <div class="flex items-center gap-2 sm:gap-4 lg:hidden">
-                        <!-- Hamburger Toggle BTN -->
-                        <button
-                            class="z-[99999] block rounded-sm border border-slate-200 bg-white p-1.5 shadow-sm dark:border-slate-800 dark:bg-slate-900 lg:hidden"
-                            @click.stop="sidebarToggle = !sidebarToggle"
-                        >
-                            <span class="relative block h-5 w-5 cursor-pointer">
-                                <span class="du-block absolute right-0 h-full w-full">
-                                    <span class="relative top-0 left-0 my-1 block h-0.5 w-0 rounded-sm bg-black delay-[0] duration-200 ease-in-out dark:bg-white" :class="{ '!w-full delay-300': !sidebarToggle }"></span>
-                                    <span class="relative top-0 left-0 my-1 block h-0.5 w-0 rounded-sm bg-black delay-150 duration-200 ease-in-out dark:bg-white" :class="{ '!w-full delay-400': !sidebarToggle }"></span>
-                                    <span class="relative top-0 left-0 my-1 block h-0.5 w-0 rounded-sm bg-black delay-200 duration-200 ease-in-out dark:bg-white" :class="{ '!w-full delay-500': !sidebarToggle }"></span>
-                                </span>
+        <!-- Content -->
+        <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+
+            <!-- Top bar -->
+            <header class="sticky top-0 z-30 flex h-16 shrink-0 items-center gap-4 border-b border-slate-200 bg-white/90 px-4 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/90 md:px-8">
+                <button type="button" @click.stop="sidebarOpen = true" class="-ml-1 grid h-9 w-9 place-items-center rounded-md text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 lg:hidden" aria-label="Open navigation">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/></svg>
+                </button>
+
+                <nav class="flex min-w-0 items-center gap-2 text-[13px]" aria-label="Breadcrumb">
+                    <a href="{{ route('admin.dashboard') }}" class="hidden text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 sm:inline">Admin</a>
+                    <span class="hidden text-slate-300 dark:text-slate-700 sm:inline">/</span>
+                    <span class="truncate font-medium text-slate-900 dark:text-white">{{ $currentLabel }}</span>
+                </nav>
+
+                <div class="ml-auto flex items-center gap-1.5">
+                    <button type="button" @click="darkMode = !darkMode" class="grid h-9 w-9 place-items-center rounded-md text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-white" :aria-label="darkMode ? 'Switch to light mode' : 'Switch to dark mode'">
+                        <svg x-show="!darkMode" class="h-[18px] w-[18px]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+                        <svg x-show="darkMode" x-cloak class="h-[18px] w-[18px]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 17a5 5 0 100-10 5 5 0 000 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    </button>
+
+                    <span class="mx-1.5 h-6 w-px bg-slate-200 dark:bg-slate-800"></span>
+
+                    <!-- User -->
+                    <div class="relative" x-data="{ open: false }" @click.outside="open = false" @keydown.escape="open = false">
+                        <button type="button" @click="open = !open" :aria-expanded="open" class="flex items-center gap-3 rounded-md py-1 pl-1 pr-2 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800">
+                            <span class="grid h-8 w-8 place-items-center rounded-full bg-slate-900 text-xs font-semibold text-white dark:bg-white dark:text-slate-900">
+                                {{ mb_strtoupper(mb_substr($user->name, 0, 1)) }}
                             </span>
+                            <span class="hidden text-left leading-tight md:block">
+                                <span class="block text-[13px] font-medium text-slate-900 dark:text-white">{{ $user->name }}</span>
+                                <span class="block text-[11px] capitalize text-slate-500">{{ $user->roles->first()->name ?? 'Admin' }}</span>
+                            </span>
+                            <svg class="hidden h-3.5 w-3.5 text-slate-400 md:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
                         </button>
-                    </div>
 
-                    <div class="hidden sm:block">
-                        <form action="https://formbold.com/s/unique_form_id" method="POST">
-                            <div class="relative">
-                                <button class="absolute top-1/2 left-0 -translate-y-1/2">
-                                    <svg class="fill-slate-500 hover:fill-brand-500 dark:fill-slate-400 dark:hover:fill-brand-500" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.16666 3.33332C5.945 3.33332 3.33332 5.945 3.33332 9.16666C3.33332 12.3883 5.945 15 9.16666 15C12.3883 15 15 12.3883 15 9.16666C15 5.945 12.3883 3.33332 9.16666 3.33332ZM1.66666 9.16666C1.66666 5.02452 5.02452 1.66666 9.16666 1.66666C13.3088 1.66666 16.6667 5.02452 16.6667 9.16666C16.6667 11.1459 15.8981 12.9431 14.6409 14.288L18.0893 17.7364C18.4147 18.0618 18.4147 18.5894 18.0893 18.9149C17.7638 19.2403 17.2363 19.2403 16.9108 18.9149L13.4624 15.4665C12.285 16.2307 10.7892 16.6667 9.16666 16.6667C5.02452 16.6667 1.66666 13.3088 1.66666 9.16666Z" fill=""></path>
-                                    </svg>
-                                </button>
-
-                                <input type="text" placeholder="Type to search..." class="w-full bg-transparent pr-4 pl-9 focus:outline-none xl:w-[430px] border-none focus:ring-0 dark:text-white" />
+                        <div x-show="open" x-cloak x-transition.opacity.duration.150ms class="absolute right-0 mt-2 w-56 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-xl dark:border-slate-800 dark:bg-slate-900">
+                            <div class="border-b border-slate-100 px-4 py-3 dark:border-slate-800">
+                                <p class="truncate text-[13px] font-medium text-slate-900 dark:text-white">{{ $user->name }}</p>
+                                <p class="truncate text-xs text-slate-500">{{ $user->email }}</p>
                             </div>
-                        </form>
-                    </div>
-
-                    <div class="flex items-center gap-3 2xsm:gap-7">
-                        <ul class="flex items-center gap-2 2xsm:gap-4">
-                            <!-- Dark Mode Toggler -->
-                            <li>
-                                <label class="relative m-0 block h-7.5 w-14 rounded-full bg-slate-200 dark:bg-brand-500">
-                                    <input type="checkbox" class="absolute top-0 z-50 m-0 h-full w-full cursor-pointer opacity-0" @click="darkMode = !darkMode" />
-                                    <span class="absolute top-1/2 left-[3px] flex h-6 w-6 -translate-y-1/2 translate-x-0 items-center justify-center rounded-full bg-white shadow-sm duration-75 ease-linear dark:!right-[3px] dark:!translate-x-full">
-                                        <span class="dark:hidden">
-                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M7.99993 2.14659C8.36215 2.14659 8.65593 1.85282 8.65593 1.49059V1.02184C8.65593 0.659616 8.36215 0.365845 7.99993 0.365845C7.6377 0.365845 7.34393 0.659616 7.34393 1.02184V1.49059C7.34393 1.85282 7.6377 2.14659 7.99993 2.14659Z" fill="currentColor"></path>
-                                                <!-- Sun rays truncated for brevity -->
-                                                <circle cx="8" cy="8" r="3.25" fill="currentColor"></circle>
-                                            </svg>
-                                        </span>
-                                        <span class="hidden dark:inline-block">
-                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M12.9248 10.1557C10.7483 10.1557 8.98363 8.39103 8.98363 6.21448C8.98363 4.88725 9.64205 3.71261 10.6385 3.01162C10.8715 2.84758 10.963 2.53503 10.8528 2.26127C10.7427 1.98751 10.4578 1.82103 10.1654 1.86016C6.73277 2.31952 4.10397 5.25055 4.10397 8.81845C4.10397 12.7237 7.27027 15.89 11.1755 15.89C13.8824 15.89 16.2343 14.3644 17.2917 12.0163C17.4116 11.7505 17.3062 11.4393 17.0428 11.2829C16.7794 11.1264 16.4385 11.1611 16.2087 11.3695C15.2894 12.2032 14.1206 12.697 12.9248 12.697Z" fill="currentColor"></path>
-                                            </svg>
-                                        </span>
-                                    </span>
-                                </label>
-                            </li>
-                        </ul>
-
-                        <!-- User Area -->
-                        <div class="relative" x-data="{ dropdownOpen: false }" @click.outside="dropdownOpen = false">
-                            <a class="flex items-center gap-4 cursor-pointer" @click.prevent="dropdownOpen = ! dropdownOpen">
-                                <span class="hidden text-right lg:block">
-                                    <span class="block text-sm font-medium text-slate-800 dark:text-white">{{ Auth::user()->name }}</span>
-                                    <span class="block text-xs font-medium text-slate-500">{{ Auth::user()->roles->first()->name ?? 'Admin' }}</span>
-                                </span>
-                                <span class="h-10 w-10 rounded-full flex items-center justify-center bg-brand-500 text-white font-bold">
-                                    {{ substr(Auth::user()->name, 0, 1) }}
-                                </span>
-                            </a>
-
-                            <!-- Dropdown -->
-                            <div x-show="dropdownOpen" class="absolute right-0 mt-4 flex w-62.5 flex-col rounded-xl border border-slate-200 bg-white shadow-lg dark:border-slate-800 dark:bg-slate-900 w-48">
-                                <form method="POST" action="{{ route('logout') }}" class="p-2">
+                            <div class="p-1">
+                                @if(Route::has('profile.edit'))
+                                    <a href="{{ route('profile.edit') }}" class="flex items-center gap-2.5 rounded-md px-3 py-2 text-[13px] text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">Profile</a>
+                                @endif
+                                <a href="{{ url('/') }}" target="_blank" class="flex items-center gap-2.5 rounded-md px-3 py-2 text-[13px] text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">View website</a>
+                                <form method="POST" action="{{ route('logout') }}">
                                     @csrf
-                                    <button type="submit" class="flex w-full items-center gap-3.5 px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-brand-500 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-brand-400 rounded-lg">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-                                        Log Out
-                                    </button>
+                                    <button type="submit" class="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-left text-[13px] text-error-600 hover:bg-error-50 dark:hover:bg-error-500/10">Log out</button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </header>
-            <!-- ===== Header End ===== -->
 
-            <!-- ===== Main Content Start ===== -->
-            <main class="h-full">
-                <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+            <!-- Main -->
+            <main class="flex-1">
+                <div class="mx-auto max-w-[1400px] px-4 py-6 md:px-8 md:py-8">
                     @yield('content')
                 </div>
             </main>
-            <!-- ===== Main Content End ===== -->
-
         </div>
-        <!-- ===== Content Area End ===== -->
-        
-        @stack('scripts')
-    </body>
+    </div>
+
+    @stack('scripts')
+</body>
 </html>

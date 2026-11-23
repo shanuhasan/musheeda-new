@@ -1,0 +1,146 @@
+@config '../../tailwind.admin.config.js';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------ */
+/*  Base                                                               */
+/* ------------------------------------------------------------------ */
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'cv11', 'ss01', 'ss03';
+  }
+
+  ::selection {
+    background-color: theme('colors.brand.100');
+    color: theme('colors.brand.900');
+  }
+
+  [x-cloak] { display: none !important; }
+
+  /* Public site: editorial serif for page and section headlines.
+     Small/eyebrow-sized h2s keep the sans face. */
+  .site h1,
+  .site h2:not(.text-base):not(.text-sm):not(.text-lg):not(.text-xl):not(.font-sans) {
+    font-family: theme('fontFamily.display');
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 1.08;
+  }
+
+  .site h3 { letter-spacing: -0.01em; }
+
+  /* Admin: tighter, quieter headings */
+  .admin h1, .admin h2, .admin h3, .admin h4 { letter-spacing: -0.015em; }
+
+  /* Inputs: consistent, quiet focus state everywhere */
+  [type='text'], [type='email'], [type='url'], [type='password'], [type='number'],
+  [type='date'], [type='datetime-local'], [type='search'], [type='tel'], textarea, select {
+    @apply rounded-lg border-slate-300 text-sm text-slate-900 placeholder:text-slate-400
+           focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15;
+  }
+  .dark [type='text'], .dark [type='email'], .dark [type='url'], .dark [type='password'],
+  .dark [type='number'], .dark [type='date'], .dark [type='datetime-local'],
+  .dark [type='search'], .dark [type='tel'], .dark textarea, .dark select {
+    @apply border-slate-700 bg-slate-900 text-slate-100;
+  }
+  [type='checkbox'] { @apply rounded border-slate-300 text-brand-600 focus:ring-brand-600/20; }
+  [type='radio'] { @apply border-slate-300 text-brand-600 focus:ring-brand-600/20; }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Components                                                         */
+/* ------------------------------------------------------------------ */
+@layer components {
+  .container-site { @apply mx-auto w-full max-w-7xl px-5 sm:px-8; }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-eyebrow text-slate-500;
+  }
+  .eyebrow::before {
+    content: '';
+    @apply inline-block h-px w-6 bg-current opacity-60;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium
+           transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-600
+           focus-visible:ring-offset-2 disabled:opacity-50;
+  }
+  .btn-lg { @apply px-7 py-3.5 text-[15px]; }
+  .btn-primary { @apply bg-slate-900 text-white hover:bg-brand-700; }
+  .btn-brand { @apply bg-brand-600 text-white hover:bg-brand-700; }
+  .btn-secondary { @apply border border-slate-300 bg-white text-slate-900 hover:border-slate-900; }
+  .btn-ghost-light { @apply border border-white/25 text-white hover:bg-white hover:text-slate-900; }
+
+  .link-arrow {
+    @apply inline-flex items-center gap-1.5 text-sm font-medium text-slate-900 underline decoration-slate-300
+           underline-offset-4 transition-colors hover:decoration-slate-900;
+  }
+
+  .card { @apply rounded-2xl border border-slate-200 bg-white; }
+
+  /* Admin primitives */
+  .admin-nav-link {
+    @apply flex items-center gap-3 rounded-md px-2.5 py-2 text-[13px] font-medium text-slate-400 transition-colors
+           hover:bg-white/5 hover:text-white;
+  }
+  .admin-nav-link.is-active { @apply bg-white/[0.08] text-white; }
+  .admin-nav-link svg { @apply h-[18px] w-[18px] shrink-0 opacity-80; }
+  .admin-nav-link.is-active svg { @apply opacity-100 text-brand-300; }
+  .admin-nav-label { @apply px-2.5 pb-2 pt-6 text-[10.5px] font-semibold uppercase tracking-eyebrow text-slate-500; }
+
+  /* Lightweight rich-text styles (no typography plugin installed) */
+  .prose { @apply text-[17px] leading-[1.75] text-slate-700; }
+  .prose > * + * { @apply mt-5; }
+  .prose h2 { @apply mt-12 text-3xl text-slate-900; }
+  .prose h3 { @apply mt-10 text-xl font-semibold text-slate-900; }
+  .prose h4 { @apply mt-8 font-semibold text-slate-900; }
+  .prose a { @apply text-brand-700 underline decoration-brand-200 underline-offset-4 hover:decoration-brand-700; }
+  .prose strong { @apply font-semibold text-slate-900; }
+  .prose ul { @apply list-disc pl-6 marker:text-slate-400; }
+  .prose ol { @apply list-decimal pl-6 marker:text-slate-400; }
+  .prose li + li { @apply mt-2; }
+  .prose blockquote { @apply border-l-2 border-slate-900 pl-6 font-display text-2xl italic leading-snug text-slate-900; }
+  .prose img { @apply rounded-xl border border-slate-200; }
+  .prose code { @apply rounded bg-slate-100 px-1.5 py-0.5 text-[0.9em] text-slate-900; }
+  .prose pre { @apply overflow-x-auto rounded-xl bg-slate-900 p-5 text-sm text-slate-100; }
+  .prose pre code { @apply bg-transparent p-0 text-inherit; }
+  .prose hr { @apply my-12 border-slate-200; }
+  .prose table { @apply w-full text-left text-sm; }
+  .prose th { @apply border-b border-slate-300 py-2 font-semibold text-slate-900; }
+  .prose td { @apply border-b border-slate-200 py-2; }
+  .prose-invert, .dark .prose { @apply text-slate-300; }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Utilities                                                          */
+/* ------------------------------------------------------------------ */
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+  .custom-scrollbar::-webkit-scrollbar-track { border-radius: 9999px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { border-radius: 9999px; background-color: rgb(255 255 255 / 0.08); }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgb(16 16 14 / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(16 16 14 / 0.05) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+  .bg-grid-light {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.06) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+  }
+}

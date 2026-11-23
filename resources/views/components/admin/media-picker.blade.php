@@ -65,7 +65,7 @@
                 <!-- Modal Footer -->
                 <div class="flex items-center justify-end gap-3 border-t px-6 py-4 dark:border-slate-700">
                     <button type="button" @click="modalOpen = false" class="rounded-lg px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700">Cancel</button>
-                    <button type="button" @click="confirmSelection" :disabled="!tempSelected" class="rounded-lg bg-brand-500 px-4 py-2 text-sm font-medium text-white hover:bg-brand-600 disabled:opacity-50">Use Selected Image</button>
+                    <button type="button" @click="confirmSelection" :disabled="!tempSelected" class="rounded-lg bg-slate-900 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50">Use Selected Image</button>
                 </div>
             </div>
         </div>

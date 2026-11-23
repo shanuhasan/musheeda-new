@@ -3,13 +3,13 @@
 @section('content')
 <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
     <div>
-        <h2 class="text-title-md2 font-bold text-slate-800 dark:text-white/90">Website Settings</h2>
+        <h2 class="text-title-md2 font-semibold text-slate-800 dark:text-white/90">Website Settings</h2>
         <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Manage global configuration for header, footer, and basic info.</p>
     </div>
 </div>
 
 @if(session('success'))
-<div class="mb-6 flex w-full border-l-6 border-success bg-success-50 px-7 py-4 shadow-md dark:bg-success-500/15 dark:border-success-500 rounded-lg">
+<div class="mb-6 flex w-full border-l-6 border-success bg-success-50 px-7 py-4 dark:bg-success-500/15 dark:border-success-500 rounded-lg">
     <div class="mr-5 flex h-9 w-full max-w-[36px] items-center justify-center rounded-lg bg-success">
         <svg class="fill-white" width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M15.2984 0.826822L15.2868 0.811827L15.2741 0.797751C14.9173 0.401867 14.3238 0.400754 13.9657 0.794406L5.91888 9.45376L2.05667 5.2868C1.69856 4.89287 1.10487 4.89389 0.747996 5.28987C0.417335 5.65675 0.417335 6.22337 0.747996 6.59026L0.747959 6.59029L0.752701 6.59541L4.86742 11.0348C5.14445 11.3405 5.52858 11.5 5.89581 11.5C6.29242 11.5 6.65178 11.3355 6.92401 11.035L15.2162 2.11161C15.5833 1.74452 15.576 1.18615 15.2984 0.826822Z" stroke="white" stroke-width="0.2"></path>
@@ -43,7 +43,7 @@
     </div>
 
     <!-- Forms -->
-    <div class="rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-white/[0.03]">
+    <div class="rounded-xl border border-slate-200 bg-white  dark:border-slate-800 dark:bg-slate-900">
         
         <!-- General Tab -->
         <div x-show="activeTab === 'general'" class="p-6">
@@ -78,7 +78,7 @@
                     <p class="text-xs text-slate-500 mt-1">Recommended format: .ico or .png, size: 32x32 or 16x16.</p>
                 </div>
                 
-                <button type="submit" class="inline-flex items-center justify-center gap-2.5 rounded-lg bg-brand-500 px-6 py-3 text-center font-medium text-white hover:bg-brand-600 lg:px-8 xl:px-10">
+                <button type="submit" class="inline-flex items-center justify-center gap-2.5 rounded-lg bg-slate-900 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200 px-6 py-3 text-center font-medium text-white hover:bg-slate-800 lg:px-8 xl:px-10">
                     Save Changes
                 </button>
             </form>
@@ -117,7 +117,7 @@
                     <input type="text" name="settings[header_cta_url]" value="{{ $settings['header_cta_url'] ?? '/contact' }}" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 text-slate-800 outline-none transition focus:border-brand-500 active:border-brand-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white" />
                 </div>
                 
-                <button type="submit" class="inline-flex items-center justify-center gap-2.5 rounded-lg bg-brand-500 px-6 py-3 text-center font-medium text-white hover:bg-brand-600 lg:px-8 xl:px-10">
+                <button type="submit" class="inline-flex items-center justify-center gap-2.5 rounded-lg bg-slate-900 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200 px-6 py-3 text-center font-medium text-white hover:bg-slate-800 lg:px-8 xl:px-10">
                     Save Changes
                 </button>
             </form>
@@ -140,7 +140,7 @@
                     <input type="text" name="settings[footer_copyright]" value="{{ $settings['footer_copyright'] ?? '© 2026 Musheeda Solutions. All rights reserved.' }}" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 text-slate-800 outline-none transition focus:border-brand-500 active:border-brand-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white" />
                 </div>
                 
-                <button type="submit" class="inline-flex items-center justify-center gap-2.5 rounded-lg bg-brand-500 px-6 py-3 text-center font-medium text-white hover:bg-brand-600 lg:px-8 xl:px-10">
+                <button type="submit" class="inline-flex items-center justify-center gap-2.5 rounded-lg bg-slate-900 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200 px-6 py-3 text-center font-medium text-white hover:bg-slate-800 lg:px-8 xl:px-10">
                     Save Changes
                 </button>
             </form>
@@ -173,7 +173,7 @@
                     <input type="url" name="settings[social_instagram]" value="{{ $settings['social_instagram'] ?? '' }}" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 text-slate-800 outline-none transition focus:border-brand-500 active:border-brand-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white" />
                 </div>
                 
-                <button type="submit" class="inline-flex items-center justify-center gap-2.5 rounded-lg bg-brand-500 px-6 py-3 text-center font-medium text-white hover:bg-brand-600 lg:px-8 xl:px-10">
+                <button type="submit" class="inline-flex items-center justify-center gap-2.5 rounded-lg bg-slate-900 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200 px-6 py-3 text-center font-medium text-white hover:bg-slate-800 lg:px-8 xl:px-10">
                     Save Changes
                 </button>
             </form>
@@ -214,7 +214,7 @@
                     </label>
                 </div>
                 
-                <button type="submit" class="inline-flex items-center justify-center gap-2.5 rounded-lg bg-brand-500 px-6 py-3 text-center font-medium text-white hover:bg-brand-600 lg:px-8 xl:px-10">
+                <button type="submit" class="inline-flex items-center justify-center gap-2.5 rounded-lg bg-slate-900 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200 px-6 py-3 text-center font-medium text-white hover:bg-slate-800 lg:px-8 xl:px-10">
                     Save Changes
                 </button>
             </form>

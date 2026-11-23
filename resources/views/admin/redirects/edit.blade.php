@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-    <h2 class="text-title-md2 font-bold text-slate-800 dark:text-white/90">
+    <h2 class="text-title-md2 font-semibold text-slate-800 dark:text-white/90">
         Edit Redirect
     </h2>
     <a href="{{ route('admin.redirects.index') }}" class="text-sm font-medium text-brand-500 hover:text-brand-600">
@@ -14,7 +14,7 @@
     @csrf
     @method('PUT')
     
-    <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-white/[0.03] md:p-6 space-y-6">
+    <div class="rounded-xl border border-slate-200 bg-white p-5  dark:border-slate-800 dark:bg-slate-900 md:p-6 space-y-6">
         
         <div>
             <label class="mb-2.5 block text-sm font-medium text-slate-800 dark:text-white/90">Old URL <span class="text-error-500">*</span></label>
@@ -54,7 +54,7 @@
             </label>
         </div>
 
-        <button type="submit" class="mt-6 inline-flex items-center justify-center gap-2.5 rounded-lg bg-brand-500 px-6 py-3 text-center font-medium text-white hover:bg-brand-600 transition-all">
+        <button type="submit" class="mt-6 inline-flex items-center justify-center gap-2.5 rounded-lg bg-slate-900 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200 px-6 py-3 text-center font-medium text-white hover:bg-slate-800 transition-all">
             Update Redirect
         </button>
     </div>
