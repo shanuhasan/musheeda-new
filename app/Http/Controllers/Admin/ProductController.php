@@ -32,8 +32,9 @@ class ProductController extends Controller
         $product = Product::create($validated);
         
         if ($request->hasFile('download_file')) {
-            $path = $request->file('download_file')->store('ebooks');
-            $product->update(['download_file_path' => 'app/' . $path]);
+            // The 'local' disk root is storage/app/private, so record the path relative to storage/.
+            $path = $request->file('download_file')->store('ebooks', 'local');
+            $product->update(['download_file_path' => 'app/private/' . $path]);
         }
 
         if ($request->hasFile('image_upload')) {
@@ -66,8 +67,9 @@ class ProductController extends Controller
         $product->update($validated);
         
         if ($request->hasFile('download_file')) {
-            $path = $request->file('download_file')->store('ebooks');
-            $product->update(['download_file_path' => 'app/' . $path]);
+            // The 'local' disk root is storage/app/private, so record the path relative to storage/.
+            $path = $request->file('download_file')->store('ebooks', 'local');
+            $product->update(['download_file_path' => 'app/private/' . $path]);
         }
 
         if ($request->hasFile('image_upload')) {

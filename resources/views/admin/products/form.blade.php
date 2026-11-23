@@ -144,7 +144,17 @@
                 <label class="mb-2.5 block text-sm font-medium text-slate-800 dark:text-white/90">E-Book PDF File (for digital download)</label>
                 <input type="file" name="download_file" accept=".pdf,.zip" class="w-full rounded-lg border border-slate-300 bg-transparent px-5 py-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-900 transition-all">
                 @if($product->download_file_path)
-                    <p class="mt-2 text-sm text-slate-500">Current file: {{ $product->download_file_path }}</p>
+                    @php $filePath = $product->downloadFileAbsolutePath(); @endphp
+                    @if($filePath)
+                        <p class="mt-2 text-sm text-success-600">
+                            Current file: {{ basename($filePath) }} ({{ number_format(filesize($filePath) / 1024, 1) }} KB) &middot; sent to buyers by email
+                        </p>
+                        @if(filesize($filePath) < 5 * 1024)
+                            <p class="mt-1 text-sm text-warning-600">This file is very small. It may be a placeholder, not the real e-book. Upload the final PDF.</p>
+                        @endif
+                    @else
+                        <p class="mt-2 text-sm text-error-600">File missing on the server ({{ $product->download_file_path }}). Buyers will not receive it. Upload the PDF again.</p>
+                    @endif
                 @endif
             </div>
         </div>

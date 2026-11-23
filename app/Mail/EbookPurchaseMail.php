@@ -2,32 +2,31 @@
 
 namespace App\Mail;
 
+use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Mail\Mailables\Attachment;
-use App\Models\Order;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
 
 class EbookPurchaseMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    /** How long the download link in the email stays valid. */
+    public const LINK_VALID_DAYS = 7;
+
     public $order;
 
-    /**
-     * Create a new message instance.
-     */
     public function __construct(Order $order)
     {
         $this->order = $order;
     }
 
-    /**
-     * Get the message envelope.
-     */
     public function envelope(): Envelope
     {
         return new Envelope(
@@ -35,38 +34,55 @@ class EbookPurchaseMail extends Mailable
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
     public function content(): Content
     {
+        $product = $this->product();
+
         return new Content(
             view: 'emails.ebook_purchase',
+            with: [
+                'productTitle' => $product->name ?? $this->order->product_name,
+                // Backup to the attachment: some inboxes strip or spam-filter attachments.
+                'downloadUrl' => URL::temporarySignedRoute(
+                    'ebook.download',
+                    now()->addDays(self::LINK_VALID_DAYS),
+                    ['order' => $this->order->id]
+                ),
+                'linkValidDays' => self::LINK_VALID_DAYS,
+            ],
         );
     }
 
     /**
-     * Get the attachments for the message.
-     *
      * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
     public function attachments(): array
     {
-        $slug = $this->order->product_name; // We saved the slug in this field
-        $product = \App\Models\Product::where('slug', $slug)->first();
+        $product = $this->product();
+        $path = $product?->downloadFileAbsolutePath();
 
-        if ($product && $product->download_file_path) {
-            $pdfPath = storage_path($product->download_file_path);
-            
-            if (file_exists($pdfPath)) {
-                return [
-                    Attachment::fromPath($pdfPath)
-                            ->as(str_replace(' ', '_', $product->name) . '.pdf')
-                            ->withMime('application/pdf'),
-                ];
-            }
+        if (!$path) {
+            Log::warning('Ebook purchase mail sent WITHOUT attachment: download file missing.', [
+                'order_id' => $this->order->id,
+                'product' => $this->order->product_name,
+                'download_file_path' => $product?->download_file_path,
+            ]);
+
+            return [];
         }
 
-        return [];
+        $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION)) ?: 'pdf';
+
+        return [
+            Attachment::fromPath($path)
+                ->as(str_replace(' ', '_', $product->name) . '.' . $extension)
+                ->withMime($extension === 'zip' ? 'application/zip' : 'application/pdf'),
+        ];
+    }
+
+    /** The order stores the product slug in product_name. */
+    private function product(): ?Product
+    {
+        return Product::where('slug', $this->order->product_name)->first();
     }
 }

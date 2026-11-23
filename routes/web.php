@@ -104,5 +104,7 @@ Route::get('/checkout/{product}', [App\Http\Controllers\Frontend\CheckoutControl
 Route::post('/checkout/process', [App\Http\Controllers\Frontend\CheckoutController::class, 'process'])->name('checkout.process');
 Route::post('/checkout/callback', [App\Http\Controllers\Frontend\CheckoutController::class, 'callback'])->name('checkout.callback');
 Route::get('/checkout-success', [App\Http\Controllers\Frontend\CheckoutController::class, 'success'])->name('checkout.success');
+// Signed, time-limited e-book download link sent in the purchase email.
+Route::get('/download/ebook/{order}', [App\Http\Controllers\Frontend\CheckoutController::class, 'download'])->middleware(['signed', 'throttle:20,1'])->name('ebook.download');
 
 Route::get('/{slug}', [FrontendPageController::class, 'show'])->name('page.show')->where('slug', '.*');

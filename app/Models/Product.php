@@ -57,6 +57,33 @@ class Product extends Model
             : 0;
     }
 
+    /**
+     * Absolute path of the downloadable file (e.g. the e-book PDF), or null if it is missing.
+     *
+     * Older uploads were recorded as "app/ebooks/..." while the file actually landed in
+     * storage/app/private/ebooks/..., so both locations are checked.
+     */
+    public function downloadFileAbsolutePath(): ?string
+    {
+        $relative = $this->download_file_path;
+        if (!$relative) {
+            return null;
+        }
+
+        $candidates = [storage_path($relative)];
+        if (str_starts_with($relative, 'app/') && !str_starts_with($relative, 'app/private/')) {
+            $candidates[] = storage_path('app/private/' . substr($relative, 4));
+        }
+
+        foreach ($candidates as $path) {
+            if (is_file($path)) {
+                return $path;
+            }
+        }
+
+        return null;
+    }
+
     public function scopeActive($query)
     {
         return $query->where('status', 'active');

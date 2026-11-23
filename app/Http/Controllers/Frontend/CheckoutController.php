@@ -139,6 +139,26 @@ class CheckoutController extends Controller
         }
     }
 
+    /**
+     * Download link sent in the purchase email (signed + time-limited by the route).
+     */
+    public function download(Order $order)
+    {
+        abort_unless($order->status === 'completed', 403, 'This order is not paid.');
+
+        $product = \App\Models\Product::where('slug', $order->product_name)->first();
+        $path = $product?->downloadFileAbsolutePath();
+
+        if (!$path) {
+            Log::error('Ebook download failed: file missing.', ['order_id' => $order->id, 'product' => $order->product_name]);
+            abort(404, 'The file is not available right now. Please reply to your purchase email and we will send it to you.');
+        }
+
+        $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION)) ?: 'pdf';
+
+        return response()->download($path, str_replace(' ', '_', $product->name) . '.' . $extension);
+    }
+
     public function success()
     {
         if (!session('success')) {
