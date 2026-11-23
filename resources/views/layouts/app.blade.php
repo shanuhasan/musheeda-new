@@ -258,14 +258,14 @@
         </header>
 
         <!-- Header Ad Slot -->
-        <div class="mt-20 pt-4">
+        <div class="mt-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <x-ad-slot placement="header" />
             </div>
         </div>
 
         <!-- Page Content -->
-        <main class="min-h-[60vh] pt-4">
+        <main class="min-h-[60vh]">
             {{ $slot ?? '' }}
             @yield('content')
         </main>
